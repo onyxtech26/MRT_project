@@ -126,6 +126,7 @@ table.grid { border-collapse: collapse; width: 100%; }
   padding: 0.35rem 0.45rem; font-size: 1.1rem; font-variant-numeric: tabular-nums;
 }
 .grid input.cell.text { text-align: left; min-width: 10rem; }
+.grid input.cell.text[data-col="name"] { min-width: 15rem; }
 .grid input.cell.date { text-align: left; min-width: 10.5rem; font-size: 1rem; }
 .grid input.cell.date.empty:not(:focus)::-webkit-datetime-edit { color: transparent; }
 .grid input.cell.date.empty:not(:focus):not(:hover)::-webkit-calendar-picker-indicator { opacity: 0; }

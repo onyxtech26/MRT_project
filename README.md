@@ -14,7 +14,13 @@ Excel files:
 Runs on **Windows 7, 8, 10 and 11** (32-bit and 64-bit). It uses Electron 22, the last version that
 supports Windows 7. No internet is needed.
 
-## For the manager: daily use
+## Documentation
+
+- **[User guide](docs/USER_GUIDE.md)**: step-by-step guide with pictures for the manager.
+  A printable copy is in [docs/MRT-Daily-User-Guide.pdf](docs/MRT-Daily-User-Guide.pdf) (A4, 13 pages).
+- **[Developer guide](docs/DEVELOPER.md)**: code layout, data file format, calculation rules, building and releasing.
+
+## For the manager: daily use (short version)
 
 **Every morning, Stock Balance tab:** press the green **Start New Day** button and choose today's date.
 BAL moves to TOTAL, SHOP moves to SHOP, and S.OUT / TF IN / TF OUT / IN are cleared on all 3 sheets.
