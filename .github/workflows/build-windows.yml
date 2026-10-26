@@ -1,0 +1,24 @@
+name: Build Windows app
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx electron-builder --win nsis portable --ia32 --x64 --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MPT-MRT-Daily-Windows
+          path: |
+            dist/*.exe

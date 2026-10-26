@@ -1,0 +1,48 @@
+{
+  "name": "mrt-daily",
+  "productName": "MPT MRT Daily",
+  "version": "1.0.0",
+  "description": "Offline daily stock balance, bank-in and month sale book for MPT (Million Precision Time) MRT outlet",
+  "main": "src/main.js",
+  "author": "ONYXX TECH",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/calc.test.js",
+    "dist:win": "electron-builder --win nsis portable --ia32 --x64",
+    "dist:win64": "electron-builder --win nsis portable --x64",
+    "dist:win32": "electron-builder --win nsis portable --ia32"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.onyxxtech.mpt.mrtdaily",
+    "productName": "MPT MRT Daily",
+    "copyright": "Million Precision Time",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "MRT Daily",
+      "artifactName": "MPT-MRT-Daily-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "MPT-MRT-Daily-Portable-${version}.${ext}"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+/* Paper layouts (A4). Uses pt/mm so the screen "Text size" does not change the printout. */
+@page { size: A4 portrait; margin: 10mm; }
+
+.sheet {
+  width: 210mm; min-height: 297mm; margin: 0 auto 1.5rem; padding: 10mm 11mm;
+  background: #fff; color: #000; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  font-family: Arial, "Segoe UI", sans-serif; font-size: 10.5pt;
+}
+.p-head {
+  display: flex; align-items: center; gap: 5mm; border-bottom: 2pt solid #161848;
+  padding-bottom: 3mm; margin-bottom: 4mm;
+}
+.p-logo { height: 13mm; }
+.p-title { flex: 1; }
+.p-company { font-size: 9pt; font-weight: 700; letter-spacing: 0.05em; color: #161848; }
+.p-name { font-size: 14pt; font-weight: 700; }
+.p-sub { font-size: 10pt; color: #333; }
+.p-right { text-align: right; font-size: 11pt; line-height: 1.5; }
+.p-right b { font-size: 13pt; }
+
+.p-table { width: 100%; border-collapse: collapse; }
+.p-table th, .p-table td { border: 0.75pt solid #555; padding: 1.2mm 1.6mm; text-align: right; }
+.p-table.compact th, .p-table.compact td { padding: 0.2mm 1.4mm; font-size: 8.5pt; line-height: 1.15; }
+.sheet.compact .p-head { padding-bottom: 2mm; margin-bottom: 2.5mm; }
+.sheet.compact .p-logo { height: 10mm; }
+.sheet.compact .p-sign { margin-top: 6mm; }
+.p-table th { background: #e4e6f0; font-size: 9pt; font-weight: 700; text-align: center; }
+.p-table .left { text-align: left; }
+.p-table .c { text-align: center; }
+.p-table .code { text-align: left; color: #333; font-size: 9pt; white-space: nowrap; }
+.p-table .strong { font-weight: 700; }
+.p-table .ref { width: 40mm; }
+.p-table tr.p-total td { font-weight: 700; background: #e4e6f0; border-top: 1.5pt solid #000; font-size: 11pt; }
+.p-table tr.p-subtotal td { font-weight: 700; background: #f3f4f8; }
+.p-table tr.p-group td { font-weight: 700; text-align: left; background: #d6dbf0; }
+.p-table tr.p-bank td { font-weight: 700; font-size: 13pt; }
+.p-table.bank td, .p-table.bank th { font-size: 12pt; padding: 2mm 3mm; }
+.p-table.month td { padding: 0.9mm 1.6mm; }
+.p-bankdate { font-weight: 400; font-size: 11pt; }
+
+.p-notes { margin-top: 5mm; }
+.p-notes-title { font-weight: 700; margin-bottom: 1.5mm; text-decoration: underline; }
+.p-muted { color: #666; font-style: italic; text-align: left !important; }
+
+.p-sign { display: flex; justify-content: space-between; margin-top: 12mm; font-size: 10.5pt; }
+.p-line { display: inline-block; width: 55mm; border-bottom: 0.75pt solid #000; margin-left: 3mm; }
+
+@media print {
+  html, body { background: #fff; height: auto; }
+  #app, .preview-bar, #modal, #toast { display: none !important; }
+  #preview { position: static; display: block; background: none; }
+  .preview-scroll { overflow: visible; padding: 0; }
+  .sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; page-break-after: always; }
+  .sheet:last-child { page-break-after: auto; }
+  .p-table tr { page-break-inside: avoid; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

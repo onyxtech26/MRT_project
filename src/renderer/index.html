@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>MPT MRT Daily</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <img class="logo" src="assets/mpt-logo-white.png" alt="MPT">
+      <div class="outlet">
+        <div class="outlet-name" id="outletName">MRT</div>
+        <div class="outlet-sub" id="todayText"></div>
+      </div>
+      <div class="topbar-right">
+        <span id="saveStatus" class="save-status">Saved</span>
+        <div class="textsize">
+          <span>Text size</span>
+          <button id="textSmaller" title="Smaller text">A−</button>
+          <button id="textBigger" title="Bigger text">A+</button>
+        </div>
+      </div>
+    </header>
+    <nav class="tabs" id="tabs">
+      <button data-page="stock">Stock Balance</button>
+      <button data-page="battery">Battery</button>
+      <button data-page="strap">Strap</button>
+      <button data-page="bankin">Bank In</button>
+      <button data-page="month">Month Sale</button>
+      <button data-page="settings">Settings</button>
+    </nav>
+    <main id="page"></main>
+  </div>
+
+  <div id="preview" hidden>
+    <div class="preview-bar">
+      <button class="btn big" id="previewBack">◀ Back</button>
+      <div class="preview-title" id="previewTitle">Print Preview</div>
+      <div class="preview-options" id="previewOptions"></div>
+      <button class="btn big" id="previewPdf">Save as PDF</button>
+      <button class="btn big green" id="previewPrint">PRINT</button>
+    </div>
+    <div class="preview-scroll"><div id="printArea"></div></div>
+  </div>
+
+  <div id="modal" hidden>
+    <div class="modal-box">
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
+      <div class="modal-buttons" id="modalButtons"></div>
+    </div>
+  </div>
+  <div id="toast" hidden></div>
+
+  <script src="calc.js"></script>
+  <script src="app.js"></script>
+  <script src="print.js"></script>
+  <script src="pages/stock.js"></script>
+  <script src="pages/items.js"></script>
+  <script src="pages/bankin.js"></script>
+  <script src="pages/month.js"></script>
+  <script src="pages/settings.js"></script>
+  <script src="main-ui.js"></script>
+</body>
+</html>

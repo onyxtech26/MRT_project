@@ -1,0 +1,1502 @@
+{
+ "version": 1,
+ "settings": {
+  "company": "MILLION PRECISION TIME",
+  "outlet": "MRT",
+  "warehouseCode": "MRT 5014",
+  "bankName": "MAY BANK",
+  "bankAccount": "5515-4860-9774",
+  "textSize": 100
+ },
+ "stock": {
+  "date": "2026-10-24",
+  "watches": [
+   {
+    "id": "w1",
+    "code": "BAT-CLK",
+    "name": "BATTERY (CLOCK)",
+    "total": 34,
+    "shop": null,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w2",
+    "code": "BN",
+    "name": "BONIA",
+    "total": 24,
+    "shop": 24,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w3",
+    "code": "CAES",
+    "name": "CAESAR",
+    "total": 55,
+    "shop": 54,
+    "keep": 1,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w4",
+    "code": "CAS",
+    "name": "CASIO",
+    "total": 259,
+    "shop": 256,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w5",
+    "code": "CR-WC",
+    "name": "CROCODILE WALL CLOCK",
+    "total": 21,
+    "shop": 20,
+    "keep": 1,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w6",
+    "code": "CT",
+    "name": "CHRONOTECH",
+    "total": 1,
+    "shop": 1,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w7",
+    "code": "DK",
+    "name": "DANIEL KLEIN",
+    "total": 102,
+    "shop": 102,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w8",
+    "code": "JBV",
+    "name": "J.BOVIER",
+    "total": 75,
+    "shop": 74,
+    "keep": null,
+    "rp": 1,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w9",
+    "code": "LS",
+    "name": "LEATHER STRAP",
+    "link": {
+     "sheet": "strap",
+     "group": "LS"
+    }
+   },
+   {
+    "id": "w10",
+    "code": "MF",
+    "name": "MINI FOCUS",
+    "total": 45,
+    "shop": 45,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w11",
+    "code": "NAV",
+    "name": "NAVI FORCE",
+    "total": 72,
+    "shop": 72,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w12",
+    "code": "PS",
+    "name": "P.V.C STRAP",
+    "link": {
+     "sheet": "strap",
+     "group": "PS"
+    }
+   },
+   {
+    "id": "w13",
+    "code": "R-BAT",
+    "name": "RENATA BATTERY",
+    "link": {
+     "sheet": "battery",
+     "group": "R-BAT"
+    }
+   },
+   {
+    "id": "w14",
+    "code": "RE",
+    "name": "R&E",
+    "total": 26,
+    "shop": 26,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w15",
+    "code": "RW",
+    "name": "REWARDS WATCH",
+    "total": 37,
+    "shop": 37,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w16",
+    "code": "S-BAT",
+    "name": "SONY BATTERY",
+    "link": {
+     "sheet": "battery",
+     "group": "S-BAT"
+    }
+   },
+   {
+    "id": "w17",
+    "code": "SLO",
+    "name": "SLO/POKEMON +AC",
+    "total": 29,
+    "shop": 29,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w18",
+    "code": "SP",
+    "name": "SPARE PARTS",
+    "total": 149,
+    "shop": null,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w19",
+    "code": "SSS",
+    "name": "STAINLESS STEEL STRAP",
+    "total": 17,
+    "shop": null,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": null,
+    "inn": null,
+    "sOut": null
+   },
+   {
+    "id": "w20",
+    "code": "SUB",
+    "name": "SUBMARINE",
+    "total": 71,
+    "shop": 71,
+    "keep": null,
+    "rp": null,
+    "dep": null,
+    "tfIn": null,
+    "tfOut": 1,
+    "inn": null,
+    "sOut": 1
+   }
+  ],
+  "battery": [
+   {
+    "id": "g24",
+    "code": "R-BAT",
+    "name": "RENATA BATTERY",
+    "items": [
+     {
+      "id": "i25",
+      "name": "RE1632",
+      "ref": "2900053",
+      "total": 4,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i26",
+      "name": "RE315",
+      "ref": "2900017",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i27",
+      "name": "RE317",
+      "ref": "2900018",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i28",
+      "name": "RE321",
+      "ref": "2900020",
+      "total": 10,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i29",
+      "name": "RE329",
+      "ref": "2900044",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i30",
+      "name": "RE362",
+      "ref": "2900021",
+      "total": 8,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": 1,
+      "shop": null
+     },
+     {
+      "id": "i31",
+      "name": "RE364",
+      "ref": "2900022",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i32",
+      "name": "RE371",
+      "ref": "2900023",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i33",
+      "name": "RE373",
+      "ref": "2900024",
+      "total": 4,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i34",
+      "name": "RE377",
+      "ref": "2900025",
+      "total": 12,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i35",
+      "name": "RE379",
+      "ref": "2900026",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i36",
+      "name": "RE390",
+      "ref": "2900028",
+      "total": 10,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i37",
+      "name": "RE394",
+      "ref": "2900030",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i38",
+      "name": "RE395",
+      "ref": "2900031",
+      "total": 11,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i39",
+      "name": "RE397",
+      "ref": "2900032",
+      "total": 10,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     }
+    ]
+   },
+   {
+    "id": "g40",
+    "code": "S-BAT",
+    "name": "SONY BATTERY",
+    "items": [
+     {
+      "id": "i41",
+      "name": "CR1025",
+      "ref": "2800001",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i42",
+      "name": "CR1216",
+      "ref": "2800002",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i43",
+      "name": "CR1220",
+      "ref": "2800003",
+      "total": 17,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": 1,
+      "shop": null
+     },
+     {
+      "id": "i44",
+      "name": "CR1616",
+      "ref": "2800004",
+      "total": 16,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i45",
+      "name": "CR1620",
+      "ref": "2800005",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i46",
+      "name": "CR2012",
+      "ref": "2800125",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i47",
+      "name": "CR2016",
+      "ref": "2800006",
+      "total": 16,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i48",
+      "name": "CR2025",
+      "ref": "2800007",
+      "total": 12,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": 1,
+      "shop": null
+     },
+     {
+      "id": "i49",
+      "name": "CR2032",
+      "ref": "2800008",
+      "total": 29,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i50",
+      "name": "CR2430",
+      "ref": "2800081",
+      "total": 6,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i51",
+      "name": "CR2450",
+      "ref": "2800133",
+      "total": 6,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i52",
+      "name": "GP23",
+      "ref": "2800009",
+      "total": 12,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i53",
+      "name": "GP27",
+      "ref": "2800064",
+      "total": 19,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i54",
+      "name": "LR1130",
+      "ref": "2800011",
+      "total": 10,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i55",
+      "name": "LR41",
+      "ref": "2800012",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i56",
+      "name": "LR44",
+      "ref": "2800014",
+      "total": 6,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i57",
+      "name": "SR1130",
+      "ref": "2800085",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i58",
+      "name": "SR41",
+      "ref": "2800086",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i59",
+      "name": "SR416",
+      "ref": "2800018",
+      "total": 4,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i60",
+      "name": "SR512",
+      "ref": "2800019",
+      "total": 4,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i61",
+      "name": "SR516",
+      "ref": "2800020",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i62",
+      "name": "SR521",
+      "ref": "2800021",
+      "total": 9,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i63",
+      "name": "SR527",
+      "ref": "2800022",
+      "total": 10,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i64",
+      "name": "SR616",
+      "ref": "2800023",
+      "total": 13,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i65",
+      "name": "SR621",
+      "ref": "2800024",
+      "total": 125,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": 3,
+      "shop": null
+     },
+     {
+      "id": "i66",
+      "name": "SR626",
+      "ref": "2800025",
+      "total": 100,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i67",
+      "name": "SR712",
+      "ref": "2800026",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i68",
+      "name": "SR716",
+      "ref": "2800027",
+      "total": 7,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i69",
+      "name": "SR721",
+      "ref": "2800028",
+      "total": 21,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i70",
+      "name": "SR726",
+      "ref": "2800029",
+      "total": 37,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i71",
+      "name": "SR916",
+      "ref": "2800030",
+      "total": 13,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i72",
+      "name": "SR920",
+      "ref": "2800032",
+      "total": 26,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i73",
+      "name": "SR927",
+      "ref": "2800033",
+      "total": 32,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i74",
+      "name": "SR936",
+      "ref": "2800034",
+      "total": 16,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     }
+    ]
+   }
+  ],
+  "strap": [
+   {
+    "id": "g75",
+    "code": "LS",
+    "name": "LEATHER STRAP",
+    "items": [
+     {
+      "id": "i76",
+      "name": "LS-2(B)",
+      "ref": "5500037",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i77",
+      "name": "HLS69-18",
+      "ref": "5500795",
+      "total": 38,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i78",
+      "name": "HLS69-20",
+      "ref": "5500794",
+      "total": 32,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i79",
+      "name": "HLS69-22",
+      "ref": "5500793",
+      "total": 21,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i80",
+      "name": "LE-LS2.35",
+      "ref": "5500328",
+      "total": 9,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i81",
+      "name": "SS-LS14.5",
+      "ref": "5500230",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i82",
+      "name": "SS-LS15.5",
+      "ref": "5500349",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i83",
+      "name": "SS-LS17",
+      "ref": "5500386",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i84",
+      "name": "SS-LS17.5",
+      "ref": "5500442",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i85",
+      "name": "SS-LS19.5",
+      "ref": "5500491",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i86",
+      "name": "SS-LS20.5",
+      "ref": "5500594",
+      "total": 11,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i87",
+      "name": "SS-LS21.5",
+      "ref": "5500574",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i88",
+      "name": "SS-LS22",
+      "ref": "5500556",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i89",
+      "name": "SS-LS22.5",
+      "ref": "5500494",
+      "total": 13,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i90",
+      "name": "SS-LS23",
+      "ref": "5500457",
+      "total": 21,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i91",
+      "name": "SS-LS23.5",
+      "ref": "5500495",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i92",
+      "name": "SS-LS24",
+      "ref": "5500511",
+      "total": 6,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i93",
+      "name": "SS-LS24.5",
+      "ref": "5500593",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i94",
+      "name": "SS-LS25",
+      "ref": "5500512",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i95",
+      "name": "SS-LS25.5",
+      "ref": "5500553",
+      "total": 7,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i96",
+      "name": "SS-LS26",
+      "ref": "5500516",
+      "total": 4,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i97",
+      "name": "SS-LS26.5",
+      "ref": "5500688",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i98",
+      "name": "SS-LS27",
+      "ref": "5500544",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i99",
+      "name": "SS-LS27.5",
+      "ref": "5500783",
+      "total": 9,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i100",
+      "name": "SS-LS28",
+      "ref": "5500595",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i101",
+      "name": "STRAP!K32",
+      "ref": "",
+      "total": 14,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i102",
+      "name": "SS-LS29.5",
+      "ref": "5500619",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i103",
+      "name": "SS-LS31",
+      "ref": "5500782",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     }
+    ]
+   },
+   {
+    "id": "g104",
+    "code": "PS",
+    "name": "P.V.C STRAP",
+    "items": [
+     {
+      "id": "i105",
+      "name": "PS0.583",
+      "ref": "5600417",
+      "total": 56,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i106",
+      "name": "PS1.5",
+      "ref": "5600002",
+      "total": 3,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i107",
+      "name": "PS2.25",
+      "ref": "5600059",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i108",
+      "name": "PS4.5",
+      "ref": "5600141",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i109",
+      "name": "PS6",
+      "ref": "5600005",
+      "total": 8,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i110",
+      "name": "LE-PS.92",
+      "ref": "5600264",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i111",
+      "name": "PS12",
+      "ref": "5600506",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i112",
+      "name": "MN-9173",
+      "ref": "5600351",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i113",
+      "name": "MN-PU55",
+      "ref": "5600348",
+      "total": 2,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i114",
+      "name": "MN-PU9047",
+      "ref": "5600359",
+      "total": 5,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i115",
+      "name": "MN-SCC22",
+      "ref": "5600310",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i116",
+      "name": "MN-SCC26",
+      "ref": "5600326",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i117",
+      "name": "TT-PS15",
+      "ref": "5600297",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i118",
+      "name": "TT-PS5.5",
+      "ref": "5600285",
+      "total": 1,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i119",
+      "name": "PS49",
+      "ref": "5600551",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i120",
+      "name": "PS-20",
+      "ref": "5600493",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     },
+     {
+      "id": "i121",
+      "name": "PS-9.5",
+      "ref": "5600475",
+      "total": 0,
+      "tfIn": null,
+      "tfOut": null,
+      "inn": null,
+      "out": null,
+      "shop": null
+     }
+    ]
+   }
+  ],
+  "notes": [
+   {
+    "id": "n21",
+    "text": "23/10/26 M113950 TF OUT JCI CASIO 2PC",
+    "ref": "523418/523420"
+   },
+   {
+    "id": "n22",
+    "text": "24/10/26 T17251 TF OUT GPL SUBMARINE 1PC",
+    "ref": "77500438"
+   },
+   {
+    "id": "n23",
+    "text": "CASIO TF OUT 2*1 (from TF OUT column)",
+    "ref": ""
+   }
+  ]
+ },
+ "stockHistory": {},
+ "money": {
+  "openingDate": "2026-10-01",
+  "openingBalance": 753,
+  "days": {
+   "2026-10-01": {
+    "sale": 1058,
+    "card": 768,
+    "cash": 290,
+    "bankDate": "2026-10-02",
+    "bankAmount": 1040
+   },
+   "2026-10-02": {
+    "sale": 820,
+    "card": 553,
+    "cash": 267
+   },
+   "2026-10-03": {
+    "sale": 1253.8,
+    "card": 861.8,
+    "cash": 392
+   },
+   "2026-10-04": {
+    "sale": 1393,
+    "card": 969,
+    "cash": 424,
+    "bankDate": "2026-10-05",
+    "bankAmount": 1086
+   },
+   "2026-10-05": {
+    "sale": 597,
+    "card": 399,
+    "cash": 198
+   },
+   "2026-10-06": {
+    "sale": 803.9,
+    "card": 328.9,
+    "cash": 475
+   },
+   "2026-10-07": {
+    "sale": 378,
+    "card": 178,
+    "cash": 200
+   },
+   "2026-10-08": {
+    "sale": 279,
+    "card": 99,
+    "cash": 180
+   },
+   "2026-10-09": {
+    "sale": 463,
+    "card": 263,
+    "cash": 200,
+    "bankDate": "2026-10-10",
+    "bankAmount": 1250
+   },
+   "2026-10-10": {
+    "sale": 369,
+    "card": 179,
+    "cash": 190
+   },
+   "2026-10-11": {
+    "sale": 1951,
+    "card": 1757,
+    "cash": 194,
+    "bankDate": "2026-10-12",
+    "bankAmount": 387
+   },
+   "2026-10-12": {
+    "sale": 463.9,
+    "card": 358.9,
+    "cash": 105
+   },
+   "2026-10-13": {
+    "sale": 238,
+    "card": 238,
+    "cash": 0
+   },
+   "2026-10-14": {
+    "sale": 635,
+    "card": 635,
+    "cash": 0
+   },
+   "2026-10-15": {
+    "sale": 756,
+    "card": 408,
+    "cash": 348,
+    "bankDate": "2026-10-16",
+    "bankAmount": 453
+   },
+   "2026-10-16": {
+    "sale": 60,
+    "card": 35,
+    "cash": 25
+   },
+   "2026-10-17": {
+    "sale": 145,
+    "card": 85,
+    "cash": 60
+   },
+   "2026-10-18": {
+    "sale": 700,
+    "card": 433,
+    "cash": 267,
+    "bankDate": "2026-10-18",
+    "bankAmount": 350
+   },
+   "2026-10-19": {
+    "sale": 559,
+    "card": 199,
+    "cash": 360,
+    "bankDate": "2026-10-19",
+    "bankAmount": 360
+   },
+   "2026-10-20": {
+    "sale": 502,
+    "card": 119,
+    "cash": 383
+   },
+   "2026-10-21": {
+    "sale": 658,
+    "card": 443,
+    "cash": 215
+   },
+   "2026-10-22": {
+    "sale": 323,
+    "card": 198,
+    "cash": 125,
+    "bankDate": "2026-10-23",
+    "bankAmount": 725
+   },
+   "2026-10-23": {
+    "sale": 621,
+    "card": 524,
+    "cash": 97
+   },
+   "2026-10-24": {
+    "sale": 313,
+    "card": 216,
+    "cash": 95
+   }
+  }
+ }
+}
