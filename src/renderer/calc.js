@@ -47,15 +47,24 @@
     const before = row.carried ? n(row.carried[key]) : 0;
     return Math.max(0, n(row[key]) - before);
   }
+  // KEEP / RP / DEP are watches away from the display (on keep, in repair, on
+  // deposit). Raising the number takes it off SHOP, lowering it puts it back.
+  // row.carried holds the number already taken off SHOP before today.
+  const AWAY = ['keep', 'rp', 'dep'];
+  function awayChange(row) {
+    let d = 0;
+    for (const k of AWAY) d += n(row[k]) - (row.carried ? n(row.carried[k]) : 0);
+    return d;
+  }
   function moveChange(row) {
-    return newMove(row, 'tfIn') - newMove(row, 'tfOut') + newMove(row, 'inn');
+    return newMove(row, 'tfIn') - newMove(row, 'tfOut') + newMove(row, 'inn') - awayChange(row);
   }
   function isCarried(row, key) {
-    return !!row.carried && has(row[key]) && n(row[key]) > 0 && n(row[key]) <= n(row.carried[key]);
+    return MOVES.includes(key) && !!row.carried && has(row[key]) && n(row[key]) > 0 && n(row[key]) <= n(row.carried[key]);
   }
   function carryMoves(row) {
     const c = {};
-    for (const k of MOVES) if (n(row[k])) c[k] = n(row[k]);
+    for (const k of MOVES.concat(AWAY)) if (n(row[k])) c[k] = n(row[k]);
     if (Object.keys(c).length) row.carried = c;
     else delete row.carried;
   }
@@ -202,5 +211,19 @@
     };
   }
 
-  return { n, has, r2, isCarried, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
+  // Data saved before KEEP / RP / DEP took watches off SHOP already had them
+  // taken off by hand, so count them as already done.
+  function migrate(data) {
+    if (data.awayCounted) return data;
+    for (const w of data.stock.watches) {
+      if (w.link) continue;
+      const c = Object.assign({}, w.carried);
+      for (const k of AWAY) if (n(w[k])) c[k] = n(w[k]);
+      if (Object.keys(c).length) w.carried = c;
+    }
+    data.awayCounted = true;
+    return data;
+  }
+
+  return { n, has, r2, isCarried, migrate, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
 });

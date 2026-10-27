@@ -90,7 +90,7 @@ Yesterday's report is kept, so you can print it again later (see section 9).
 | Column | What to type |
 |---|---|
 | TOTAL / SHOP (yesterday) | Filled in by Start New Day. Change only when HQ gives a new number. |
-| KEEP / RP / DEP | Watches on keep, in repair, on deposit. They stay from day to day. |
+| KEEP / RP / DEP | Watches on keep, in repair, on deposit. They are **taken off SHOP** and stay from day to day. |
 | TF IN | Watches transferred **in** from another outlet |
 | TF OUT | Watches transferred **out** to another outlet |
 | IN | New stock that arrived |
@@ -108,6 +108,14 @@ Start New Day does **not** clear TF IN, TF OUT and IN. They stay on the sheet, l
 
 - BAL = TOTAL − S.OUT
 - SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT (TF IN / TF OUT / IN only on the day they are typed)
+
+### KEEP, RP and DEP
+
+- Type the number of watches **on keep**, **in repair** or **on deposit**. SHOP goes down by that number; BAL stays the same.
+- The number stays on the next days and is **not** taken off again.
+- When the watch is back on display (keep cancelled, back from repair), **clear** the number and SHOP goes back up.
+- When the customer **collects and pays**, clear KEEP and type **1 in S.OUT**. BAL goes down by 1 and SHOP stays the same,
+  because the watch was already off the display.
 
 The grey lines (**LEATHER STRAP, P.V.C STRAP, RENATA BATTERY, SONY BATTERY**) cannot be typed into here. They add up by themselves from the **Battery** and **Strap** tabs.
 Their **SHOP** is normally empty. It only shows a number (orange) while a TF IN, TF OUT or IN on that tab is

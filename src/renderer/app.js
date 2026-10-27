@@ -32,7 +32,7 @@
       'Please call for help.</h1><pre style="padding:2rem">' + loaded.error + '</pre>';
     throw new Error(loaded.error);
   }
-  App.data = loaded.data;
+  App.data = window.Calc.migrate(loaded.data);
   window.I18N.lang = App.data.settings.lang === 'zh' ? 'zh' : 'en';
   App.t = window.I18N.t;
   App.tx = window.I18N.tx;

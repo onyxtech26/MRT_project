@@ -70,7 +70,9 @@
       tx('Key in the number of watches **sold today** in the yellow **S.OUT** column. **BAL** and **SHOP** (green) are worked out for you. Press **Enter** to go to the next line. Battery and strap lines come from the Battery and Strap tabs.'),
       h('br'),
       tx('TF IN, TF OUT and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.',
-        { grey: h('span', { class: 'carried-key', text: t('Grey') }) })));
+        { grey: h('span', { class: 'carried-key', text: t('Grey') }) }),
+      h('br'),
+      tx('**KEEP**, **RP** and **DEP** (on keep, in repair, on deposit) are taken off SHOP. Clear the number when the watch is back on display or collected.')));
 
     const outs = []; // cells to refresh when a number changes
     const body = h('tbody');

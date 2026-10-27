@@ -52,7 +52,7 @@ button to switch the screens between English and Simplified Chinese (printouts s
 ## The rules the app uses
 
 - `BAL = TOTAL − S.OUT`. BAL follows HQ, so IN and TF do not change it.
-- `SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT`. A TF IN, TF OUT or IN number is counted only on the
+- `SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT`, minus watches on KEEP / RP / DEP. A TF IN, TF OUT or IN number is counted only on the
   day it is typed. On later days it stays (in grey) as a reminder, and clearing it does not change SHOP.
 - On the Stock Bal sheet, the R-BAT, S-BAT, LS and PS lines are added up automatically from the Battery and Strap tabs.
 - `CASH = SALE − CARD` (can be changed), `TOTAL = balance from last bank in + cash since then`,

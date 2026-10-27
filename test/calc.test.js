@@ -120,3 +120,35 @@ test('Stock Bal battery/strap line: SHOP shows only while waiting for HQ', () =>
   sr621.tfOut = null;
   assert.deepStrictEqual([row().bal, row().shop], [584, null]);
 });
+
+test('KEEP / RP / DEP take watches off SHOP, once', () => {
+  const data = Calc.migrate(JSON.parse(JSON.stringify({ stock: seed.stock })));
+  const s = data.stock;
+  const row = (code) => s.watches.find((w) => w.code === code);
+  const r = (code) => Calc.watchRow(s, row(code));
+  // already taken off by hand on the 24/10 sheet -> not again
+  assert.deepStrictEqual([r('CAES').bal, r('CAES').shop], [55, 54]);
+  assert.deepStrictEqual([r('JBV').bal, r('JBV').shop], [75, 74]);
+  // a BONIA goes on keep today: SHOP 24 -> 23, BAL stays 24
+  row('BN').keep = 1;
+  assert.deepStrictEqual([r('BN').bal, r('BN').shop], [24, 23]);
+  // next day it is not taken off again
+  const next = Calc.rollStockForward(s, '2026-10-25');
+  const bn = next.watches.find((w) => w.code === 'BN');
+  assert.deepStrictEqual([bn.shop, bn.keep, Calc.watchRow(next, bn).shop], [23, 1, 23]);
+  // customer cancels the keep: back on display
+  bn.keep = null;
+  assert.strictEqual(Calc.watchRow(next, bn).shop, 24);
+  // or the customer collects and pays: keep cleared + S.OUT 1 -> SHOP stays 23, BAL 23
+  bn.sOut = 1;
+  assert.deepStrictEqual([Calc.watchRow(next, bn).bal, Calc.watchRow(next, bn).shop], [23, 23]);
+  // kept KEEP numbers are not shown grey (only TF IN / TF OUT / IN are)
+  assert.strictEqual(Calc.isCarried(next.watches.find((w) => w.code === 'CAES'), 'keep'), false);
+});
+
+test('migrate runs once', () => {
+  const data = Calc.migrate(JSON.parse(JSON.stringify({ stock: seed.stock })));
+  data.stock.watches.find((w) => w.code === 'BN').keep = 2;
+  Calc.migrate(data);
+  assert.strictEqual(Calc.watchRow(data.stock, data.stock.watches.find((w) => w.code === 'BN')).shop, 22);
+});

@@ -75,6 +75,8 @@ window.I18N.zh = {
   'TF IN, TF OUT and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.':
     'TF IN、TF OUT 和 IN 在开始新的一天后会保留。{grey} 数字是之前输入的，已经算进 SHOP。总部更新后再清除。',
   'Grey': '灰色',
+  '**KEEP**, **RP** and **DEP** (on keep, in repair, on deposit) are taken off SHOP. Clear the number when the watch is back on display or collected.':
+    '**KEEP**（保留）、**RP**（维修）和 **DEP**（订金）的数量会从 SHOP 扣除。手表放回展示或被取走后，清除该数字。',
   'grey': '灰色',
   'YESTERDAY': '昨天',
   'TODAY': '今天',

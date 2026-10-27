@@ -68,7 +68,7 @@
           if (!ok) return;
           const r = await window.api.backupRestore();
           if (r && r.ok) {
-            App.data = r.data;
+            App.data = window.Calc.migrate(r.data);
             App.applyLanguage();
             App.toast(t('Backup restored'));
           } else if (r && r.error) {
