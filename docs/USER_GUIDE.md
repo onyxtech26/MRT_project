@@ -81,6 +81,9 @@ Yesterday's report is kept, so you can print it again later (see section 9).
 3. Type the **number of watches sold** (the quantity, not the price).
 4. Press **Enter** to go down to the next brand.
 
+**Moving between boxes:** use the arrow keys **↑ ↓ ← →** (or **Enter** to go down). Inside a number, ← and → first move
+the cursor; at the edge of the number they jump to the next box. This works on every table.
+
 **BAL** and **SHOP** (green) change straight away, and so does the **TOTAL** line at the bottom.
 
 ![Typing S.OUT](images/03-key-in-sout.png)

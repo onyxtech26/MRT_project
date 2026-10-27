@@ -204,9 +204,26 @@
 
   // Enter / arrow keys move up and down a column, like Excel.
   App.enableGridKeys = function (container) {
+    // Left / Right leave the box only when the cursor is at its edge (or the
+    // whole number is selected), so the arrows can still move inside a number.
+    const atEdge = (input, toRight) => {
+      if (input.type === 'date') return false; // arrows change the day / month there
+      const { selectionStart: a, selectionEnd: b, value } = input;
+      if (a === 0 && b === value.length) return true;
+      return a === b && (toRight ? b === value.length : a === 0);
+    };
     container.addEventListener('keydown', (e) => {
       const t = e.target;
       if (!(t instanceof HTMLInputElement) || !t.dataset.col) return;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const toRight = e.key === 'ArrowRight';
+        if (!atEdge(t, toRight)) return;
+        const row = Array.from(t.closest('tr').querySelectorAll('input[data-col]'));
+        const next = row[row.indexOf(t) + (toRight ? 1 : -1)];
+        e.preventDefault();
+        if (next) next.focus();
+        return;
+      }
       let dir = 0;
       if (e.key === 'Enter') dir = e.shiftKey ? -1 : 1;
       else if (e.key === 'ArrowDown') dir = 1;
@@ -218,7 +235,6 @@
       if (next) next.focus();
     });
   };
-
   // A yellow note when the stock report is for an earlier day
   App.staleNote = function () {
     const date = App.data.stock.date;

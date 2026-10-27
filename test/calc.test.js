@@ -152,3 +152,20 @@ test('migrate runs once', () => {
   Calc.migrate(data);
   assert.strictEqual(Calc.watchRow(data.stock, data.stock.watches.find((w) => w.code === 'BN')).shop, 22);
 });
+
+test('several new days in a row never take TF OUT / KEEP / RP off again', () => {
+  let data = Calc.migrate(JSON.parse(JSON.stringify({ stock: seed.stock })));
+  let s = data.stock;
+  const show = (code) => {
+    const w = s.watches.find((x) => x.code === code);
+    const r = Calc.watchRow(s, w);
+    return [w.total, w.shop, r.bal, r.shop];
+  };
+  assert.deepStrictEqual(show('SUB'), [71, 71, 70, 69]); // 24/10: TF OUT 1, S.OUT 1
+  for (const day of ['2026-10-25', '2026-10-26', '2026-10-27']) {
+    s = Calc.rollStockForward(s, day);
+    assert.deepStrictEqual(show('SUB'), [70, 69, 70, 69], day);  // TF OUT 1 still there, not taken off again
+    assert.deepStrictEqual(show('CAES'), [55, 54, 55, 54], day); // KEEP 1
+    assert.deepStrictEqual(show('JBV'), [75, 74, 75, 74], day);  // RP 1
+  }
+});
