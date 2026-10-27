@@ -100,6 +100,11 @@
       }
       changed();
     };
+    const bankDateInput = App.dateInput(r ? r.bankDate : null, (v) => {
+      const x = ensure();
+      if (v) x.bankDate = v; else delete x.bankDate;
+      changed();
+    }, { col: 'bankDate' });
     const bal = h('td', { class: 'num calc' });
     const total = h('td', { class: 'num calc' });
     outs.push((L) => {
@@ -114,17 +119,14 @@
       h('td', { class: 'cell-in entry' }, App.numInput(r ? r.card : null, (v) => setSaleCard('card', v), { col: 'card' })),
       h('td', { class: 'cell-in entry' }, cashInput),
       bal, total,
-      h('td', { class: 'cell-in' }, App.dateInput(r ? r.bankDate : null, (v) => {
-        const x = ensure();
-        if (v) x.bankDate = v; else delete x.bankDate;
-        changed();
-      }, { col: 'bankDate' })),
+      h('td', { class: 'cell-in' }, bankDateInput),
       h('td', { class: 'cell-in' }, App.numInput(r && C.has(r.bankAmount) ? r.bankAmount : null, (v) => {
         const x = ensure();
         if (v === null) delete x.bankAmount;
         else {
           x.bankAmount = v;
-          if (!x.bankDate) x.bankDate = date;
+          // the date box may have been filled first, before the day had a record
+          if (!x.bankDate) x.bankDate = bankDateInput.value || date;
         }
         changed();
       }, { col: 'bankAmount' })));

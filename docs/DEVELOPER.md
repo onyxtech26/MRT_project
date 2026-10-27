@@ -39,6 +39,7 @@ src/
 test/calc.test.js         checks calc.js against the October 2026 Excel sheets
 test/fixtures/            the original 24/10/2026 data imported from Excel (used by the tests)
 test/i18n.test.js         checks every screen text has a Chinese line (and no unused lines)
+test/e2e/audit.js         full end-to-end audit of the real app (every screen, printing, backups, restart)
 docs/                     this guide + the user guide
 .github/workflows/        builds the Windows installers on every push
 ```
@@ -52,6 +53,7 @@ ES modules are not used because they do not load from `file://` in Electron with
 npm install
 npm start      # opens the app
 npm test       # calculation + translation tests
+xvfb-run node test/e2e/audit.js   # full app audit (needs Playwright: npm i -g playwright)
 ```
 
 For UI work, the renderer also runs in a normal browser. Serve `src/` (for example with

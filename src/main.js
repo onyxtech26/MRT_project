@@ -53,6 +53,8 @@ function loadData() {
     } catch (e) {
       // fall through to the newest backup
     }
+    // keep the damaged file so it is never lost when the app saves again
+    fs.copyFileSync(DATA_FILE, path.join(DATA_DIR, `mrt-data-damaged-${Date.now()}.json`));
     const backups = fs.existsSync(BACKUP_DIR)
       ? fs.readdirSync(BACKUP_DIR).filter((f) => f.endsWith('.json')).sort().reverse()
       : [];
@@ -107,6 +109,12 @@ ipcMain.on('data:load', (e) => {
 
 ipcMain.on('data:save', (e, text) => {
   try {
+    // the app may stay open for days: make the day's backup before the first save of a new day
+    try {
+      dailyBackup();
+    } catch (err) {
+      // a failed backup must never stop the shop from working
+    }
     writeAtomic(DATA_FILE, text);
     e.returnValue = { ok: true };
   } catch (err) {
