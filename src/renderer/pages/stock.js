@@ -6,34 +6,76 @@
   const q = App.fmtQty;
   let editMode = false;
 
-  /* ---------- start new day ---------- */
+  /* ---------- start new day / go back one day ---------- */
+  // The new report date is always the computer's date, so pressing the button
+  // again cannot jump ahead. Old days are kept in stockHistory.
   App.startNewDay = async function () {
     const stock = App.data.stock;
-    let next = App.addDays(stock.date, 1);
-    if (App.todayIso() > next) next = App.todayIso();
-    const dateBox = h('input', { type: 'date', value: next });
+    const today = App.todayIso();
+    if (stock.date === today) {
+      await App.alert("Today's report is already open", `The stock report is already for today, ${App.fmtDateLong(today)}. Just key in the sales.`);
+      return;
+    }
+    if (stock.date > today) {
+      await App.alert('The report date is later than today',
+        `The report is for ${App.fmtDateLong(stock.date)}, but the computer's date is ${App.fmtDateLong(today)}. ` +
+        'Press "Go back one day" until the report shows the right day.');
+      return;
+    }
+    const gap = Math.round((new Date(today) - new Date(stock.date)) / 86400000) - 1;
     const body = h('div', null,
+      h('p', null, 'New report date: ', h('b', { text: App.fmtDateLong(today) }), ' (today).'),
       h('p', null, 'The report for ', h('b', { text: App.fmtDateLong(stock.date) }), ' will be kept, so you can print it again later.'),
+      gap > 0 ? h('p', null, `(No report for the ${gap} day${gap > 1 ? 's' : ''} in between, e.g. shop closed.)`) : null,
       h('p', null, 'On all 3 sheets (Stock Bal, Battery, Strap):'),
       h('ul', null,
         h('li', null, 'BAL goes to TOTAL'),
         h('li', null, 'SHOP goes to SHOP'),
         h('li', null, 'S.OUT (and OUT) is cleared'),
-        h('li', null, 'TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated')),
-      h('div', { class: 'field' }, h('label', { text: 'New report date' }), dateBox));
+        h('li', null, 'TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated')));
     const ok = await App.confirm('Start a new day?', body, 'Yes, start new day');
-    if (!ok) return;
-    const newDate = dateBox.value;
-    if (!newDate || newDate <= stock.date) {
-      await App.alert('Please check the date', `The new date must be after ${App.fmtDate(stock.date)}.`);
-      return;
-    }
+    if (!ok || App.data.stock.date >= App.todayIso()) return;
     App.data.stockHistory = App.data.stockHistory || {};
     App.data.stockHistory[stock.date] = JSON.parse(JSON.stringify(stock));
-    App.data.stock = C.rollStockForward(stock, newDate);
+    App.data.stock = C.rollStockForward(stock, today);
     App.saveNow();
     App.refresh();
-    App.toast('New day started: ' + App.fmtDate(newDate));
+    App.toast('New day started: ' + App.fmtDate(today));
+  };
+
+  // The green button on the Stock, Battery and Strap tabs
+  App.newDayButton = function () {
+    const open = App.data.stock.date >= App.todayIso();
+    return h('button', {
+      class: open ? 'btn big done' : 'btn big green', onclick: App.startNewDay,
+      title: open ? "The report is already for today" : 'Start the report for today',
+    }, open ? "✔ Today's report is open" : 'Start New Day');
+  };
+
+  App.previousReportDate = function () {
+    return Object.keys(App.data.stockHistory || {}).sort().pop() || null;
+  };
+
+  // Undo "Start New Day": go back to the report before this one
+  App.goBackOneDay = async function () {
+    const hist = App.data.stockHistory || {};
+    const last = App.previousReportDate();
+    if (!last) {
+      await App.alert('Nothing to go back to', 'There is no earlier report.');
+      return;
+    }
+    const ok = await App.confirm('Go back one day?', h('div', null,
+      h('p', null, 'The stock report goes back from ', h('b', { text: App.fmtDateLong(App.data.stock.date) }),
+        ' to ', h('b', { text: App.fmtDateLong(last) }), '.'),
+      h('p', null, 'Anything keyed in on ', h('b', { text: App.fmtDate(App.data.stock.date) }), ' will be lost.'),
+      h('p', null, 'You can press it again to go back further.')),
+    'Yes, go back', true);
+    if (!ok) return;
+    App.data.stock = hist[last];
+    delete hist[last];
+    App.saveNow();
+    App.toast('Back to ' + App.fmtDate(last));
+    App.refresh();
   };
 
   /* ---------- the screen ---------- */
@@ -45,7 +87,7 @@
       h('h1', { class: 'page-title', text: 'Stock Balance' }),
       h('span', { class: 'date-chip', text: App.fmtDateLong(stock.date) }),
       h('span', { class: 'spacer' }),
-      h('button', { class: 'btn big green', onclick: App.startNewDay }, 'Start New Day'),
+      App.newDayButton(),
       h('button', { class: 'btn big primary', onclick: () => App.printStock() }, 'Print Preview')));
 
     main.appendChild(App.staleNote() || h('span'));

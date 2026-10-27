@@ -46,8 +46,11 @@ Do this **once every morning**, before keying in anything.
 
 1. Open the **Stock Balance** tab.
 2. Press the green **Start New Day** button.
-3. Check that the date is **today**.
-4. Press **Yes, start new day**.
+3. The new report date is **always today's date** (taken from the computer). Press **Yes, start new day**.
+
+After that, the button turns grey and reads **✔ Today's report is open**. Pressing it again the same day does nothing, so the date can never jump ahead.
+
+> If the shop was closed for a few days, that's fine. Start New Day goes straight to today.
 
 ![Start new day](images/02-new-day.png)
 
@@ -58,11 +61,17 @@ The app now does what you used to do by copy and paste, on all 3 sheets (Stock B
 - **S.OUT** (and OUT on Battery / Strap) is cleared
 - **TF IN, TF OUT, IN, KEEP, RP and DEP stay.** Clear them yourself when HQ has updated (see section 3).
 
-Yesterday's report is kept, so you can print it again later (see section 8).
+Yesterday's report is kept, so you can print it again later (see section 9).
 
 > If you forget, a **yellow note** at the top reminds you that the report is for an earlier day.
 >
-> If you press it by mistake, go to **Settings → Undo last "Start New Day"**.
+>
+> **To go back a day** (for example, you forgot to key in yesterday's sales), go to **Settings → Go back one day**.
+> The button shows the date it goes back to, and you can press it again to go back further.
+> Anything typed on the newer day is lost, so do this before keying in today's numbers.
+>
+> If the report date is ever **later than today** (for example the computer's clock was wrong), a yellow note
+> appears with a **Go back one day** button. Press it until the report shows the right day.
 
 ---
 
@@ -237,7 +246,7 @@ Press **Edit list (add / remove items)**. You can add, rename, move or remove it
 - **Shop details**: company, outlet, bank name and account number, as printed on the reports.
 - **Opening cash**: the cash balance before the first day in the book. Set this once only.
 - **Old stock reports**: choose a day and press **Print Preview**.
-- **Undo last "Start New Day"**: only for mistakes. Anything typed on the current day is lost.
+- **Go back one day (to …)**: goes back to the previous report. Use it only for mistakes. Anything typed on the current day is lost.
 - **Backup**:
   - **Save a backup copy…**: put a pen drive in and save the file there **once a week**.
   - **Restore from a backup…**: only if the computer was changed or the data is lost.
@@ -254,7 +263,9 @@ The app also keeps a copy **every day by itself** (the last 120 days).
 | A box turned **red** | You typed something that is not a number. Delete it and type the number again. |
 | BAL or SHOP looks wrong | Check TOTAL, S.OUT, TF IN, TF OUT and IN on that line. Did you press Start New Day today? |
 | A grey number is still there | It is from an earlier day. Clear it once HQ has updated; SHOP will not change. |
-| I pressed Start New Day twice | Settings → **Undo last "Start New Day"**. |
+| I pressed Start New Day twice | Nothing happens the second time, so there's nothing to fix. |
+| I need to go back to yesterday | Settings → **Go back one day**. |
+| The report date is later than today | Press **Go back one day** in the yellow note until it shows the right day. Check the computer's date and time. |
 | I saved the wrong bank in | Bank In tab → **Undo last bank in**, then save it again. |
 | A day's sale is wrong | Bank In tab, choose the date, fix it, then **Update this day**. Or fix it in Month Sale. |
 | The writing is too small | Press **A+** at the top right. |

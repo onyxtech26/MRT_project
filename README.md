@@ -22,7 +22,8 @@ supports Windows 7. No internet is needed.
 
 ## For the manager: daily use (short version)
 
-**Every morning, Stock Balance tab:** press the green **Start New Day** button and choose today's date.
+**Every morning, Stock Balance tab:** press the green **Start New Day** button. The new report always takes the computer's date, so pressing it
+again the same day does nothing (the button then reads "✔ Today's report is open").
 BAL moves to TOTAL, SHOP moves to SHOP, and S.OUT is cleared on all 3 sheets. TF IN, TF OUT, IN,
 KEEP, RP and DEP stay until she clears them (when HQ has updated).
 (This replaces copying and pasting from right to left.)

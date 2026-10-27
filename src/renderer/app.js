@@ -207,7 +207,14 @@
   // A yellow note when the stock report is for an earlier day
   App.staleNote = function () {
     const date = App.data.stock.date;
-    if (date >= App.todayIso()) return null;
+    const today = App.todayIso();
+    if (date === today) return null;
+    if (date > today) {
+      return h('div', { class: 'help warn' },
+        h('b', { text: `This report is for ${App.fmtDateLong(date)}, which is later than today (${App.fmtDate(today)}).` }),
+        ' Press ', h('b', { text: 'Go back one day' }), ' until the report shows the right day.  ',
+        h('button', { class: 'btn danger', onclick: App.goBackOneDay }, 'Go back one day'));
+    }
     return h('div', { class: 'help warn' },
       h('b', { text: `This report is for ${App.fmtDateLong(date)}.` }),
       ' If you are starting today\'s work, press the green ', h('b', { text: 'Start New Day' }), ' button first.');

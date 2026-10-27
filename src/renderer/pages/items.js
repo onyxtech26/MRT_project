@@ -16,7 +16,7 @@
         h('h1', { class: 'page-title', text: title }),
         h('span', { class: 'date-chip', text: App.fmtDateLong(stock.date) }),
         h('span', { class: 'spacer' }),
-        h('button', { class: 'btn big green', onclick: App.startNewDay }, 'Start New Day'),
+        App.newDayButton(),
         h('button', { class: 'btn big primary', onclick: () => App.printStock() }, 'Print Preview')));
 
       main.appendChild(App.staleNote() || h('span'));

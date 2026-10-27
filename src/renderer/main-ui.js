@@ -4,9 +4,18 @@
   const s = App.data.settings;
 
   document.getElementById('outletName').textContent = `${s.outlet} OUTLET`;
+  let shownDay = App.todayIso();
   const showToday = () => { document.getElementById('todayText').textContent = 'Today: ' + App.fmtDateLong(App.todayIso()); };
   showToday();
-  setInterval(showToday, 60 * 1000);
+  setInterval(() => {
+    showToday();
+    // after midnight, redraw the stock tabs so the date note and Start New Day button are up to date
+    if (App.todayIso() !== shownDay) {
+      shownDay = App.todayIso();
+      if (['stock', 'battery', 'strap'].includes(App.current) && document.getElementById('preview').hidden &&
+        document.getElementById('modal').hidden) App.refresh();
+    }
+  }, 60 * 1000);
 
   function applyTextSize() {
     document.documentElement.style.fontSize = (18 * (s.textSize || 100) / 100) + 'px';

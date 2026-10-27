@@ -85,23 +85,8 @@
       h('div', { class: 'form-row' },
         h('div', { class: 'field' }, h('label', { text: 'Choose a day' }), select),
         h('button', { class: 'btn big primary', onclick: () => App.printStock(hist[select.value], ' (old report)') }, 'Print Preview'),
-        h('button', { class: 'btn big danger', onclick: undoNewDay }, 'Undo last "Start New Day"')));
-  }
-
-  async function undoNewDay() {
-    const hist = App.data.stockHistory || {};
-    const last = Object.keys(hist).sort().pop();
-    if (!last) return;
-    const ok = await App.confirm('Undo the last "Start New Day"?', h('div', null,
-      h('p', null, 'The stock report will go back to ', h('b', { text: App.fmtDateLong(last) }), '.'),
-      h('p', null, 'Anything keyed in on ', h('b', { text: App.fmtDate(App.data.stock.date) }), ' will be lost.')),
-    'Yes, go back', true);
-    if (!ok) return;
-    App.data.stock = hist[last];
-    delete hist[last];
-    App.saveNow();
-    App.toast('Back to ' + App.fmtDate(last));
-    App.show('stock');
+        h('button', { class: 'btn big danger', onclick: App.goBackOneDay },
+          `Go back one day (to ${App.fmtDate(App.previousReportDate())})`)));
   }
 
   App.pages.settings = { render };
