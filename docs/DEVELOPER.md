@@ -116,6 +116,11 @@ Note that `looksValid()` currently accepts only `version === 1`.
 
 ## Business rules (`calc.js`)
 
+> **Golden rule (from the shop owner): a number changes SHOP only when it is keyed in.**
+> KEEP / RP / DEP / TF IN / TF OUT / IN that are already on the sheet, whether imported from Excel or kept from earlier
+> days, never change SHOP again. Only what the staff type in (or clear, for KEEP / RP / DEP) changes it. Any change to
+> these rules must keep this true; `test/calc.test.js` checks it.
+
 **Stock**
 
 | | Rule |

@@ -112,6 +112,9 @@ Start New Day does **not** clear TF IN, TF OUT and IN. They stay on the sheet, l
 - BAL = TOTAL − S.OUT
 - SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT (TF IN / TF OUT / IN only on the day they are typed)
 
+> **Rule:** a number only changes SHOP when you **key it in**. Numbers already on the sheet (from earlier days)
+> are never taken off or added again.
+
 ### KEEP, RP and DEP
 
 - Type the number of watches **on keep**, **in repair** or **on deposit**. SHOP goes down by that number; BAL stays the same.
