@@ -117,10 +117,10 @@ Note that `looksValid()` currently accepts only `version === 1`.
 
 ## Business rules (`calc.js`)
 
-> **Golden rule (from the shop owner): a number changes SHOP only when it is keyed in.**
-> KEEP / RP / TF IN / TF OUT / SHOPEE / IN that are already on the sheet, whether imported from Excel or kept from earlier
-> days, never change SHOP again. Only what the staff type in (or clear, for KEEP / RP) changes it. Any change to
-> these rules must keep this true; `test/calc.test.js` checks it.
+> **Golden rule (from the shop owner): a number changes SHOP when it is keyed in — once, never again.**
+> Every KEEP / RP / TF IN / TF OUT / SHOPEE / IN on the sheet is counted once. After Start New Day it stays on the sheet
+> but is not counted again (`carried`). Never assume a number was "already taken off by hand": an earlier version did
+> that for KEEP / RP and the owner rejected it. `test/calc.test.js` checks this.
 
 **Stock**
 
@@ -130,7 +130,7 @@ Note that `looksValid()` currently accepts only `version === 1`.
 | Watch SHOP | `SHOP + new(TF IN) − new(TF OUT) − new(SHOPEE) + new(IN) − Δ(KEEP+RP) − S.OUT` (blank if the brand has no SHOP) |
 | Item BAL | `TOTAL − OUT` |
 | Item SHOP | `(shop ?? TOTAL) + new(TF IN) − new(TF OUT) + new(IN) − OUT` |
-| KEEP / RP | `SHOP −= x − carried.x` for each: raising takes watches off SHOP, lowering puts them back. Data from before this rule is migrated once (`Calc.migrate`, `awayCounted`) so numbers already taken off by hand are not taken off again |
+| KEEP / RP | `SHOP −= x − carried.x` for each: raising takes watches off SHOP, lowering puts them back. `Calc.migrate` removes, once, the "already counted" KEEP / RP markers an earlier version wrote (`awayCounted`), so those numbers deduct like keyed-in ones (`keyedRule` marks it done) |
 | `new(x)` | `max(0, x − carried.x)`: only the amount typed since the last Start New Day. Lowering or clearing a kept number changes nothing. |
 | Linked line | sums of that battery or strap group; SHOP only while the group SHOP differs from its BAL, otherwise empty |
 | Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / SHOPEE / IN kept and recorded in `carried` (shown grey); KEEP/RP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today (a report with a later date is moved back to today). There is no undo: staff fix mistakes by editing the numbers |

@@ -41,7 +41,6 @@
         const sub = subtotalRow(g, outs, edit);
         body.appendChild(sub);
       });
-      if (groups.length > 1) body.appendChild(grandRow(groups, outs, edit));
 
       const table = h('table', { class: 'grid' },
         h('thead', null, h('tr', null,
@@ -118,14 +117,6 @@
     function subtotalRow(g, outs, edit) {
       return totalsRow('subtotal', t('Total {name}', { name: g.name }), () => C.groupTotals(g), outs, edit);
     }
-    function grandRow(groups, outs, edit) {
-      return totalsRow('total', t('GRAND TOTAL'), () => {
-        const tot = { total: 0, tfIn: 0, tfOut: 0, inn: 0, out: 0, bal: 0, shop: 0 };
-        groups.forEach((g) => { const x = C.groupTotals(g); for (const k in tot) tot[k] += x[k]; });
-        return tot;
-      }, outs, edit);
-    }
-
     function groupEditor(g, gi) {
       const code = h('input', { type: 'text', value: g.code, style: 'width:7rem;font-size:1rem;padding:0.2rem' });
       code.addEventListener('input', () => {

@@ -112,7 +112,6 @@
   function itemsSheet(stock, sheetKey, title) {
     const groups = stock[sheetKey] || [];
     const body = [];
-    const grand = { total: 0, tfIn: 0, tfOut: 0, inn: 0, out: 0, bal: 0, shop: 0 };
     for (const g of groups) {
       body.push(h('tr', { class: 'p-group' }, h('td', { colspan: 9, text: `${g.code} : ${g.name}` })));
       for (const it of g.items) {
@@ -124,16 +123,9 @@
           td(r.shop !== r.bal ? q(r.shop) : '', 'n strong')));
       }
       const t = C.groupTotals(g);
-      for (const k in grand) grand[k] += t[k];
       body.push(h('tr', { class: 'p-subtotal' },
         td('Total', 'left'), td(''), td(q(t.total), 'n'), td(q(t.tfIn || null), 'n'), td(q(t.tfOut || null), 'n'),
         td(q(t.inn || null), 'n'), td(q(t.out), 'n'), td(q(t.bal), 'n'), td(t.shop !== t.bal ? q(t.shop) : '', 'n')));
-    }
-    if (groups.length > 1) {
-      body.push(h('tr', { class: 'p-total' },
-        td('Grand Total', 'left'), td(''), td(q(grand.total), 'n'), td(q(grand.tfIn || null), 'n'),
-        td(q(grand.tfOut || null), 'n'), td(q(grand.inn || null), 'n'), td(q(grand.out), 'n'),
-        td(q(grand.bal), 'n'), td(grand.shop !== grand.bal ? q(grand.shop) : '', 'n')));
     }
     return h('div', { class: 'sheet compact' },
       sheetHead('Product Current Balance Report - By Product Group',

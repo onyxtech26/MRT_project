@@ -100,7 +100,7 @@ test('kept TF / IN numbers: only new amounts change SHOP', () => {
   assert.strictEqual(day.watches[0].carried, undefined);
 });
 
-test('KEEP / RP / DEP stay on new day', () => {
+test('KEEP / RP stay on new day', () => {
   const next = Calc.rollStockForward(seed.stock, '2026-10-25');
   assert.strictEqual(next.watches.find((w) => w.code === 'JBV').rp, 1);
   assert.strictEqual(next.watches.find((w) => w.code === 'CR-WC').keep, 1);
@@ -121,14 +121,15 @@ test('Stock Bal battery/strap line: SHOP shows only while waiting for HQ', () =>
   assert.deepStrictEqual([row().bal, row().shop], [584, null]);
 });
 
-test('KEEP / RP / DEP take watches off SHOP, once', () => {
+test('KEEP / RP take watches off SHOP once (every number on the sheet counts as keyed in)', () => {
   const data = Calc.migrate(JSON.parse(JSON.stringify({ stock: seed.stock })));
   const s = data.stock;
   const row = (code) => s.watches.find((w) => w.code === code);
   const r = (code) => Calc.watchRow(s, row(code));
-  // already taken off by hand on the 24/10 sheet -> not again
-  assert.deepStrictEqual([r('CAES').bal, r('CAES').shop], [55, 54]);
-  assert.deepStrictEqual([r('JBV').bal, r('JBV').shop], [75, 74]);
+  // KEEP 1 / RP 1 from the sheet are taken off SHOP once
+  assert.deepStrictEqual([r('CAES').bal, r('CAES').shop], [55, 53]);
+  assert.deepStrictEqual([r('CR-WC').bal, r('CR-WC').shop], [21, 19]);
+  assert.deepStrictEqual([r('JBV').bal, r('JBV').shop], [75, 73]);
   // a BONIA goes on keep today: SHOP 24 -> 23, BAL stays 24
   row('BN').keep = 1;
   assert.deepStrictEqual([r('BN').bal, r('BN').shop], [24, 23]);
@@ -142,15 +143,22 @@ test('KEEP / RP / DEP take watches off SHOP, once', () => {
   // or the customer collects and pays: keep cleared + S.OUT 1 -> SHOP stays 23, BAL 23
   bn.sOut = 1;
   assert.deepStrictEqual([Calc.watchRow(next, bn).bal, Calc.watchRow(next, bn).shop], [23, 23]);
-  // kept KEEP numbers are not shown grey (only TF IN / TF OUT / IN are)
+  // kept KEEP numbers are not shown grey (only TF IN / TF OUT / SHOPEE / IN are)
   assert.strictEqual(Calc.isCarried(next.watches.find((w) => w.code === 'CAES'), 'keep'), false);
 });
 
-test('migrate runs once', () => {
-  const data = Calc.migrate(JSON.parse(JSON.stringify({ stock: seed.stock })));
-  data.stock.watches.find((w) => w.code === 'BN').keep = 2;
+test('old "already counted" KEEP / RP markers are removed once', () => {
+  const data = JSON.parse(JSON.stringify({ stock: seed.stock }));
+  const cr = data.stock.watches.find((w) => w.code === 'CR-WC');
+  cr.carried = { keep: 1 };
+  data.awayCounted = true; // written by the earlier version
   Calc.migrate(data);
-  assert.strictEqual(Calc.watchRow(data.stock, data.stock.watches.find((w) => w.code === 'BN')).shop, 22);
+  assert.strictEqual(Calc.watchRow(data.stock, cr).shop, 19); // KEEP 1 now deducts
+  assert.strictEqual(data.awayCounted, undefined);
+  // running it again changes nothing
+  cr.carried = { keep: 1 };
+  Calc.migrate(data);
+  assert.deepStrictEqual(cr.carried, { keep: 1 });
 });
 
 test('several new days in a row never take TF OUT / KEEP / RP off again', () => {
@@ -165,8 +173,8 @@ test('several new days in a row never take TF OUT / KEEP / RP off again', () => 
   for (const day of ['2026-10-25', '2026-10-26', '2026-10-27']) {
     s = Calc.rollStockForward(s, day);
     assert.deepStrictEqual(show('SUB'), [70, 69, 70, 69], day);  // TF OUT 1 still there, not taken off again
-    assert.deepStrictEqual(show('CAES'), [55, 54, 55, 54], day); // KEEP 1
-    assert.deepStrictEqual(show('JBV'), [75, 74, 75, 74], day);  // RP 1
+    assert.deepStrictEqual(show('CAES'), [55, 53, 55, 53], day); // KEEP 1 taken off once
+    assert.deepStrictEqual(show('JBV'), [75, 73, 75, 73], day);  // RP 1 taken off once
   }
 });
 
@@ -189,7 +197,9 @@ test('starting data is the 27/10/2026 backup', () => {
   const r = (code) => Calc.watchRow(s, s.watches.find((w) => w.code === code));
   assert.strictEqual(s.date, '2026-10-27');
   assert.deepStrictEqual([r('SUB').bal, r('SUB').shop], [67, 67]);
-  assert.deepStrictEqual([r('CR-WC').bal, r('CR-WC').shop], [20, 20]);
+  assert.deepStrictEqual([r('CR-WC').bal, r('CR-WC').shop], [20, 19]); // KEEP 1 deducts
+  assert.deepStrictEqual([r('JBV').bal, r('JBV').shop], [75, 73]);     // RP 1 deducts
+  assert.deepStrictEqual([r('CAES').bal, r('CAES').shop], [54, 53]);
   assert.strictEqual(Calc.stockTotals(s).total, 1953);
   assert.ok(s.watches.every((w) => !('dep' in w)));
   assert.strictEqual(Calc.ledger(start.money).pending.total, 105);

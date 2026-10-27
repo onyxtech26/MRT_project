@@ -211,17 +211,21 @@
     };
   }
 
-  // Data saved before KEEP / RP took watches off SHOP already had them
-  // taken off by hand, so count them as already done.
+  // An earlier version marked the KEEP / RP numbers already on the sheet as
+  // "already taken off SHOP" (data.awayCounted). The owner's rule is that a
+  // number is taken off when it is keyed in, so those markers are removed once:
+  // every KEEP / RP on the sheet is then taken off SHOP once, and never again.
   function migrate(data) {
-    if (data.awayCounted) return data;
-    for (const w of data.stock.watches) {
-      if (w.link) continue;
-      const c = Object.assign({}, w.carried);
-      for (const k of AWAY) if (n(w[k])) c[k] = n(w[k]);
-      if (Object.keys(c).length) w.carried = c;
+    if (data.keyedRule) return data;
+    if (data.awayCounted) {
+      for (const w of data.stock.watches) {
+        if (!w.carried) continue;
+        for (const k of AWAY) delete w.carried[k];
+        if (!Object.keys(w.carried).length) delete w.carried;
+      }
+      delete data.awayCounted;
     }
-    data.awayCounted = true;
+    data.keyedRule = true;
     return data;
   }
 

@@ -75,10 +75,7 @@
     "tfIn": null,
     "tfOut": null,
     "inn": null,
-    "sOut": null,
-    "carried": {
-     "keep": 1
-    }
+    "sOut": null
    },
    {
     "id": "w6",
@@ -117,10 +114,7 @@
     "tfIn": null,
     "tfOut": null,
     "inn": null,
-    "sOut": null,
-    "carried": {
-     "rp": 1
-    }
+    "sOut": null
    },
    {
     "id": "w9",
@@ -2833,5 +2827,5 @@
    }
   }
  },
- "awayCounted": true
+ "keyedRule": true
 }

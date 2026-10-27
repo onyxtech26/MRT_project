@@ -106,7 +106,6 @@ window.I18N.zh = {
     '**新货到了但总部还没更新？** 在 **IN** 栏输入数量。SHOP 会增加，BAL 不变。之后几天 IN 的数字会保留（{grey}，已经算进 SHOP）。总部更新后，把 **TOTAL** 改成总部的数字，再清除 **IN**。',
   'SHOP is different from BAL (waiting for HQ update)': 'SHOP 和 BAL 不一样（等待总部更新）',
   'Total {name}': '{name} 合计',
-  'GRAND TOTAL': '总计',
   '+ Add an item to {name}': '+ 添加项目到 {name}',
   '+ Add a new group': '+ 添加新组别',
   'Edit list (add / remove items)': '编辑列表（添加 / 删除项目）',
