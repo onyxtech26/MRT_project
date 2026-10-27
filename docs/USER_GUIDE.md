@@ -126,6 +126,9 @@ Scroll to the bottom of the Stock Balance page. Write each transfer or repair on
 2. Type the number sold in the **yellow OUT** column.
 3. Press **Enter** to go down.
 
+The **SHOP** column is normally **empty** here. It only shows a number (orange) while a TF IN, TF OUT or IN is
+waiting for HQ, which is when the shop has a different count from BAL.
+
 ### New stock came, but HQ has not updated yet
 
 Example: 20 pieces of SR626 arrived, and HQ still shows 100.
@@ -134,6 +137,10 @@ Example: 20 pieces of SR626 arrived, and HQ still shows 100.
 2. **SHOP** becomes **120** (orange) and **BAL** stays at **100**.
 3. You don't need to do anything else. On the next days, IN = 20 stays in **grey** and SHOP stays 120.
 4. When HQ updates the stock, change **TOTAL** to the HQ number (**120**) and clear **IN**.
+   SHOP is the same as BAL again, so the SHOP column goes back to **empty**.
+
+The same goes for a **TF OUT**. For example, 1 × SR621 transferred out with HQ not updated yet: BAL stays 122 and
+SHOP shows **121** until HQ updates.
 
 ![Battery IN](images/06-battery-in.png)
 
