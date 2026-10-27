@@ -33,7 +33,7 @@
         h('li', null, t('BAL goes to TOTAL')),
         h('li', null, t('SHOP goes to SHOP')),
         h('li', null, t('S.OUT (and OUT) is cleared')),
-        h('li', null, t('TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated'))));
+        h('li', null, t('TF IN, TF OUT, SHOPEE, IN, KEEP and RP stay — clear them yourself when HQ has updated'))));
     const ok = await App.confirm(t('Start a new day?'), body, t('Yes, start new day'));
     if (!ok || App.data.stock.date === App.todayIso()) return;
     App.data.stockHistory = App.data.stockHistory || {};
@@ -69,10 +69,10 @@
     main.appendChild(h('div', { class: 'help' },
       tx('Key in the number of watches **sold today** in the yellow **S.OUT** column. **BAL** and **SHOP** (green) are worked out for you. Press **Enter** to go to the next line. Battery and strap lines come from the Battery and Strap tabs.'),
       h('br'),
-      tx('TF IN, TF OUT and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.',
+      tx('TF IN, TF OUT, SHOPEE and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.',
         { grey: h('span', { class: 'carried-key', text: t('Grey') }) }),
       h('br'),
-      tx('**KEEP**, **RP** and **DEP** (on keep, in repair, on deposit) are taken off SHOP. Clear the number when the watch is back on display or collected.')));
+      tx('**SHOPEE**: watches sent out for Shopee, taken off SHOP like TF OUT. **KEEP** and **RP** (on keep, in repair) are taken off SHOP. Clear the number when the watch is back on display or collected.')));
 
     const outs = []; // cells to refresh when a number changes
     const body = h('tbody');
@@ -94,8 +94,8 @@
         h('tr', null,
           editMode ? h('th', null, '') : null,
           App.th('CODE'), App.th('BRAND'), App.th('TOTAL'), App.th('SHOP'),
-          App.th('KEEP'), App.th('RP'), App.th('DEP'), App.th('TF IN'),
-          App.th('TF OUT'), App.th('IN'), App.th('S.OUT', { class: 'entry-head' }),
+          App.th('KEEP'), App.th('RP'), App.th('TF IN'),
+          App.th('TF OUT'), App.th('SHOPEE'), App.th('IN'), App.th('S.OUT', { class: 'entry-head' }),
           App.th('BAL', { class: 'result-head' }), App.th('SHOP', { class: 'result-head' }))),
       body);
     const wrap = h('div', { class: 'grid-wrap' }, table);
@@ -145,7 +145,7 @@
 
     if (w.link) {
       const cells = {};
-      ['total', 'shopPrev', 'keep', 'rp', 'dep', 'tfIn', 'tfOut', 'inn', 'sOut'].forEach((k) => {
+      ['total', 'shopPrev', 'keep', 'rp', 'tfIn', 'tfOut', 'shopee', 'inn', 'sOut'].forEach((k) => {
         cells[k] = h('td', { class: 'num' });
         row.appendChild(cells[k]);
       });
@@ -171,9 +171,9 @@
     row.appendChild(field('shop'));
     row.appendChild(field('keep'));
     row.appendChild(field('rp'));
-    row.appendChild(field('dep'));
     row.appendChild(field('tfIn'));
     row.appendChild(field('tfOut'));
+    row.appendChild(field('shopee'));
     row.appendChild(field('inn'));
     row.appendChild(field('sOut', 'entry'));
     const bal = h('td', { class: 'num calc' });
@@ -220,7 +220,7 @@
     const qty = App.parseNum(total.value) || 0;
     App.data.stock.watches.push({
       id: App.newId('w'), code: code.value.trim().toUpperCase(), name: name.value.trim().toUpperCase(),
-      total: qty, shop: qty, keep: null, rp: null, dep: null, tfIn: null, tfOut: null, inn: null, sOut: null,
+      total: qty, shop: qty, keep: null, rp: null, tfIn: null, tfOut: null, shopee: null, inn: null, sOut: null,
     });
     App.saveNow();
     App.refresh();

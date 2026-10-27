@@ -62,8 +62,8 @@ window.I18N.zh = {
   'BAL goes to TOTAL': 'BAL（余额）转到 TOTAL（总数）',
   'SHOP goes to SHOP': 'SHOP（店内）转到昨天的 SHOP',
   'S.OUT (and OUT) is cleared': 'S.OUT（及 OUT）清空',
-  'TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated':
-    'TF IN、TF OUT、IN、KEEP、RP 和 DEP 保留 —— 总部更新后再自己清除',
+  'TF IN, TF OUT, SHOPEE, IN, KEEP and RP stay — clear them yourself when HQ has updated':
+    'TF IN、TF OUT、SHOPEE、IN、KEEP 和 RP 保留 —— 总部更新后再自己清除',
   '**This report is for {date}.** If you are starting today\'s work, press the green **Start New Day** button first.':
     '**这是 {date} 的报表。** 如果要开始今天的工作，请先按绿色的 **开始新的一天** 按钮。',
   '**This report is for {date}, which is later than today ({today}).** Check the computer\'s date and time. When the date is right, press **Start New Day** to change the report to today.':
@@ -72,11 +72,11 @@ window.I18N.zh = {
   // stock balance screen
   'Key in the number of watches **sold today** in the yellow **S.OUT** column. **BAL** and **SHOP** (green) are worked out for you. Press **Enter** to go to the next line. Battery and strap lines come from the Battery and Strap tabs.':
     '在黄色的 **S.OUT** 栏输入**今天卖出**的手表数量。**BAL** 和 **SHOP**（绿色）会自动计算。按 **Enter** 到下一行。电池和表带的行来自"电池"和"表带"页。',
-  'TF IN, TF OUT and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.':
-    'TF IN、TF OUT 和 IN 在开始新的一天后会保留。{grey} 数字是之前输入的，已经算进 SHOP。总部更新后再清除。',
+  'TF IN, TF OUT, SHOPEE and IN stay after Start New Day. {grey} numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.':
+    'TF IN、TF OUT、SHOPEE 和 IN 在开始新的一天后会保留。{grey} 数字是之前输入的，已经算进 SHOP。总部更新后再清除。',
   'Grey': '灰色',
-  '**KEEP**, **RP** and **DEP** (on keep, in repair, on deposit) are taken off SHOP. Clear the number when the watch is back on display or collected.':
-    '**KEEP**（保留）、**RP**（维修）和 **DEP**（订金）的数量会从 SHOP 扣除。手表放回展示或被取走后，清除该数字。',
+  '**SHOPEE**: watches sent out for Shopee, taken off SHOP like TF OUT. **KEEP** and **RP** (on keep, in repair) are taken off SHOP. Clear the number when the watch is back on display or collected.':
+    '**SHOPEE**（虾皮）：送去 Shopee 的手表，和 TF OUT 一样从 SHOP 扣除。**KEEP**（保留）和 **RP**（维修）的数量会从 SHOP 扣除。手表放回展示或被取走后，清除该数字。',
   'grey': '灰色',
   'YESTERDAY': '昨天',
   'TODAY': '今天',

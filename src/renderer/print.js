@@ -82,8 +82,8 @@
       const r = C.watchRow(stock, w);
       return h('tr', null,
         td(w.code, 'code'), td(w.name, 'left'),
-        td(q(r.total), 'n'), td(q(r.shopPrev), 'n'), td(q(r.keep), 'n'), td(q(r.rp), 'n'), td(q(r.dep), 'n'),
-        td(q(r.tfIn), 'n'), td(q(r.tfOut), 'n'), td(q(r.inn), 'n'), td(q(r.sOut), 'n strong'),
+        td(q(r.total), 'n'), td(q(r.shopPrev), 'n'), td(q(r.keep), 'n'), td(q(r.rp), 'n'),
+        td(q(r.tfIn), 'n'), td(q(r.tfOut), 'n'), td(q(r.shopee), 'n'), td(q(r.inn), 'n'), td(q(r.sOut), 'n strong'),
         td(q(r.bal), 'n strong'), td(q(r.shop), 'n strong'));
     });
     const t = C.stockTotals(stock);
@@ -97,8 +97,8 @@
         [h('b', { text: 'STOCK BAL' }), `Date: ${App.fmtDate(stock.date)}`]),
       h('table', { class: 'p-table' },
         h('thead', null, h('tr', null,
-          th('CODE'), th('BRAND', 'left'), th('TOTAL'), th('SHOP'), th('KEEP'), th('RP'), th('DEP'),
-          th('TF IN'), th('TF OUT'), th('IN'), th('S.OUT'), th('BAL'), th('SHOP'))),
+          th('CODE'), th('BRAND', 'left'), th('TOTAL'), th('SHOP'), th('KEEP'), th('RP'),
+          th('TF IN'), th('TF OUT'), th('SHOPEE'), th('IN'), th('S.OUT'), th('BAL'), th('SHOP'))),
         h('tbody', null, rows)),
       h('div', { class: 'p-notes' },
         h('div', { class: 'p-notes-title', text: 'TF IN & TF OUT & REPAIR' }),

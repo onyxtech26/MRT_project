@@ -37,9 +37,9 @@
 
   /* ---------------- stock ---------------- */
 
-  const MOVES = ['tfIn', 'tfOut', 'inn'];
+  const MOVES = ['tfIn', 'tfOut', 'shopee', 'inn'];
 
-  // TF IN / TF OUT / IN stay on the sheet after "Start new day" until the staff
+  // TF IN / TF OUT / SHOPEE / IN stay on the sheet after "Start new day" until the staff
   // clears them (HQ has updated). They change SHOP only on the day they are typed:
   // the part already counted is remembered in row.carried. Lowering or clearing a
   // carried number changes nothing.
@@ -47,17 +47,17 @@
     const before = row.carried ? n(row.carried[key]) : 0;
     return Math.max(0, n(row[key]) - before);
   }
-  // KEEP / RP / DEP are watches away from the display (on keep, in repair, on
-  // deposit). Raising the number takes it off SHOP, lowering it puts it back.
+  // KEEP / RP are watches away from the display (on keep, in repair). Raising
+  // the number takes it off SHOP, lowering it puts it back.
   // row.carried holds the number already taken off SHOP before today.
-  const AWAY = ['keep', 'rp', 'dep'];
+  const AWAY = ['keep', 'rp'];
   function awayChange(row) {
     let d = 0;
     for (const k of AWAY) d += n(row[k]) - (row.carried ? n(row.carried[k]) : 0);
     return d;
   }
   function moveChange(row) {
-    return newMove(row, 'tfIn') - newMove(row, 'tfOut') + newMove(row, 'inn') - awayChange(row);
+    return newMove(row, 'tfIn') - newMove(row, 'tfOut') - newMove(row, 'shopee') + newMove(row, 'inn') - awayChange(row);
   }
   function isCarried(row, key) {
     return MOVES.includes(key) && !!row.carried && has(row[key]) && n(row[key]) > 0 && n(row[key]) <= n(row.carried[key]);
@@ -105,7 +105,7 @@
       const t = g ? groupTotals(g) : { total: 0, tfIn: 0, tfOut: 0, inn: 0, out: 0, bal: 0 };
       return {
         linked: true,
-        total: t.total, shopPrev: null, keep: null, rp: null, dep: null,
+        total: t.total, shopPrev: null, keep: null, rp: null, shopee: null,
         tfIn: t.tfIn || null, tfOut: t.tfOut || null, inn: t.inn || null, sOut: t.out || null,
         // SHOP shows only while it differs from BAL (TF IN / TF OUT / IN not yet in HQ)
         bal: t.bal, shop: g && t.shop !== t.bal ? t.shop : null,
@@ -117,7 +117,7 @@
     return {
       linked: false,
       total, shopPrev: tracksShop ? n(w.shop) : null,
-      keep: w.keep, rp: w.rp, dep: w.dep, tfIn: w.tfIn, tfOut: w.tfOut, inn: w.inn, sOut: w.sOut,
+      keep: w.keep, rp: w.rp, tfIn: w.tfIn, tfOut: w.tfOut, shopee: w.shopee, inn: w.inn, sOut: w.sOut,
       bal: total - sOut,
       shop: tracksShop ? n(w.shop) + moveChange(w) - sOut : null,
     };
@@ -137,7 +137,7 @@
   }
 
   // "Start new day": yesterday's BAL / SHOP become today's TOTAL / SHOP and
-  // only S.OUT / OUT is cleared. TF IN, TF OUT, IN, KEEP, RP and DEP stay until
+  // only S.OUT / OUT is cleared. TF IN, TF OUT, SHOPEE, IN, KEEP and RP stay until
   // the staff clears them.
   function rollStockForward(stock, newDate) {
     const s = JSON.parse(JSON.stringify(stock));
@@ -211,7 +211,7 @@
     };
   }
 
-  // Data saved before KEEP / RP / DEP took watches off SHOP already had them
+  // Data saved before KEEP / RP took watches off SHOP already had them
   // taken off by hand, so count them as already done.
   function migrate(data) {
     if (data.awayCounted) return data;

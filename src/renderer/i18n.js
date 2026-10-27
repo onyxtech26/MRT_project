@@ -51,7 +51,7 @@
   // small Chinese word under the English column codes (TOTAL, SHOP, S.OUT ...)
   const COLS = {
     CODE: '代码', BRAND: '品牌', PRODUCT: '产品', TOTAL: '总数', SHOP: '店内', KEEP: '保留', RP: '维修',
-    DEP: '订金', 'TF IN': '调入', 'TF OUT': '调出', IN: '进货', 'S.OUT': '售出', OUT: '售出', BAL: '余额',
+    'TF IN': '调入', 'TF OUT': '调出', SHOPEE: '虾皮', IN: '进货', 'S.OUT': '售出', OUT: '售出', BAL: '余额',
     DATE: '日期', SALE: '销售', CARD: '刷卡', CASH: '现金', 'BANK IN DATE': '存款日期', 'BANK IN (RM)': '存款',
   };
   I18N.colSub = function (code) {

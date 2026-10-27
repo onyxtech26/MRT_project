@@ -25,7 +25,7 @@ supports Windows 7. No internet is needed.
 **Every morning, Stock Balance tab:** press the green **Start New Day** button. The new report always takes the computer's date, so pressing it
 again the same day does nothing (the button then reads "✔ Today's report is open").
 BAL moves to TOTAL, SHOP moves to SHOP, and S.OUT is cleared on all 3 sheets. TF IN, TF OUT, IN,
-KEEP, RP and DEP stay until she clears them (when HQ has updated).
+SHOPEE, KEEP and RP stay until she clears them (when HQ has updated).
 (This replaces copying and pasting from right to left.)
 
 **During the day:**
@@ -52,7 +52,7 @@ button to switch the screens between English and Simplified Chinese (printouts s
 ## The rules the app uses
 
 - `BAL = TOTAL − S.OUT`. BAL follows HQ, so IN and TF do not change it.
-- `SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT`, minus watches on KEEP / RP / DEP. A TF IN, TF OUT or IN number is counted only on the
+- `SHOP = yesterday's SHOP + TF IN − TF OUT − SHOPEE + IN − S.OUT`, minus watches on KEEP / RP. A TF IN, TF OUT or IN number is counted only on the
   day it is typed. On later days it stays (in grey) as a reminder, and clearing it does not change SHOP.
 - On the Stock Bal sheet, the R-BAT, S-BAT, LS and PS lines are added up automatically from the Battery and Strap tabs.
 - `CASH = SALE − CARD` (can be changed), `TOTAL = balance from last bank in + cash since then`,
@@ -64,8 +64,8 @@ These rules are checked against the October 2026 sheets in `test/calc.test.js`.
 
 Data is kept in `%APPDATA%\MPT MRT Daily\mrt-data.json`. A copy is kept every day in the `backups`
 folder next to it (the last 120 days). Settings has buttons to save a backup to a pen drive and to
-restore one. The first time the app starts, it loads the 24/10/2026 stock report and the
-October 2026 sales from the original Excel files.
+restore one. The first time the app starts, it loads the shop's data as of 27/10/2026 (from the backup
+of that day).
 
 ## For developers
 

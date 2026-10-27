@@ -18,7 +18,7 @@ build/icon.ico            Windows app icon
 src/
   main.js                 Electron main process: window, file save/load, backups, print, PDF
   preload.js              the only bridge between the page and Node (window.api)
-  seed.json               data loaded on first start (24/10/2026 stock + Oct 2026 sales)
+  seed.json               data loaded on first start (the shop's backup of 27/10/2026)
   renderer/
     index.html            page shell: top bar, tabs, preview screen, dialog
     styles.css            screen styles (rem-based, so "Text size" scales everything)
@@ -37,6 +37,7 @@ src/
       settings.js         Settings tab (shop details, opening cash, old reports, backup)
     assets/               MPT logos (white for the screen, navy for paper) + icon
 test/calc.test.js         checks calc.js against the October 2026 Excel sheets
+test/fixtures/            the original 24/10/2026 data imported from Excel (used by the tests)
 test/i18n.test.js         checks every screen text has a Chinese line (and no unused lines)
 docs/                     this guide + the user guide
 .github/workflows/        builds the Windows installers on every push
@@ -80,8 +81,8 @@ The data is stored in `%APPDATA%\MPT MRT Daily\mrt-data.json`, which is Electron
     "watches": [                                // STOCK BAL lines, in print order
       { "id", "code": "SUB", "name": "SUBMARINE",
         "total": 71, "shop": 71,                // yesterday (shop: null = brand has no SHOP column)
-        "keep", "rp", "dep",                    // standing counts, kept by Start New Day
-        "tfIn", "tfOut", "inn",                 // kept by Start New Day until the staff clears them
+        "keep", "rp",                           // watches on keep / in repair, kept by Start New Day
+        "tfIn", "tfOut", "shopee", "inn",       // kept by Start New Day until the staff clears them
         "sOut",                                 // today's sales, cleared by Start New Day
         "carried": { "tfOut": 1 } },            // part of tfIn/tfOut/inn already counted in SHOP
       { "id", "code": "S-BAT", "name": "SONY BATTERY",
@@ -117,8 +118,8 @@ Note that `looksValid()` currently accepts only `version === 1`.
 ## Business rules (`calc.js`)
 
 > **Golden rule (from the shop owner): a number changes SHOP only when it is keyed in.**
-> KEEP / RP / DEP / TF IN / TF OUT / IN that are already on the sheet, whether imported from Excel or kept from earlier
-> days, never change SHOP again. Only what the staff type in (or clear, for KEEP / RP / DEP) changes it. Any change to
+> KEEP / RP / TF IN / TF OUT / SHOPEE / IN that are already on the sheet, whether imported from Excel or kept from earlier
+> days, never change SHOP again. Only what the staff type in (or clear, for KEEP / RP) changes it. Any change to
 > these rules must keep this true; `test/calc.test.js` checks it.
 
 **Stock**
@@ -126,13 +127,13 @@ Note that `looksValid()` currently accepts only `version === 1`.
 | | Rule |
 |---|---|
 | Watch BAL | `TOTAL − S.OUT`. BAL follows HQ, so TF and IN do not change it. |
-| Watch SHOP | `SHOP + new(TF IN) − new(TF OUT) + new(IN) − Δ(KEEP+RP+DEP) − S.OUT` (blank if the brand has no SHOP) |
+| Watch SHOP | `SHOP + new(TF IN) − new(TF OUT) − new(SHOPEE) + new(IN) − Δ(KEEP+RP) − S.OUT` (blank if the brand has no SHOP) |
 | Item BAL | `TOTAL − OUT` |
 | Item SHOP | `(shop ?? TOTAL) + new(TF IN) − new(TF OUT) + new(IN) − OUT` |
-| KEEP / RP / DEP | `SHOP −= x − carried.x` for each: raising takes watches off SHOP, lowering puts them back. Data from before this rule is migrated once (`Calc.migrate`, `awayCounted`) so numbers already taken off by hand are not taken off again |
+| KEEP / RP | `SHOP −= x − carried.x` for each: raising takes watches off SHOP, lowering puts them back. Data from before this rule is migrated once (`Calc.migrate`, `awayCounted`) so numbers already taken off by hand are not taken off again |
 | `new(x)` | `max(0, x − carried.x)`: only the amount typed since the last Start New Day. Lowering or clearing a kept number changes nothing. |
 | Linked line | sums of that battery or strap group; SHOP only while the group SHOP differs from its BAL, otherwise empty |
-| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / IN kept and recorded in `carried` (shown grey); KEEP/RP/DEP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today (a report with a later date is moved back to today). There is no undo: staff fix mistakes by editing the numbers |
+| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / SHOPEE / IN kept and recorded in `carried` (shown grey); KEEP/RP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today (a report with a later date is moved back to today). There is no undo: staff fix mistakes by editing the numbers |
 
 **Money** (`ledger`) walks every day in date order:
 

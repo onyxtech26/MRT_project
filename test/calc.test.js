@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const Calc = require('../src/renderer/calc.js');
-const seed = require('../src/seed.json');
+const seed = require('./fixtures/oct24-seed.json');
 
 test('watch line follows the Excel sheet (SUBMARINE 24/10)', () => {
   const sub = seed.stock.watches.find((w) => w.code === 'SUB');
@@ -168,4 +168,29 @@ test('several new days in a row never take TF OUT / KEEP / RP off again', () => 
     assert.deepStrictEqual(show('CAES'), [55, 54, 55, 54], day); // KEEP 1
     assert.deepStrictEqual(show('JBV'), [75, 74, 75, 74], day);  // RP 1
   }
+});
+
+test('SHOPEE works like TF OUT: taken off SHOP once, clearing changes nothing', () => {
+  const stock = { watches: [{ code: 'X', total: 10, shop: 10, shopee: 2 }], battery: [], strap: [] };
+  const w = stock.watches[0];
+  assert.deepStrictEqual([Calc.watchRow(stock, w).bal, Calc.watchRow(stock, w).shop], [10, 8]);
+  const next = Calc.rollStockForward(stock, '2026-10-28');
+  const w2 = next.watches[0];
+  assert.deepStrictEqual([w2.shop, w2.shopee, Calc.watchRow(next, w2).shop], [8, 2, 8]);
+  assert.strictEqual(Calc.isCarried(w2, 'shopee'), true); // shown grey
+  w2.total = 8; // HQ updated
+  w2.shopee = null;
+  assert.deepStrictEqual([Calc.watchRow(next, w2).bal, Calc.watchRow(next, w2).shop], [8, 8]);
+});
+
+test('starting data is the 27/10/2026 backup', () => {
+  const start = Calc.migrate(JSON.parse(JSON.stringify(require('../src/seed.json'))));
+  const s = start.stock;
+  const r = (code) => Calc.watchRow(s, s.watches.find((w) => w.code === code));
+  assert.strictEqual(s.date, '2026-10-27');
+  assert.deepStrictEqual([r('SUB').bal, r('SUB').shop], [67, 67]);
+  assert.deepStrictEqual([r('CR-WC').bal, r('CR-WC').shop], [20, 20]);
+  assert.strictEqual(Calc.stockTotals(s).total, 1953);
+  assert.ok(s.watches.every((w) => !('dep' in w)));
+  assert.strictEqual(Calc.ledger(start.money).pending.total, 105);
 });

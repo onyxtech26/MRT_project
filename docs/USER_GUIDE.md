@@ -61,7 +61,7 @@ The app now does what you used to do by copy and paste, on all 3 sheets (Stock B
 - BAL goes to TOTAL
 - SHOP goes to SHOP
 - **S.OUT** (and OUT on Battery / Strap) is cleared
-- **TF IN, TF OUT, IN, KEEP, RP and DEP stay.** Clear them yourself when HQ has updated (see section 3).
+- **TF IN, TF OUT, SHOPEE, IN, KEEP and RP stay.** Clear them yourself when HQ has updated (see section 3).
 
 Yesterday's report is kept, so you can print it again later (see section 9).
 
@@ -93,9 +93,10 @@ the cursor; at the edge of the number they jump to the next box. This works on e
 | Column | What to type |
 |---|---|
 | TOTAL / SHOP (yesterday) | Filled in by Start New Day. Change only when HQ gives a new number. |
-| KEEP / RP / DEP | Watches on keep, in repair, on deposit. They are **taken off SHOP** and stay from day to day. |
+| KEEP / RP | Watches on keep, in repair. They are **taken off SHOP** and stay from day to day. |
 | TF IN | Watches transferred **in** from another outlet |
 | TF OUT | Watches transferred **out** to another outlet |
+| SHOPEE | Watches sent out for **Shopee**. Taken off SHOP like TF OUT; clear it when HQ has updated. |
 | IN | New stock that arrived |
 
 ### TF IN, TF OUT and IN stay until you clear them
@@ -115,9 +116,9 @@ Start New Day does **not** clear TF IN, TF OUT and IN. They stay on the sheet, l
 > **Rule:** a number only changes SHOP when you **key it in**. Numbers already on the sheet (from earlier days)
 > are never taken off or added again.
 
-### KEEP, RP and DEP
+### KEEP and RP
 
-- Type the number of watches **on keep**, **in repair** or **on deposit**. SHOP goes down by that number; BAL stays the same.
+- Type the number of watches **on keep** or **in repair**. SHOP goes down by that number; BAL stays the same.
 - The number stays on the next days and is **not** taken off again.
 - When the watch is back on display (keep cancelled, back from repair), **clear** the number and SHOP goes back up.
 - When the customer **collects and pays**, clear KEEP and type **1 in S.OUT**. BAL goes down by 1 and SHOP stays the same,
