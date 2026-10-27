@@ -70,11 +70,6 @@
         subtitle ? h('div', { class: 'p-sub', text: subtitle }) : null),
       h('div', { class: 'p-right' }, rightLines.map((l) => h('div', null, l))));
   }
-  function signLine() {
-    return h('div', { class: 'p-sign' },
-      h('div', null, 'Prepared by:', h('span', { class: 'p-line' })),
-      h('div', null, 'Checked by:', h('span', { class: 'p-line' })));
-  }
   const td = (text, cls) => h('td', { class: cls || null }, text === null || text === undefined ? '' : String(text));
   const th = (text, cls) => h('th', { class: cls || null }, text);
   const q = App.fmtQty;
@@ -109,8 +104,7 @@
         notes.length
           ? h('table', { class: 'p-table p-notes-table' }, h('tbody', null,
             notes.map((n) => h('tr', null, td(n.text, 'left'), td(n.ref, 'left ref')))))
-          : h('div', { class: 'p-muted', text: '(none)' })),
-      signLine());
+          : h('div', { class: 'p-muted', text: '(none)' })));
   }
 
   /* ---------- BATTERY / STRAP ---------- */
@@ -148,8 +142,7 @@
         h('thead', null, h('tr', null,
           th('Product', 'left'), th('Code'), th('Total'), th('TF In'), th('TF Out'), th('In'), th('Out'),
           th('Bal'), th('Shop'))),
-        h('tbody', null, body)),
-      signLine());
+        h('tbody', null, body)));
   }
 
   App.printStock = function (stock, titleExtra) {
@@ -188,8 +181,7 @@
             'BANK IN', h('span', { class: 'p-bankdate', text: banked ? '  on  ' + App.fmtDate(slip.bankDate) : '  on  ____________' })),
           td(banked ? m(slip.amount) : '', 'n')),
           h('tr', { class: 'p-subtotal' }, h('td', { colspan: 3, class: 'left', text: 'LESS (goes to next balance)' }),
-            td(banked ? (slip.less ? m(slip.less) : '~') : '', 'n')))),
-      signLine());
+            td(banked ? (slip.less ? m(slip.less) : '~') : '', 'n')))));
   }
 
   App.printBankIn = function (slip) {
@@ -225,8 +217,7 @@
       h('table', { class: 'p-table month' },
         h('thead', null, h('tr', null, th('DATE'), th('SALE'), th('CARD'), th('CASH'), th('BAL'), th('TOTAL'),
           th('DATE'), th('BANK IN'))),
-        h('tbody', null, rows)),
-      signLine());
+        h('tbody', null, rows)));
   }
 
   App.printMonth = function (year, month) {

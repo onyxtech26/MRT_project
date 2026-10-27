@@ -23,7 +23,6 @@
 .p-table.compact th, .p-table.compact td { padding: 0.2mm 1.4mm; font-size: 8.5pt; line-height: 1.15; }
 .sheet.compact .p-head { padding-bottom: 2mm; margin-bottom: 2.5mm; }
 .sheet.compact .p-logo { height: 10mm; }
-.sheet.compact .p-sign { margin-top: 6mm; }
 .p-table th { background: #e4e6f0; font-size: 9pt; font-weight: 700; text-align: center; }
 .p-table .left { text-align: left; }
 .p-table .c { text-align: center; }
@@ -41,9 +40,6 @@
 .p-notes { margin-top: 5mm; }
 .p-notes-title { font-weight: 700; margin-bottom: 1.5mm; text-decoration: underline; }
 .p-muted { color: #666; font-style: italic; text-align: left !important; }
-
-.p-sign { display: flex; justify-content: space-between; margin-top: 12mm; font-size: 10.5pt; }
-.p-line { display: inline-block; width: 55mm; border-bottom: 0.75pt solid #000; margin-left: 3mm; }
 
 @media print {
   html, body { background: #fff; height: auto; }
