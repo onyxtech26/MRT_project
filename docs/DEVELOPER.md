@@ -123,8 +123,7 @@ Note that `looksValid()` currently accepts only `version === 1`.
 | Item SHOP | `(shop ?? TOTAL) + new(TF IN) − new(TF OUT) + new(IN) − OUT` |
 | `new(x)` | `max(0, x − carried.x)`: only the amount typed since the last Start New Day. Lowering or clearing a kept number changes nothing. |
 | Linked line | sums of that battery or strap group |
-| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / IN kept and recorded in `carried` (shown grey); KEEP/RP/DEP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today or later |
-| Go back one day (`App.goBackOneDay`) | restores the newest `stockHistory` entry as the current report and removes it from history |
+| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / IN kept and recorded in `carried` (shown grey); KEEP/RP/DEP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today (a report with a later date is moved back to today). There is no undo: staff fix mistakes by editing the numbers |
 
 **Money** (`ledger`) walks every day in date order:
 

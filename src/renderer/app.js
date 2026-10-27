@@ -212,8 +212,8 @@
     if (date > today) {
       return h('div', { class: 'help warn' },
         h('b', { text: `This report is for ${App.fmtDateLong(date)}, which is later than today (${App.fmtDate(today)}).` }),
-        ' Press ', h('b', { text: 'Go back one day' }), ' until the report shows the right day.  ',
-        h('button', { class: 'btn danger', onclick: App.goBackOneDay }, 'Go back one day'));
+        ' Check the computer\'s date and time. When the date is right, press ', h('b', { text: 'Start New Day' }),
+        ' to change the report to today.');
     }
     return h('div', { class: 'help warn' },
       h('b', { text: `This report is for ${App.fmtDateLong(date)}.` }),

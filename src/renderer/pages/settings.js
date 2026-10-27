@@ -84,9 +84,7 @@
       h('h2', { text: 'Old stock reports' }),
       h('div', { class: 'form-row' },
         h('div', { class: 'field' }, h('label', { text: 'Choose a day' }), select),
-        h('button', { class: 'btn big primary', onclick: () => App.printStock(hist[select.value], ' (old report)') }, 'Print Preview'),
-        h('button', { class: 'btn big danger', onclick: App.goBackOneDay },
-          `Go back one day (to ${App.fmtDate(App.previousReportDate())})`)));
+        h('button', { class: 'btn big primary', onclick: () => App.printStock(hist[select.value], ' (old report)') }, 'Print Preview')));
   }
 
   App.pages.settings = { render };

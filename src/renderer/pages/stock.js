@@ -6,9 +6,10 @@
   const q = App.fmtQty;
   let editMode = false;
 
-  /* ---------- start new day / go back one day ---------- */
-  // The new report date is always the computer's date, so pressing the button
-  // again cannot jump ahead. Old days are kept in stockHistory.
+  /* ---------- start new day ---------- */
+  // The new report date is always the computer's date and it can be done once a
+  // day, so pressing the button again cannot jump ahead or clear today's sales.
+  // Old days are kept in stockHistory. Mistakes are fixed by editing the numbers.
   App.startNewDay = async function () {
     const stock = App.data.stock;
     const today = App.todayIso();
@@ -16,15 +17,12 @@
       await App.alert("Today's report is already open", `The stock report is already for today, ${App.fmtDateLong(today)}. Just key in the sales.`);
       return;
     }
-    if (stock.date > today) {
-      await App.alert('The report date is later than today',
-        `The report is for ${App.fmtDateLong(stock.date)}, but the computer's date is ${App.fmtDateLong(today)}. ` +
-        'Press "Go back one day" until the report shows the right day.');
-      return;
-    }
-    const gap = Math.round((new Date(today) - new Date(stock.date)) / 86400000) - 1;
+    const future = stock.date > today;
+    const gap = future ? 0 : Math.round((new Date(today) - new Date(stock.date)) / 86400000) - 1;
     const body = h('div', null,
       h('p', null, 'New report date: ', h('b', { text: App.fmtDateLong(today) }), ' (today).'),
+      future ? h('p', null, h('b', { text: `The current report has a later date (${App.fmtDate(stock.date)}). ` }),
+        'Please check that the computer\'s date is correct before you continue.') : null,
       h('p', null, 'The report for ', h('b', { text: App.fmtDateLong(stock.date) }), ' will be kept, so you can print it again later.'),
       gap > 0 ? h('p', null, `(No report for the ${gap} day${gap > 1 ? 's' : ''} in between, e.g. shop closed.)`) : null,
       h('p', null, 'On all 3 sheets (Stock Bal, Battery, Strap):'),
@@ -34,7 +32,7 @@
         h('li', null, 'S.OUT (and OUT) is cleared'),
         h('li', null, 'TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated')));
     const ok = await App.confirm('Start a new day?', body, 'Yes, start new day');
-    if (!ok || App.data.stock.date >= App.todayIso()) return;
+    if (!ok || App.data.stock.date === App.todayIso()) return;
     App.data.stockHistory = App.data.stockHistory || {};
     App.data.stockHistory[stock.date] = JSON.parse(JSON.stringify(stock));
     App.data.stock = C.rollStockForward(stock, today);
@@ -45,37 +43,11 @@
 
   // The green button on the Stock, Battery and Strap tabs
   App.newDayButton = function () {
-    const open = App.data.stock.date >= App.todayIso();
+    const open = App.data.stock.date === App.todayIso();
     return h('button', {
       class: open ? 'btn big done' : 'btn big green', onclick: App.startNewDay,
       title: open ? "The report is already for today" : 'Start the report for today',
     }, open ? "✔ Today's report is open" : 'Start New Day');
-  };
-
-  App.previousReportDate = function () {
-    return Object.keys(App.data.stockHistory || {}).sort().pop() || null;
-  };
-
-  // Undo "Start New Day": go back to the report before this one
-  App.goBackOneDay = async function () {
-    const hist = App.data.stockHistory || {};
-    const last = App.previousReportDate();
-    if (!last) {
-      await App.alert('Nothing to go back to', 'There is no earlier report.');
-      return;
-    }
-    const ok = await App.confirm('Go back one day?', h('div', null,
-      h('p', null, 'The stock report goes back from ', h('b', { text: App.fmtDateLong(App.data.stock.date) }),
-        ' to ', h('b', { text: App.fmtDateLong(last) }), '.'),
-      h('p', null, 'Anything keyed in on ', h('b', { text: App.fmtDate(App.data.stock.date) }), ' will be lost.'),
-      h('p', null, 'You can press it again to go back further.')),
-    'Yes, go back', true);
-    if (!ok) return;
-    App.data.stock = hist[last];
-    delete hist[last];
-    App.saveNow();
-    App.toast('Back to ' + App.fmtDate(last));
-    App.refresh();
   };
 
   /* ---------- the screen ---------- */
