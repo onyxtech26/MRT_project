@@ -33,6 +33,9 @@
     throw new Error(loaded.error);
   }
   App.data = loaded.data;
+  window.I18N.lang = App.data.settings.lang === 'zh' ? 'zh' : 'en';
+  App.t = window.I18N.t;
+  App.tx = window.I18N.tx;
   App.firstRun = !!loaded.firstRun;
   App.restoredFrom = loaded.restoredFrom || null;
 
@@ -47,12 +50,12 @@
     clearTimeout(saveTimer);
     saveTimer = null;
     const res = window.api.save(JSON.stringify(App.data));
-    if (res && res.ok) setStatus('✔ Saved');
-    else setStatus('NOT SAVED!', true);
+    if (res && res.ok) setStatus(App.t('✔ Saved'));
+    else setStatus(App.t('NOT SAVED!'), true);
     return res;
   };
   App.changed = function () {
-    setStatus('Saving…');
+    setStatus(App.t('Saving…'));
     clearTimeout(saveTimer);
     saveTimer = setTimeout(App.saveNow, 400);
   };
@@ -88,10 +91,16 @@
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
     'September', 'October', 'November', 'December'];
   App.MONTHS = MONTHS;
+  const ZH_DAYS = '日一二三四五六';
   App.fmtDateLong = function (iso) {
     const [y, m, d] = iso.split('-').map(Number);
     const dt = new Date(y, m - 1, d);
+    if (window.I18N.lang === 'zh') return `${y}年${m}月${d}日 星期${ZH_DAYS[dt.getDay()]}`;
     return `${DAYS[dt.getDay()]}, ${d} ${MONTHS[m - 1]} ${y}`;
+  };
+  // "October 2026" / "2026年10月" on screen (printouts use App.MONTHS, always English)
+  App.fmtMonth = function (year, month) {
+    return window.I18N.lang === 'zh' ? `${year}年${month}月` : `${MONTHS[month - 1]} ${year}`;
   };
   App.addDays = function (iso, n) {
     const [y, m, d] = iso.split('-').map(Number);
@@ -120,6 +129,12 @@
   };
 
   /* ---------- building elements ---------- */
+  // table heading: the English column code, plus a small Chinese word in Chinese mode
+  App.th = function (code, attrs) {
+    const sub = window.I18N.colSub(code);
+    return App.h('th', attrs || null, code, sub ? App.h('div', { class: 'th-sub', text: sub }) : null);
+  };
+
   App.h = function (tag, attrs, ...kids) {
     const el = document.createElement(tag);
     if (attrs) {
@@ -210,14 +225,13 @@
     const today = App.todayIso();
     if (date === today) return null;
     if (date > today) {
-      return h('div', { class: 'help warn' },
-        h('b', { text: `This report is for ${App.fmtDateLong(date)}, which is later than today (${App.fmtDate(today)}).` }),
-        ' Check the computer\'s date and time. When the date is right, press ', h('b', { text: 'Start New Day' }),
-        ' to change the report to today.');
+      return h('div', { class: 'help warn' }, App.tx(
+        '**This report is for {date}, which is later than today ({today}).** Check the computer\'s date and time. When the date is right, press **Start New Day** to change the report to today.',
+        { date: App.fmtDateLong(date), today: App.fmtDate(today) }));
     }
-    return h('div', { class: 'help warn' },
-      h('b', { text: `This report is for ${App.fmtDateLong(date)}.` }),
-      ' If you are starting today\'s work, press the green ', h('b', { text: 'Start New Day' }), ' button first.');
+    return h('div', { class: 'help warn' }, App.tx(
+      '**This report is for {date}.** If you are starting today\'s work, press the green **Start New Day** button first.',
+      { date: App.fmtDateLong(date) }));
   };
 
   /* ---------- dialogs ---------- */
@@ -244,12 +258,12 @@
   };
   App.confirm = function (title, body, yesLabel, danger) {
     return App.dialog(title, body, [
-      { label: 'No, go back', value: false },
-      { label: yesLabel || 'Yes', value: true, cls: danger ? 'danger' : 'primary' },
+      { label: App.t('No, go back'), value: false },
+      { label: yesLabel || App.t('Yes'), value: true, cls: danger ? 'danger' : 'primary' },
     ]);
   };
   App.alert = function (title, body) {
-    return App.dialog(title, body, [{ label: 'OK', value: true, cls: 'primary' }]);
+    return App.dialog(title, body, [{ label: App.t('OK'), value: true, cls: 'primary' }]);
   };
 
   let toastTimer = null;

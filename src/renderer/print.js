@@ -1,4 +1,5 @@
-/* Print preview screen and the paper layouts for every report. */
+/* Print preview screen and the paper layouts for every report.
+   The preview screen follows the chosen language; the paper is always English (HQ format). */
 (function () {
   'use strict';
   const h = App.h;
@@ -15,7 +16,7 @@
     const opts = document.getElementById('previewOptions');
     opts.innerHTML = '';
     if (doc.parts.length > 1) {
-      opts.appendChild(h('span', { text: 'Pages to print:' }));
+      opts.appendChild(h('span', { text: App.t('Pages to print:') }));
       doc.parts.forEach((p, i) => {
         const box = h('input', { type: 'checkbox' });
         box.checked = true;
@@ -47,12 +48,12 @@
   document.getElementById('previewBack').addEventListener('click', close);
   document.getElementById('previewPrint').addEventListener('click', async () => {
     const res = await window.api.print();
-    if (res && res.ok) App.toast('Sent to printer');
-    else if (res && res.reason && res.reason !== 'cancelled') App.toast('Printing failed: ' + res.reason, true);
+    if (res && res.ok) App.toast(App.t('Sent to printer'));
+    else if (res && res.reason && res.reason !== 'cancelled') App.toast(App.t('Printing failed: {reason}', { reason: res.reason }), true);
   });
   document.getElementById('previewPdf').addEventListener('click', async () => {
     const res = await window.api.savePdf(currentDoc.filename + '.pdf');
-    if (res && res.ok) App.toast('PDF saved');
+    if (res && res.ok) App.toast(App.t('PDF saved'));
   });
   document.addEventListener('keydown', (e) => {
     if (document.getElementById('preview').hidden) return;
@@ -148,12 +149,12 @@
   App.printStock = function (stock, titleExtra) {
     stock = stock || App.data.stock;
     open({
-      title: 'Stock Balance — ' + App.fmtDate(stock.date) + (titleExtra || ''),
+      title: App.t('Stock Balance') + ' — ' + App.fmtDate(stock.date) + (titleExtra || ''),
       filename: `Stock Balance ${stock.date}`,
       parts: [
-        { label: 'Stock Bal', build: () => stockSheet(stock) },
-        { label: 'Battery', build: () => itemsSheet(stock, 'battery', 'BATTERY') },
-        { label: 'Strap', build: () => itemsSheet(stock, 'strap', 'STRAP') },
+        { label: App.t('Stock Bal'), build: () => stockSheet(stock) },
+        { label: App.t('Battery'), build: () => itemsSheet(stock, 'battery', 'BATTERY') },
+        { label: App.t('Strap'), build: () => itemsSheet(stock, 'strap', 'STRAP') },
       ],
     });
   };
@@ -187,9 +188,9 @@
   App.printBankIn = function (slip) {
     const name = slip.bankDate ? `Bank In ${slip.bankDate}` : `Bank In ${App.todayIso()}`;
     open({
-      title: 'Bank In' + (slip.bankDate ? ' — ' + App.fmtDate(slip.bankDate) : ''),
+      title: App.t('Bank In') + (slip.bankDate ? ' — ' + App.fmtDate(slip.bankDate) : ''),
       filename: name,
-      parts: [{ label: 'Bank In', build: () => bankSheet(slip) }],
+      parts: [{ label: App.t('Bank In'), build: () => bankSheet(slip) }],
     });
   };
 
@@ -222,9 +223,9 @@
 
   App.printMonth = function (year, month) {
     open({
-      title: `Month Sale — ${App.MONTHS[month - 1]} ${year}`,
+      title: App.t('Month Sale') + ' — ' + App.fmtMonth(year, month),
       filename: `Month Sale ${year}-${String(month).padStart(2, '0')}`,
-      parts: [{ label: 'Month Sale', build: () => monthSheet(year, month) }],
+      parts: [{ label: App.t('Month Sale'), build: () => monthSheet(year, month) }],
     });
   };
 })();

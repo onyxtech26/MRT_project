@@ -15,6 +15,8 @@ At the top of the screen you will see:
 
 - **Today's date**, under "MRT OUTLET".
 - **✔ Saved** (green), which means everything is safe. If it shows **NOT SAVED!** in red, call for help.
+- **中文 / English**, to switch the screens between English and Simplified Chinese (简体中文). The app remembers your choice.
+  Printouts always stay in English, the same as the HQ report.
 - **A− / A+**, to make the writing smaller or bigger.
 
 Below that are the **tabs**. Click a tab to open that page:
@@ -26,7 +28,7 @@ Below that are the **tabs**. Click a tab to open that page:
 | **Strap** | Straps sold today |
 | **Bank In** | The day's sale, and money banked in |
 | **Month Sale** | The whole month in one table |
-| **Settings** | Shop details, old reports, backups |
+| **Settings** | Language, shop details, old reports, backups |
 
 ### Colours used on every page
 
@@ -242,6 +244,7 @@ Press **Edit list (add / remove items)**. You can add, rename, move or remove it
 
 ![Settings](images/09-settings.png)
 
+- **Language**: English or 中文 (简体). The same as the button at the top.
 - **Shop details**: company, outlet, bank name and account number, as printed on the reports.
 - **Opening cash**: the cash balance before the first day in the book. Set this once only.
 - **Old stock reports**: choose a day and press **Print Preview**.
@@ -267,6 +270,7 @@ The app also keeps a copy **every day by itself** (the last 120 days).
 | I saved the wrong bank in | Bank In tab → **Undo last bank in**, then save it again. |
 | A day's sale is wrong | Bank In tab, choose the date, fix it, then **Update this day**. Or fix it in Month Sale. |
 | The writing is too small | Press **A+** at the top right. |
+| I want Chinese / English | Press **中文** (or **English**) at the top right. |
 | The printer did not print | Check the printer is on and has paper, then press **PRINT** again. Or use **Save as PDF** and print the file. |
 | **NOT SAVED!** in red | Do not close the app. Call for help. |
 | The computer broke | Install MRT Daily on the new computer, then Settings → **Restore from a backup…** and choose the file on the pen drive. |

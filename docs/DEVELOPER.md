@@ -23,6 +23,8 @@ src/
     index.html            page shell: top bar, tabs, preview screen, dialog
     styles.css            screen styles (rem-based, so "Text size" scales everything)
     print.css             A4 paper styles + @media print
+    i18n.js               screen language (English / Simplified Chinese): App.t, App.tx, column sub-labels
+    zh.js                 the Chinese text, keyed by the English text
     calc.js               ALL arithmetic (stock + money); shared with the tests
     app.js                helpers: App.data, saving, formatting, inputs, dialogs, page switching
     print.js              print preview screen + paper layouts (stock, battery, strap, bank in, month)
@@ -35,6 +37,7 @@ src/
       settings.js         Settings tab (shop details, opening cash, old reports, backup)
     assets/               MPT logos (white for the screen, navy for paper) + icon
 test/calc.test.js         checks calc.js against the October 2026 Excel sheets
+test/i18n.test.js         checks every screen text has a Chinese line (and no unused lines)
 docs/                     this guide + the user guide
 .github/workflows/        builds the Windows installers on every push
 ```
@@ -47,7 +50,7 @@ ES modules are not used because they do not load from `file://` in Electron with
 ```bash
 npm install
 npm start      # opens the app
-npm test       # node --test test/calc.test.js
+npm test       # calculation + translation tests
 ```
 
 For UI work, the renderer also runs in a normal browser. Serve `src/` (for example with
@@ -134,6 +137,20 @@ Note that `looksValid()` currently accepts only `version === 1`.
 
 `test/calc.test.js` checks these rules against the real October 2026 sheets: every daily TOTAL,
 the BAL carry-overs, SUBMARINE's BAL 70 / SHOP 69, and the stock total of 1990. Run it after any change to `calc.js`.
+
+## Screen language (English / 中文)
+
+- `settings.lang` is `'en'` or `'zh'`. It is switched with the top-bar button or in Settings (`App.setLanguage`).
+- In code, write the **English text** and wrap it: `App.t('Save')`, or `App.tx('Press **Enter** to go down')` for
+  text with bold parts. Use `{name}` for values: `App.t('Saved sale for {date}', { date })`. In page files these are
+  usually the local `t(...)` / `tx(...)`.
+- Keys must be plain quoted strings (not template literals), so the test can find them.
+- Add the Chinese line to `src/renderer/zh.js`. `npm test` fails if a screen text has no Chinese line, if
+  `{placeholders}` don't match, or if `zh.js` has unused lines.
+- Words in `index.html` use `data-i18n="..."` / `data-i18n-title="..."`.
+- Column codes (TOTAL, SHOP, S.OUT …) stay in English to match the HQ report. `App.th('TOTAL')` adds a small
+  Chinese word under them in Chinese mode.
+- Printouts (`print.js` paper layouts) stay in English on purpose; only the preview screen's buttons are translated.
 
 ## Printing
 

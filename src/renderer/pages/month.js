@@ -4,6 +4,8 @@
   const h = App.h;
   const C = window.Calc;
   const m = App.fmtMoney;
+  const t = App.t;
+  const tx = App.tx;
   let year = null;
   let month = null;
 
@@ -26,17 +28,15 @@
     };
 
     main.appendChild(h('div', { class: 'toolbar' },
-      h('h1', { class: 'page-title', text: 'Month Sale' }),
+      h('h1', { class: 'page-title', text: t('Month Sale') }),
       h('button', { class: 'btn big', onclick: () => go(-1) }, '◀'),
-      h('span', { class: 'date-chip', style: 'min-width:13rem;text-align:center', text: `${App.MONTHS[month - 1]} ${year}` }),
+      h('span', { class: 'date-chip', style: 'min-width:13rem;text-align:center', text: App.fmtMonth(year, month) }),
       h('button', { class: 'btn big', onclick: () => go(1) }, '▶'),
       h('span', { class: 'spacer' }),
-      h('button', { class: 'btn big primary', onclick: () => App.printMonth(year, month) }, 'Print Preview')));
+      h('button', { class: 'btn big primary', onclick: () => App.printMonth(year, month) }, t('Print Preview'))));
 
     main.appendChild(h('div', { class: 'help' },
-      'This page fills in by itself from the ', h('b', { text: 'Bank In' }), ' tab. ',
-      'You can also correct any number here. ', h('b', { text: 'BAL' }), ' and ', h('b', { text: 'TOTAL' }),
-      ' are worked out for you. To remove a day, clear its SALE, CARD and CASH.'));
+      tx('This page fills in by itself from the **Bank In** tab. You can also correct any number here. **BAL** and **TOTAL** are worked out for you. To remove a day, clear its SALE, CARD and CASH.')));
 
     const days = new Date(year, month, 0).getDate();
     const outs = [];
@@ -45,14 +45,14 @@
     for (let d = 1; d <= days; d++) body.appendChild(dayRow(money, iso(d), d, outs, today));
 
     const sums = { sale: h('td', { class: 'num' }), card: h('td', { class: 'num' }), cash: h('td', { class: 'num' }), bank: h('td', { class: 'num' }) };
-    body.appendChild(h('tr', { class: 'total' }, h('td', { text: 'TOTAL' }), sums.sale, sums.card, sums.cash,
+    body.appendChild(h('tr', { class: 'total' }, h('td', { text: t('TOTAL') }), sums.sale, sums.card, sums.cash,
       h('td'), h('td'), h('td'), sums.bank));
 
     const wrap = h('div', { class: 'grid-wrap' }, h('table', { class: 'grid' },
       h('thead', null, h('tr', null,
-        h('th', null, 'DATE'), h('th', { class: 'entry-head' }, 'SALE'), h('th', { class: 'entry-head' }, 'CARD'),
-        h('th', { class: 'entry-head' }, 'CASH'), h('th', { class: 'result-head' }, 'BAL'),
-        h('th', { class: 'result-head' }, 'TOTAL'), h('th', null, 'BANK IN DATE'), h('th', null, 'BANK IN (RM)'))),
+        App.th('DATE'), App.th('SALE', { class: 'entry-head' }), App.th('CARD', { class: 'entry-head' }),
+        App.th('CASH', { class: 'entry-head' }), App.th('BAL', { class: 'result-head' }),
+        App.th('TOTAL', { class: 'result-head' }), App.th('BANK IN DATE'), App.th('BANK IN (RM)'))),
       body));
     App.enableGridKeys(wrap);
     main.appendChild(wrap);
@@ -72,8 +72,7 @@
     page.update = update;
 
     main.appendChild(h('div', { class: 'help', style: 'margin-top:1rem' },
-      'Cash balance before the first day in this book: ', h('b', { text: 'RM ' + m(money.openingBalance) }),
-      ' (can be changed in Settings).'));
+      tx('Cash balance before the first day in this book: **RM {amount}** (can be changed in Settings).', { amount: m(money.openingBalance) })));
   }
 
   function dayRow(money, date, d, outs, today) {

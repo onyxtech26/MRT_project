@@ -46,7 +46,8 @@ or **Save as PDF**.
 
 The **Month Sale** tab fills in by itself and can be used to correct numbers.
 
-Everything saves by itself. Use **A− / A+** at the top right to change the text size.
+Everything saves by itself. Use **A− / A+** at the top right to change the text size, and the **中文 / English**
+button to switch the screens between English and Simplified Chinese (printouts stay in English).
 
 ## The rules the app uses
 

@@ -16,32 +16,33 @@
         <div class="outlet-sub" id="todayText"></div>
       </div>
       <div class="topbar-right">
-        <span id="saveStatus" class="save-status">Saved</span>
+        <span id="saveStatus" class="save-status">✔ Saved</span>
+        <button id="langToggle" class="lang-btn" title="Language / 语言"></button>
         <div class="textsize">
-          <span>Text size</span>
-          <button id="textSmaller" title="Smaller text">A−</button>
-          <button id="textBigger" title="Bigger text">A+</button>
+          <span data-i18n="Text size">Text size</span>
+          <button id="textSmaller" data-i18n-title="Smaller text" title="Smaller text">A−</button>
+          <button id="textBigger" data-i18n-title="Bigger text" title="Bigger text">A+</button>
         </div>
       </div>
     </header>
     <nav class="tabs" id="tabs">
-      <button data-page="stock">Stock Balance</button>
-      <button data-page="battery">Battery</button>
-      <button data-page="strap">Strap</button>
-      <button data-page="bankin">Bank In</button>
-      <button data-page="month">Month Sale</button>
-      <button data-page="settings">Settings</button>
+      <button data-page="stock" data-i18n="Stock Balance">Stock Balance</button>
+      <button data-page="battery" data-i18n="Battery">Battery</button>
+      <button data-page="strap" data-i18n="Strap">Strap</button>
+      <button data-page="bankin" data-i18n="Bank In">Bank In</button>
+      <button data-page="month" data-i18n="Month Sale">Month Sale</button>
+      <button data-page="settings" data-i18n="Settings">Settings</button>
     </nav>
     <main id="page"></main>
   </div>
 
   <div id="preview" hidden>
     <div class="preview-bar">
-      <button class="btn big" id="previewBack">◀ Back</button>
+      <button class="btn big" id="previewBack" data-i18n="◀ Back">◀ Back</button>
       <div class="preview-title" id="previewTitle">Print Preview</div>
       <div class="preview-options" id="previewOptions"></div>
-      <button class="btn big" id="previewPdf">Save as PDF</button>
-      <button class="btn big green" id="previewPrint">PRINT</button>
+      <button class="btn big" id="previewPdf" data-i18n="Save as PDF">Save as PDF</button>
+      <button class="btn big green" id="previewPrint" data-i18n="PRINT">PRINT</button>
     </div>
     <div class="preview-scroll"><div id="printArea"></div></div>
   </div>
@@ -55,6 +56,8 @@
   </div>
   <div id="toast" hidden></div>
 
+  <script src="i18n.js"></script>
+  <script src="zh.js"></script>
   <script src="calc.js"></script>
   <script src="app.js"></script>
   <script src="print.js"></script>

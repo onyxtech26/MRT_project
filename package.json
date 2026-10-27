@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "test": "node --test test/calc.test.js",
+    "test": "node --test test/calc.test.js test/i18n.test.js",
     "dist:win": "electron-builder --win nsis portable --ia32 --x64",
     "dist:win64": "electron-builder --win nsis portable --x64",
     "dist:win32": "electron-builder --win nsis portable --ia32"

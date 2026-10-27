@@ -20,7 +20,7 @@ html, body { margin: 0; height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Arial, "Microsoft YaHei", "微软雅黑", SimHei, sans-serif;
   font-size: 1rem;
 }
 button, input, select { font: inherit; }
@@ -36,6 +36,11 @@ button, input, select { font: inherit; }
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 1.5rem; }
 .save-status { font-size: 1rem; padding: 0.25rem 0.8rem; border-radius: 1rem; background: #1f7a3d; }
 .save-status.error { background: var(--danger); }
+.lang-btn {
+  border: 2px solid #fff; background: #fff; color: var(--navy); font-weight: 700; font-size: 1rem;
+  border-radius: 0.4rem; padding: 0.2rem 0.9rem; height: 2.2rem; cursor: pointer;
+}
+.lang-btn:hover { background: #dfe3ff; }
 .textsize { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; }
 .textsize button {
   min-width: 2.6rem; height: 2.2rem; border: 2px solid #fff; background: transparent; color: #fff;
@@ -105,6 +110,7 @@ table.grid { border-collapse: collapse; width: 100%; }
 .grid thead tr.group-head th { background: #3a3f86; font-size: 0.85rem; padding: 0.2rem; top: 0; }
 .grid thead tr.group-head + tr th { top: 1.65rem; }
 .grid thead th.entry-head { background: #9a7b00; }
+.grid thead th .th-sub { font-size: 0.75rem; font-weight: 400; opacity: 0.9; }
 .grid thead th.result-head { background: #0b5d2a; }
 .grid td.name { font-weight: 600; white-space: nowrap; }
 .grid td.code { color: var(--muted); white-space: nowrap; font-size: 0.9rem; }
