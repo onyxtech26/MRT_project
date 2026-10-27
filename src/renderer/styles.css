@@ -138,7 +138,9 @@ table.grid { border-collapse: collapse; width: 100%; }
 
 /* ---------- forms ---------- */
 .form-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
-.field { display: flex; flex-direction: column; gap: 0.25rem; }
+/* hints hang below their box, so they never push the boxes out of line */
+.form-row:has(.hint) { padding-bottom: 1.3rem; row-gap: 2.3rem; }
+.field { display: flex; flex-direction: column; gap: 0.25rem; position: relative; }
 .field label { font-size: 0.95rem; color: var(--muted); font-weight: 600; }
 .field input, .field select {
   font-size: 1.3rem; padding: 0.45rem 0.6rem; border: 2px solid var(--line); border-radius: 0.45rem;
@@ -146,8 +148,9 @@ table.grid { border-collapse: collapse; width: 100%; }
 }
 .field input:focus, .field select:focus { border-color: var(--focus); outline: none; }
 .field input[readonly] { background: var(--result); color: var(--result-text); font-weight: 700; }
+.field input[readonly].less { background: #fff1e6; color: #9a3412; border-color: #f3c9a8; }
 .field input.bad { border-color: var(--danger); background: #fde2e1; }
-.field .hint { font-size: 0.8rem; color: var(--muted); }
+.field .hint { font-size: 0.8rem; color: var(--muted); position: absolute; top: 100%; left: 0; margin-top: 0.25rem; white-space: nowrap; }
 .big-number { font-size: 1.8rem; font-weight: 800; color: var(--navy); }
 .big-number.less { color: #9a3412; }
 

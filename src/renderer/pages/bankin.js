@@ -125,10 +125,10 @@
 
     const bankDate = h('input', { type: 'date', value: App.todayIso() });
     const amount = moneyBox(p.total);
-    const less = h('div', { class: 'big-number less' });
+    const less = h('input', { type: 'text', class: 'less', readonly: true, tabindex: '-1', style: 'width:10rem' });
     const showLess = () => {
       const a = readBox(amount);
-      less.textContent = a === undefined || a === null ? '—' : 'RM ' + m(C.r2(p.total - a));
+      less.value = a === undefined || a === null ? '—' : 'RM ' + m(C.r2(p.total - a));
     };
     amount.addEventListener('input', showLess);
     amount.addEventListener('focus', () => amount.select());
