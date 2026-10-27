@@ -55,7 +55,8 @@ The app now does what you used to do by copy and paste, on all 3 sheets (Stock B
 
 - BAL goes to TOTAL
 - SHOP goes to SHOP
-- S.OUT, TF IN, TF OUT and IN are cleared
+- **S.OUT** (and OUT on Battery / Strap) is cleared
+- **TF IN, TF OUT, IN, KEEP, RP and DEP stay.** Clear them yourself when HQ has updated (see section 3).
 
 Yesterday's report is kept, so you can print it again later (see section 8).
 
@@ -86,10 +87,19 @@ Yesterday's report is kept, so you can print it again later (see section 8).
 | TF OUT | Watches transferred **out** to another outlet |
 | IN | New stock that arrived |
 
+### TF IN, TF OUT and IN stay until you clear them
+
+Start New Day does **not** clear TF IN, TF OUT and IN. They stay on the sheet, like a reminder, until HQ updates.
+
+- On the day you type it, the number changes **SHOP**.
+- On the next days the number is shown in **grey**. Grey means it is already counted, so SHOP does not change again.
+- When HQ has updated: type the HQ number in **TOTAL**, then **clear** the grey number. SHOP stays the same.
+- If more go out on another day, type the new total in the same box (for example 1 → 3). Only the 2 new ones change SHOP.
+
 **The rule the app uses:**
 
 - BAL = TOTAL − S.OUT
-- SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT
+- SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT (TF IN / TF OUT / IN only on the day they are typed)
 
 The grey lines (**LEATHER STRAP, P.V.C STRAP, RENATA BATTERY, SONY BATTERY**) cannot be typed into here. They add up by themselves from the **Battery** and **Strap** tabs.
 
@@ -116,8 +126,8 @@ Example: 20 pieces of SR626 arrived, and HQ still shows 100.
 
 1. Type **20** in the **IN** box of SR626.
 2. **SHOP** becomes **120** (orange) and **BAL** stays at **100**.
-3. You don't need to do anything else. The app remembers SHOP = 120 on the next days.
-4. When HQ updates the stock, change **TOTAL** to the HQ number (**120**).
+3. You don't need to do anything else. On the next days, IN = 20 stays in **grey** and SHOP stays 120.
+4. When HQ updates the stock, change **TOTAL** to the HQ number (**120**) and clear **IN**.
 
 ![Battery IN](images/06-battery-in.png)
 
@@ -243,6 +253,7 @@ The app also keeps a copy **every day by itself** (the last 120 days).
 |---|---|
 | A box turned **red** | You typed something that is not a number. Delete it and type the number again. |
 | BAL or SHOP looks wrong | Check TOTAL, S.OUT, TF IN, TF OUT and IN on that line. Did you press Start New Day today? |
+| A grey number is still there | It is from an earlier day. Clear it once HQ has updated; SHOP will not change. |
 | I pressed Start New Day twice | Settings → **Undo last "Start New Day"**. |
 | I saved the wrong bank in | Bank In tab → **Undo last bank in**, then save it again. |
 | A day's sale is wrong | Bank In tab, choose the date, fix it, then **Update this day**. Or fix it in Month Sale. |

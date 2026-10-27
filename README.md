@@ -17,20 +17,21 @@ supports Windows 7. No internet is needed.
 ## Documentation
 
 - **[User guide](docs/USER_GUIDE.md)**: step-by-step guide with pictures for the manager.
-  A printable copy is in [docs/MRT-Daily-User-Guide.pdf](docs/MRT-Daily-User-Guide.pdf) (A4, 13 pages).
+  A printable copy is in [docs/MRT-Daily-User-Guide.pdf](docs/MRT-Daily-User-Guide.pdf) (A4).
 - **[Developer guide](docs/DEVELOPER.md)**: code layout, data file format, calculation rules, building and releasing.
 
 ## For the manager: daily use (short version)
 
 **Every morning, Stock Balance tab:** press the green **Start New Day** button and choose today's date.
-BAL moves to TOTAL, SHOP moves to SHOP, and S.OUT / TF IN / TF OUT / IN are cleared on all 3 sheets.
+BAL moves to TOTAL, SHOP moves to SHOP, and S.OUT is cleared on all 3 sheets. TF IN, TF OUT, IN,
+KEEP, RP and DEP stay until she clears them (when HQ has updated).
 (This replaces copying and pasting from right to left.)
 
 **During the day:**
 - Watches sold: type the number in the yellow **S.OUT** column. Press **Enter** to go down.
 - Batteries / straps sold: type it in the yellow **OUT** column on the Battery / Strap tab.
 - New stock arrived but HQ has not updated yet: type the quantity in **IN**. SHOP goes up, BAL stays the same.
-  When HQ updates, change **TOTAL** to the HQ number.
+  When HQ updates, change **TOTAL** to the HQ number and clear IN.
 - Transfers and repairs: write them under **TF IN & TF OUT & REPAIR** on the Stock Balance tab.
 
 **Printing:** press **Print Preview**. The preview looks exactly like the paper. Then press **PRINT**,
@@ -49,7 +50,8 @@ Everything saves by itself. Use **A− / A+** at the top right to change the tex
 ## The rules the app uses
 
 - `BAL = TOTAL − S.OUT`. BAL follows HQ, so IN and TF do not change it.
-- `SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT`
+- `SHOP = yesterday's SHOP + TF IN − TF OUT + IN − S.OUT`. A TF IN, TF OUT or IN number is counted only on the
+  day it is typed. On later days it stays (in grey) as a reminder, and clearing it does not change SHOP.
 - On the Stock Bal sheet, the R-BAT, S-BAT, LS and PS lines are added up automatically from the Battery and Strap tabs.
 - `CASH = SALE − CARD` (can be changed), `TOTAL = balance from last bank in + cash since then`,
   `LESS = TOTAL − BANK IN`, and LESS becomes the next day's BAL.

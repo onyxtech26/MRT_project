@@ -24,8 +24,9 @@
         'Key in the number of ', what, ' ', h('b', { text: 'sold today' }), ' in the yellow ', h('b', { text: 'OUT' }),
         ' column.', h('br'),
         h('b', { text: 'New stock arrived but HQ has not updated yet?' }), ' Key the quantity in ', h('b', { text: 'IN' }),
-        '. SHOP goes up, BAL stays the same. The app remembers the SHOP number on the next days. ',
-        'When HQ updates, just change ', h('b', { text: 'TOTAL' }), ' to the HQ number.'));
+        '. SHOP goes up, BAL stays the same. The IN number stays on the next days (',
+        h('span', { class: 'carried-key', text: 'grey' }), ', already counted in SHOP). ',
+        'When HQ updates, change ', h('b', { text: 'TOTAL' }), ' to the HQ number and clear ', h('b', { text: 'IN' }), '.'));
 
       const outs = [];
       const body = h('tbody');
@@ -77,8 +78,13 @@
         row.appendChild(h('td', { class: 'name', text: it.name }));
         row.appendChild(h('td', { class: 'code', text: it.ref }));
       }
-      const field = (key, cls) => h('td', { class: 'cell-in ' + (cls || '') },
-        App.numInput(it[key], (v) => { it[key] = v; App.changed(); page.update(); }, { col: key }));
+      const field = (key, cls) => {
+        const input = App.numInput(it[key], (v) => {
+          it[key] = v; App.markCarried(input, it, key); App.changed(); page.update();
+        }, { col: key });
+        App.markCarried(input, it, key);
+        return h('td', { class: 'cell-in ' + (cls || '') }, input);
+      };
       row.appendChild(field('total'));
       row.appendChild(field('tfIn'));
       row.appendChild(field('tfOut'));

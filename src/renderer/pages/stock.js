@@ -18,7 +18,8 @@
       h('ul', null,
         h('li', null, 'BAL goes to TOTAL'),
         h('li', null, 'SHOP goes to SHOP'),
-        h('li', null, 'S.OUT, TF IN, TF OUT and IN are cleared')),
+        h('li', null, 'S.OUT (and OUT) is cleared'),
+        h('li', null, 'TF IN, TF OUT, IN, KEEP, RP and DEP stay — clear them yourself when HQ has updated')),
       h('div', { class: 'field' }, h('label', { text: 'New report date' }), dateBox));
     const ok = await App.confirm('Start a new day?', body, 'Yes, start new day');
     if (!ok) return;
@@ -52,7 +53,9 @@
       'Key in the number of watches ', h('b', { text: 'sold today' }), ' in the yellow ', h('b', { text: 'S.OUT' }),
       ' column. ', h('b', { text: 'BAL' }), ' and ', h('b', { text: 'SHOP' }),
       ' (green) are worked out for you. Press ', h('b', { text: 'Enter' }), ' to go to the next line. ',
-      'Battery and strap lines come from the Battery and Strap tabs.'));
+      'Battery and strap lines come from the Battery and Strap tabs.', h('br'),
+      'TF IN, TF OUT and IN stay after Start New Day. ', h('span', { class: 'carried-key', text: 'Grey' }),
+      ' numbers are from an earlier day and are already counted in SHOP. Clear them when HQ has updated.'));
 
     const outs = []; // cells to refresh when a number changes
     const body = h('tbody');
@@ -140,8 +143,11 @@
       return row;
     }
 
-    const field = (key, cls) => h('td', { class: 'cell-in ' + (cls || '') },
-      App.numInput(w[key], (v) => { w[key] = v; changed(); }, { col: key }));
+    const field = (key, cls) => {
+      const input = App.numInput(w[key], (v) => { w[key] = v; App.markCarried(input, w, key); changed(); }, { col: key });
+      App.markCarried(input, w, key);
+      return h('td', { class: 'cell-in ' + (cls || '') }, input);
+    };
     row.appendChild(field('total'));
     row.appendChild(field('shop'));
     row.appendChild(field('keep'));

@@ -159,6 +159,13 @@
     return input;
   };
 
+  // Grey = a TF IN / TF OUT / IN number kept from an earlier day (already counted in SHOP)
+  App.markCarried = function (input, row, key) {
+    const c = window.Calc.isCarried(row, key);
+    input.classList.toggle('carried', c);
+    input.title = c ? 'Kept from an earlier day (already counted in SHOP). Clear it when HQ has updated.' : '';
+  };
+
   App.textInput = function (value, onValue, opts) {
     opts = opts || {};
     const input = h('input', {

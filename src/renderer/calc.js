@@ -37,12 +37,35 @@
 
   /* ---------------- stock ---------------- */
 
+  const MOVES = ['tfIn', 'tfOut', 'inn'];
+
+  // TF IN / TF OUT / IN stay on the sheet after "Start new day" until the staff
+  // clears them (HQ has updated). They change SHOP only on the day they are typed:
+  // the part already counted is remembered in row.carried. Lowering or clearing a
+  // carried number changes nothing.
+  function newMove(row, key) {
+    const before = row.carried ? n(row.carried[key]) : 0;
+    return Math.max(0, n(row[key]) - before);
+  }
+  function moveChange(row) {
+    return newMove(row, 'tfIn') - newMove(row, 'tfOut') + newMove(row, 'inn');
+  }
+  function isCarried(row, key) {
+    return !!row.carried && has(row[key]) && n(row[key]) > 0 && n(row[key]) <= n(row.carried[key]);
+  }
+  function carryMoves(row) {
+    const c = {};
+    for (const k of MOVES) if (n(row[k])) c[k] = n(row[k]);
+    if (Object.keys(c).length) row.carried = c;
+    else delete row.carried;
+  }
+
   function itemRow(it) {
     const total = n(it.total);
     const out = n(it.out);
     const bal = total - out;
     const prevShop = has(it.shop) ? n(it.shop) : total;
-    const shop = prevShop + n(it.tfIn) - n(it.tfOut) + n(it.inn) - out;
+    const shop = prevShop + moveChange(it) - out;
     return { total, out, bal, shop };
   }
 
@@ -86,7 +109,7 @@
       total, shopPrev: tracksShop ? n(w.shop) : null,
       keep: w.keep, rp: w.rp, dep: w.dep, tfIn: w.tfIn, tfOut: w.tfOut, inn: w.inn, sOut: w.sOut,
       bal: total - sOut,
-      shop: tracksShop ? n(w.shop) + n(w.tfIn) - n(w.tfOut) + n(w.inn) - sOut : null,
+      shop: tracksShop ? n(w.shop) + moveChange(w) - sOut : null,
     };
   }
 
@@ -103,8 +126,9 @@
     return t;
   }
 
-  // "Start new day": yesterday's BAL / SHOP become today's TOTAL / SHOP,
-  // and today's movements are cleared. KEEP / RP / DEP stay (still in shop).
+  // "Start new day": yesterday's BAL / SHOP become today's TOTAL / SHOP and
+  // only S.OUT / OUT is cleared. TF IN, TF OUT, IN, KEEP, RP and DEP stay until
+  // the staff clears them.
   function rollStockForward(stock, newDate) {
     const s = JSON.parse(JSON.stringify(stock));
     s.date = newDate;
@@ -113,7 +137,8 @@
       const r = watchRow(stock, w);
       w.total = r.bal;
       if (r.shop !== null) w.shop = r.shop;
-      w.tfIn = w.tfOut = w.inn = w.sOut = null;
+      w.sOut = null;
+      carryMoves(w);
     }
     for (const sheet of ['battery', 'strap']) {
       for (const g of s[sheet]) {
@@ -122,7 +147,8 @@
           it.total = r.bal;
           // remember the shop count only when it differs (stock not yet in HQ)
           it.shop = r.shop !== r.bal ? r.shop : null;
-          it.tfIn = it.tfOut = it.inn = it.out = null;
+          it.out = null;
+          carryMoves(it);
         }
       }
     }
@@ -175,5 +201,5 @@
     };
   }
 
-  return { n, has, r2, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
+  return { n, has, r2, isCarried, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
 });

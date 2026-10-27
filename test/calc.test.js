@@ -28,17 +28,24 @@ test('battery IN raises SHOP but not BAL until HQ updates', () => {
   const next = Calc.rollStockForward(stock, '2026-10-25');
   const it2 = next.battery[0].items[0];
   assert.strictEqual(it2.total, 100);
-  assert.strictEqual(it2.inn, null);
-  assert.strictEqual(Calc.itemRow(it2).shop, 120);
+  assert.strictEqual(it2.inn, 20); // IN stays until the staff clears it
+  assert.strictEqual(Calc.itemRow(it2).shop, 120); // ...but is not counted twice
   // one sold
   it2.out = 1;
   assert.deepStrictEqual(Calc.itemRow(it2), { total: 100, out: 1, bal: 99, shop: 119 });
+  // HQ updates: staff types the HQ total and clears IN -> SHOP does not move
+  it2.total = 119;
+  it2.inn = null;
+  assert.deepStrictEqual(Calc.itemRow(it2), { total: 119, out: 1, bal: 118, shop: 119 });
 });
 
-test('new day copies BAL->TOTAL and SHOP->SHOP and clears movements', () => {
+test('new day copies BAL->TOTAL and SHOP->SHOP and clears only S.OUT', () => {
   const next = Calc.rollStockForward(seed.stock, '2026-10-25');
   const sub = next.watches.find((w) => w.code === 'SUB');
-  assert.deepStrictEqual([sub.total, sub.shop, sub.sOut, sub.tfOut], [70, 69, null, null]);
+  assert.deepStrictEqual([sub.total, sub.shop, sub.sOut, sub.tfOut], [70, 69, null, 1]);
+  // the kept TF OUT is not taken off SHOP again
+  assert.deepStrictEqual([Calc.watchRow(next, sub).bal, Calc.watchRow(next, sub).shop], [70, 69]);
+  assert.strictEqual(Calc.isCarried(sub, 'tfOut'), true);
   const caes = next.watches.find((w) => w.code === 'CAES');
   assert.strictEqual(caes.keep, 1);
   const sr621 = next.battery[1].items.find((i) => i.name === 'SR621');
@@ -68,4 +75,33 @@ test('month sale ledger matches the October sheet', () => {
 test('cash defaults to sale - card', () => {
   assert.strictEqual(Calc.dayCash({ sale: 1253.8, card: 861.8 }), 392);
   assert.strictEqual(Calc.dayCash({ sale: 313, card: 216, cash: 95 }), 95);
+});
+
+test('kept TF / IN numbers: only new amounts change SHOP', () => {
+  const stock = { watches: [{ code: 'X', total: 10, shop: 10, tfOut: 1 }], battery: [], strap: [] };
+  let day = Calc.rollStockForward(stock, '2026-10-25');
+  const w = day.watches[0];
+  assert.deepStrictEqual([w.total, w.shop, w.tfOut], [10, 9, 1]);
+  assert.strictEqual(Calc.watchRow(day, w).shop, 9);
+  // two more go out today: 1 -> 3, only the 2 new ones count
+  w.tfOut = 3;
+  assert.strictEqual(Calc.watchRow(day, w).shop, 7);
+  assert.strictEqual(Calc.isCarried(w, 'tfOut'), false);
+  // next day nothing is counted again
+  day = Calc.rollStockForward(day, '2026-10-26');
+  const w2 = day.watches[0];
+  assert.deepStrictEqual([w2.shop, w2.tfOut, Calc.watchRow(day, w2).shop], [7, 3, 7]);
+  // HQ updated: staff types the HQ total and clears TF OUT -> SHOP stays 7
+  w2.total = 7;
+  w2.tfOut = null;
+  assert.deepStrictEqual([Calc.watchRow(day, w2).bal, Calc.watchRow(day, w2).shop], [7, 7]);
+  // after the next new day nothing is remembered any more
+  day = Calc.rollStockForward(day, '2026-10-27');
+  assert.strictEqual(day.watches[0].carried, undefined);
+});
+
+test('KEEP / RP / DEP stay on new day', () => {
+  const next = Calc.rollStockForward(seed.stock, '2026-10-25');
+  assert.strictEqual(next.watches.find((w) => w.code === 'JBV').rp, 1);
+  assert.strictEqual(next.watches.find((w) => w.code === 'CR-WC').keep, 1);
 });

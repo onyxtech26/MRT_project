@@ -133,6 +133,8 @@ table.grid { border-collapse: collapse; width: 100%; }
 .grid input.cell:focus { outline: 3px solid var(--focus); background: #fff; position: relative; z-index: 1; }
 .grid input.cell.bad { background: #fde2e1; color: var(--danger); }
 .grid td.entry input.cell { font-weight: 700; }
+.grid input.cell.carried { color: #6b7280; font-style: italic; background: #eceef3; }
+.carried-key { color: #6b7280; font-style: italic; background: #eceef3; padding: 0 0.4rem; border-radius: 0.2rem; }
 
 /* ---------- forms ---------- */
 .form-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }

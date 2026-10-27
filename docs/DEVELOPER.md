@@ -78,14 +78,17 @@ The data is stored in `%APPDATA%\MPT MRT Daily\mrt-data.json`, which is Electron
       { "id", "code": "SUB", "name": "SUBMARINE",
         "total": 71, "shop": 71,                // yesterday (shop: null = brand has no SHOP column)
         "keep", "rp", "dep",                    // standing counts, kept by Start New Day
-        "tfIn", "tfOut", "inn", "sOut" },       // today's movements, cleared by Start New Day
+        "tfIn", "tfOut", "inn",                 // kept by Start New Day until the staff clears them
+        "sOut",                                 // today's sales, cleared by Start New Day
+        "carried": { "tfOut": 1 } },            // part of tfIn/tfOut/inn already counted in SHOP
       { "id", "code": "S-BAT", "name": "SONY BATTERY",
         "link": { "sheet": "battery", "group": "S-BAT" } }   // totals come from that group
     ],
     "battery": [ { "id", "code": "S-BAT", "name": "SONY BATTERY",
                    "items": [ { "id", "name": "SR626", "ref": "2800025",
                                 "total", "tfIn", "tfOut", "inn", "out",
-                                "shop": null } ] } ],        // shop: remembered SHOP, null = same as total
+                                "shop": null,                 // remembered SHOP, null = same as total
+                                "carried": {} } ] } ],        // as for watches
     "strap":   [ /* same shape as battery */ ],
     "notes":   [ { "id", "text", "ref" } ]      // TF IN & TF OUT & REPAIR lines
   },
@@ -115,11 +118,12 @@ Note that `looksValid()` currently accepts only `version === 1`.
 | | Rule |
 |---|---|
 | Watch BAL | `TOTAL − S.OUT`. BAL follows HQ, so TF and IN do not change it. |
-| Watch SHOP | `SHOP + TF IN − TF OUT + IN − S.OUT` (blank if the brand has no SHOP) |
+| Watch SHOP | `SHOP + new(TF IN) − new(TF OUT) + new(IN) − S.OUT` (blank if the brand has no SHOP) |
 | Item BAL | `TOTAL − OUT` |
-| Item SHOP | `(shop ?? TOTAL) + TF IN − TF OUT + IN − OUT` |
+| Item SHOP | `(shop ?? TOTAL) + new(TF IN) − new(TF OUT) + new(IN) − OUT` |
+| `new(x)` | `max(0, x − carried.x)`: only the amount typed since the last Start New Day. Lowering or clearing a kept number changes nothing. |
 | Linked line | sums of that battery or strap group |
-| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; movements cleared; KEEP/RP/DEP kept; the old report goes to `stockHistory` |
+| Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / IN kept and recorded in `carried` (shown grey); KEEP/RP/DEP kept; the old report goes to `stockHistory` |
 
 **Money** (`ledger`) walks every day in date order:
 
