@@ -97,8 +97,7 @@
       outs.push(() => {
         const r = C.itemRow(it);
         bal.textContent = q(r.bal);
-        // SHOP shows only while it differs from BAL (TF IN / TF OUT / IN not yet in HQ)
-        shop.textContent = r.shop !== r.bal ? q(r.shop) : '';
+        shop.textContent = q(r.shop);
         shop.classList.toggle('diff', r.shop !== r.bal);
         shop.title = r.shop !== r.bal ? 'SHOP is different from BAL (waiting for HQ update)' : '';
       });
@@ -112,9 +111,7 @@
       cells.shop = h('td', { class: 'num calc' });
       outs.push(() => {
         const t = getTotals();
-        for (const k in cells) cells[k].textContent = (k === 'total' || k === 'bal' || t[k]) ? q(t[k]) : '';
-        cells.shop.textContent = t.shop !== t.bal ? q(t.shop) : '';
-        cells.shop.classList.toggle('diff', t.shop !== t.bal);
+        for (const k in cells) cells[k].textContent = (k === 'total' || k === 'bal' || k === 'shop' || t[k]) ? q(t[k]) : '';
       });
       return h('tr', { class: cls }, h('td', { colspan: edit ? 3 : 2, text: label }),
         cells.total, cells.tfIn, cells.tfOut, cells.inn, cells.out, cells.bal, cells.shop);

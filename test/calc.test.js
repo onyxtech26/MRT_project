@@ -105,3 +105,18 @@ test('KEEP / RP / DEP stay on new day', () => {
   assert.strictEqual(next.watches.find((w) => w.code === 'JBV').rp, 1);
   assert.strictEqual(next.watches.find((w) => w.code === 'CR-WC').keep, 1);
 });
+
+test('Stock Bal battery/strap line: SHOP shows only while waiting for HQ', () => {
+  const stock = JSON.parse(JSON.stringify(seed.stock));
+  const row = () => Calc.watchRow(stock, stock.watches.find((w) => w.code === 'S-BAT'));
+  assert.strictEqual(row().shop, null);
+  const sr621 = stock.battery[1].items.find((i) => i.name === 'SR621');
+  sr621.tfOut = 1;
+  assert.deepStrictEqual([row().bal, row().shop], [585, 584]);
+  const before = Calc.stockTotals(seed.stock).shop;
+  assert.strictEqual(Calc.stockTotals(stock).shop, before); // SHOP total is watches only
+  // HQ updated: total changed, TF OUT cleared -> empty again
+  sr621.total = 124;
+  sr621.tfOut = null;
+  assert.deepStrictEqual([row().bal, row().shop], [584, null]);
+});

@@ -98,7 +98,8 @@
         linked: true,
         total: t.total, shopPrev: null, keep: null, rp: null, dep: null,
         tfIn: t.tfIn || null, tfOut: t.tfOut || null, inn: t.inn || null, sOut: t.out || null,
-        bal: t.bal, shop: null,
+        // SHOP shows only while it differs from BAL (TF IN / TF OUT / IN not yet in HQ)
+        bal: t.bal, shop: g && t.shop !== t.bal ? t.shop : null,
       };
     }
     const total = n(w.total);
@@ -121,7 +122,7 @@
       t.shopPrev += n(r.shopPrev);
       t.sOut += n(r.sOut);
       t.bal += r.bal;
-      t.shop += n(r.shop);
+      if (!r.linked) t.shop += n(r.shop); // battery/strap SHOP only shows while waiting for HQ
     }
     return t;
   }

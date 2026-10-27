@@ -153,6 +153,8 @@
       outs.push(() => {
         const r = C.watchRow(stock, w);
         for (const k in cells) cells[k].textContent = q(r[k]);
+        cells.shop.classList.toggle('diff', r.shop !== null);
+        cells.shop.title = r.shop !== null ? 'Waiting for HQ update (TF IN / TF OUT / IN on the tab)' : '';
       });
       return row;
     }
