@@ -106,10 +106,8 @@
       for (const o of outs) o();
       const t = C.stockTotals(stock);
       totalCells.total.textContent = q(t.total);
-      totalCells.shopPrev.textContent = q(t.shopPrev);
       totalCells.sOut.textContent = q(t.sOut);
       totalCells.bal.textContent = q(t.bal);
-      totalCells.shop.textContent = q(t.shop);
     }
     App.pages.stock.update = update;
     update();

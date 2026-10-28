@@ -133,6 +133,7 @@ Note that `looksValid()` currently accepts only `version === 1`.
 | Item BAL | `TOTAL − OUT` |
 | Item SHOP | `(shop ?? TOTAL) + new(TF IN) − new(TF OUT) + new(IN) − OUT` |
 | KEEP / RP | `SHOP −= x − carried.x` for each: raising takes watches off SHOP, lowering puts them back. `Calc.migrate` removes, once, the "already counted" KEEP / RP markers an earlier version wrote (`awayCounted`), so those numbers deduct like keyed-in ones (`keyedRule` marks it done) |
+| Item SHOP display | Battery / Strap: shown only while the item has a TF IN, TF OUT or IN (`itemShowsShop`); group total likewise. Stock Bal TOTAL row has no SHOP totals |
 | `new(x)` | `max(0, x − carried.x)`: only the amount typed since the last Start New Day. Lowering or clearing a kept number changes nothing. |
 | Linked line | sums of that battery or strap group; SHOP only while the group SHOP differs from its BAL, otherwise empty |
 | Start New Day (`rollStockForward`) | watch: `total ← BAL`, `shop ← SHOP`; item: `total ← BAL`, `shop ← SHOP` only if it differs from BAL; **only S.OUT / OUT cleared**; TF IN / TF OUT / SHOPEE / IN kept and recorded in `carried` (shown grey); KEEP/RP kept; the old report goes to `stockHistory`. The new date is always today's computer date; refused if the report is already for today (a report with a later date is moved back to today). There is no undo: staff fix mistakes by editing the numbers |

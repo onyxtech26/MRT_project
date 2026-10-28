@@ -95,27 +95,31 @@
       outs.push(() => {
         const r = C.itemRow(it);
         bal.textContent = q(r.bal);
-        shop.textContent = q(r.shop);
-        shop.classList.toggle('diff', r.shop !== r.bal);
-        shop.title = r.shop !== r.bal ? App.t('SHOP is different from BAL (waiting for HQ update)') : '';
+        // empty unless there is a TF IN / TF OUT / IN on this item
+        const show = C.itemShowsShop(it);
+        shop.textContent = show ? q(r.shop) : '';
+        shop.classList.toggle('diff', show && r.shop !== r.bal);
+        shop.title = show && r.shop !== r.bal ? App.t('SHOP is different from BAL (waiting for HQ update)') : '';
       });
       return row;
     }
 
-    function totalsRow(cls, label, getTotals, outs, edit) {
+    function totalsRow(cls, label, getTotals, outs, edit, showShop) {
       const cells = {};
       ['total', 'tfIn', 'tfOut', 'inn', 'out'].forEach((k) => { cells[k] = h('td', { class: 'num' }); });
       cells.bal = h('td', { class: 'num calc' });
       cells.shop = h('td', { class: 'num calc' });
       outs.push(() => {
         const tot = getTotals();
-        for (const k in cells) cells[k].textContent = (k === 'total' || k === 'bal' || k === 'shop' || tot[k]) ? q(tot[k]) : '';
+        for (const k in cells) cells[k].textContent = (k === 'total' || k === 'bal' || tot[k]) ? q(tot[k]) : '';
+        cells.shop.textContent = showShop() ? q(tot.shop) : '';
       });
       return h('tr', { class: cls }, h('td', { colspan: edit ? 3 : 2, text: label }),
         cells.total, cells.tfIn, cells.tfOut, cells.inn, cells.out, cells.bal, cells.shop);
     }
     function subtotalRow(g, outs, edit) {
-      return totalsRow('subtotal', t('Total {name}', { name: g.name }), () => C.groupTotals(g), outs, edit);
+      return totalsRow('subtotal', t('Total {name}', { name: g.name }), () => C.groupTotals(g), outs, edit,
+        () => C.groupShowsShop(g));
     }
     function groupEditor(g, gi) {
       const code = h('input', { type: 'text', value: g.code, style: 'width:7rem;font-size:1rem;padding:0.2rem' });

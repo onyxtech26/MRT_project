@@ -69,6 +69,14 @@
     else delete row.carried;
   }
 
+  // Battery / strap SHOP is shown only while the item has a TF IN, TF OUT or IN
+  function itemShowsShop(it) {
+    return ['tfIn', 'tfOut', 'inn'].some((k) => n(it[k]) !== 0);
+  }
+  function groupShowsShop(group) {
+    return group.items.some(itemShowsShop);
+  }
+
   function itemRow(it) {
     const total = n(it.total);
     const out = n(it.out);
@@ -229,5 +237,5 @@
     return data;
   }
 
-  return { n, has, r2, isCarried, migrate, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
+  return { n, has, r2, isCarried, migrate, itemShowsShop, groupShowsShop, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
 });

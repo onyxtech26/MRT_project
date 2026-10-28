@@ -84,7 +84,7 @@ Yesterday's report is kept, so you can print it again later (see section 9).
 **Moving between boxes:** use the arrow keys **↑ ↓ ← →** (or **Enter** to go down). Inside a number, ← and → first move
 the cursor; at the edge of the number they jump to the next box. This works on every table.
 
-**BAL** and **SHOP** (green) change straight away, and so does the **TOTAL** line at the bottom.
+**BAL** and **SHOP** (green) change straight away. The **TOTAL** line at the bottom adds up TOTAL, S.OUT and BAL (no SHOP total).
 
 ![Typing S.OUT](images/03-key-in-sout.png)
 
@@ -144,6 +144,8 @@ Scroll to the bottom of the Stock Balance page. Write each transfer or repair on
 1. Open the **Battery** (or **Strap**) tab.
 2. Type the number sold in the **yellow OUT** column.
 3. Press **Enter** to go down.
+
+The **SHOP** column is **empty** unless that item has a number in **TF IN**, **TF OUT** or **IN**.
 
 ### New stock came, but HQ has not updated yet
 

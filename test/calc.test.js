@@ -204,3 +204,12 @@ test('starting data is the 27/10/2026 backup', () => {
   assert.ok(s.watches.every((w) => !('dep' in w)));
   assert.strictEqual(Calc.ledger(start.money).pending.total, 105);
 });
+
+test('battery / strap SHOP shows only with a TF IN, TF OUT or IN', () => {
+  assert.strictEqual(Calc.itemShowsShop({ total: 10, out: 2 }), false);
+  assert.strictEqual(Calc.itemShowsShop({ total: 10, inn: 20 }), true);
+  assert.strictEqual(Calc.itemShowsShop({ total: 10, tfOut: 1 }), true);
+  assert.strictEqual(Calc.itemShowsShop({ total: 10, tfIn: null, inn: '' }), false);
+  assert.strictEqual(Calc.groupShowsShop({ items: [{ total: 1 }, { total: 2, tfIn: 1 }] }), true);
+  assert.strictEqual(Calc.groupShowsShop({ items: [{ total: 1 }, { total: 2, out: 1 }] }), false);
+});

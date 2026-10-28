@@ -88,8 +88,8 @@
     });
     const t = C.stockTotals(stock);
     rows.push(h('tr', { class: 'p-total' },
-      td('', ''), td('TOTAL', 'left'), td(q(t.total), 'n'), td(q(t.shopPrev), 'n'),
-      td(''), td(''), td(''), td(''), td(''), td(''), td(q(t.sOut), 'n'), td(q(t.bal), 'n'), td(q(t.shop), 'n')));
+      td('', ''), td('TOTAL', 'left'), td(q(t.total), 'n'), td(''),
+      td(''), td(''), td(''), td(''), td(''), td(''), td(q(t.sOut), 'n'), td(q(t.bal), 'n'), td('')));
 
     const notes = (stock.notes || []).filter((n) => (n.text || '').trim() || (n.ref || '').trim());
     return h('div', { class: 'sheet' },
@@ -120,12 +120,12 @@
           td(it.name, 'left'), td(it.ref, 'code'), td(q(it.total === null ? null : r.total), 'n'),
           td(q(it.tfIn), 'n'), td(q(it.tfOut), 'n'), td(q(it.inn), 'n'), td(q(it.out), 'n strong'),
           td(it.total === null && !it.out ? '' : q(r.bal), 'n strong'),
-          td(r.shop !== r.bal ? q(r.shop) : '', 'n strong')));
+          td(C.itemShowsShop(it) ? q(r.shop) : '', 'n strong')));
       }
       const t = C.groupTotals(g);
       body.push(h('tr', { class: 'p-subtotal' },
         td('Total', 'left'), td(''), td(q(t.total), 'n'), td(q(t.tfIn || null), 'n'), td(q(t.tfOut || null), 'n'),
-        td(q(t.inn || null), 'n'), td(q(t.out), 'n'), td(q(t.bal), 'n'), td(t.shop !== t.bal ? q(t.shop) : '', 'n')));
+        td(q(t.inn || null), 'n'), td(q(t.out), 'n'), td(q(t.bal), 'n'), td(C.groupShowsShop(g) ? q(t.shop) : '', 'n')));
     }
     return h('div', { class: 'sheet compact' },
       sheetHead('Product Current Balance Report - By Product Group',

@@ -62,6 +62,8 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     eq(await res(p, 'BONIA'), ['21', '21']);
     const after = (await p.locator('tr.total td').allInnerTexts()).map((x) => x.trim());
     assert.strictEqual(Number(after[after.length - 2]), Number(before[before.length - 2]) - 2);
+    assert.strictEqual(after[after.length - 1], ''); // no SHOP total
+    assert.strictEqual(after[3], '');               // no yesterday SHOP total
   });
   await check('KEEP / RP / TF IN / TF OUT / SHOPEE / IN change SHOP only', async () => {
     await put(p, 'DANIEL KLEIN', 'keep', 1);  eq(await res(p, 'DANIEL KLEIN'), ['102', '101']);
@@ -116,7 +118,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
   await check('battery OUT and IN; linked line on Stock Bal follows', async () => {
     await tab(p, 'battery');
     await put(p, 'SR621', 'out', 2);
-    eq(await res(p, 'SR621'), ['118', '118']);
+    eq(await res(p, 'SR621'), ['118', '']); // SHOP empty: no TF / IN
     await put(p, 'SR626', 'inn', 20);
     eq(await res(p, 'SR626'), ['91', '111']);
     assert.strictEqual(await p.locator('tr.total').count(), 0); // no grand total
@@ -136,7 +138,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     await inp.nth(0).fill('m-bat'); await inp.nth(1).fill('maxell battery');
     await modalYes(p);
     await p.click('text=Finish editing list');
-    eq(await res(p, 'SR999'), ['7', '7']);
+    eq(await res(p, 'SR999'), ['7', '']);
     await tab(p, 'stock');
     assert.strictEqual(await p.locator('tr.linked', { hasText: 'MAXELL BATTERY' }).count(), 1);
     await tab(p, 'battery');
@@ -153,7 +155,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
   await check('strap OUT works', async () => {
     await tab(p, 'strap');
     await put(p, 'HLS69-18', 'out', 1);
-    eq(await res(p, 'HLS69-18'), ['37', '37']);
+    eq(await res(p, 'HLS69-18'), ['37', '']);
   });
 
   /* ---------- printing ---------- */
