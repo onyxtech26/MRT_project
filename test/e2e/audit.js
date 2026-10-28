@@ -178,10 +178,11 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
 
   /* ---------- start new day ---------- */
   await check('Start New Day: once a day; rolls numbers; kept numbers not counted twice', async () => {
-    // pretend the report is from yesterday
-    await p.evaluate(() => { App.data.stock.date = '2026-10-26'; App.show('stock'); });
+    // pretend the report is from yesterday; the new day must be today's computer date
+    await p.evaluate(() => { App.data.stock.date = App.addDays(App.todayIso(), -1); App.show('stock'); });
+    const today = await p.evaluate(() => App.fmtDateLong(App.todayIso()));
     await p.click('button:has-text("Start New Day")'); await modalYes(p);
-    assert.ok((await p.textContent('.date-chip')).includes('27 October 2026'));
+    assert.strictEqual(await p.textContent('.date-chip'), today);
     assert.strictEqual((await p.locator('.toolbar .btn.big').first().textContent()).includes("Today's report is open"), true);
     eq(await res(p, 'BONIA'), ['21', '21']);
     assert.strictEqual(await row(p, 'BONIA').locator('input[data-col="sOut"]').inputValue(), '');
@@ -190,7 +191,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     assert.ok((await row(p, 'CASIO').locator('input[data-col="shopee"]').getAttribute('class')).includes('carried'));
     await p.locator('.toolbar .btn.big').first().click();
     assert.strictEqual(await p.textContent('#modalTitle'), "Today's report is already open"); await modalYes(p);
-    assert.ok((await p.textContent('.date-chip')).includes('27 October 2026'));
+    assert.strictEqual(await p.textContent('.date-chip'), today);
   });
   await check('HQ update: type TOTAL and clear TF OUT -> SHOP unchanged', async () => {
     await put(p, 'NAVI FORCE', 'total', 70);
@@ -200,7 +201,8 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
   await check('old report can be printed from Settings', async () => {
     await tab(p, 'settings');
     await p.locator('.card', { hasText: 'Old stock reports' }).locator('button', { hasText: 'Print Preview' }).click();
-    assert.ok((await p.textContent('#previewTitle')).includes('26/10/2026'));
+    const yesterday = await p.evaluate(() => App.fmtDate(App.addDays(App.todayIso(), -1)));
+    assert.ok((await p.textContent('#previewTitle')).includes(yesterday));
     await p.click('#previewBack');
   });
 
