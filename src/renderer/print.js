@@ -72,11 +72,9 @@
 
   /* ---------- shared paper bits ---------- */
   function sheetHead(title, subtitle, rightLines) {
-    const s = App.data.settings;
     return h('div', { class: 'p-head' },
       h('img', { class: 'p-logo', src: 'assets/mpt-logo-dark.png', alt: 'MPT' }),
       h('div', { class: 'p-title' },
-        h('div', { class: 'p-company', text: `${s.company} — ${s.outlet}` }),
         h('div', { class: 'p-name', text: title }),
         subtitle ? h('div', { class: 'p-sub', text: subtitle }) : null),
       h('div', { class: 'p-right' }, rightLines.map((l) => h('div', null, l))));

@@ -12,7 +12,6 @@
 }
 .p-logo { height: 13mm; }
 .p-title { flex: 1; }
-.p-company { font-size: 9pt; font-weight: 700; letter-spacing: 0.05em; color: #161848; }
 .p-name { font-size: 14pt; font-weight: 700; }
 .p-sub { font-size: 10pt; color: #333; }
 .p-right { text-align: right; font-size: 11pt; line-height: 1.5; }
