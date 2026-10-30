@@ -220,7 +220,9 @@ On any page, press **Print Preview**. You will see the paper exactly as it will 
 
 ![Print preview](images/10-preview.png)
 
-- **PRINT** (green) sends it to the printer. Choose the printer, then press Print.
+- **PRINT** (green): the app makes a PDF and opens **Adobe's Print window** (this can take a few seconds; press PRINT
+  only once). Choose the printer and press Print. If Adobe's Print window does not appear, the PDF opens instead:
+  press **Ctrl+P** there.
 - **Save as PDF** saves a file (on the Desktop, unless you choose another place).
 - **◀ Back** (or the Esc key) goes back without printing.
 - For the stock report, tick or untick **Stock Bal / Battery / Strap** to choose which pages to print.
@@ -289,6 +291,6 @@ The app also keeps a copy **every day by itself** (the last 120 days).
 | A day's sale is wrong | Bank In tab, choose the date, fix it, then **Update this day**. Or fix it in Month Sale. |
 | The writing is too small | Press **A+** at the top right. |
 | I want Chinese / English | Press **中文** (or **English**) at the top right. |
-| The printer did not print | Check the printer is on and has paper, then press **PRINT** again. Or use **Save as PDF** and print the file. |
+| The printer did not print | Check the printer is on and has paper, then press **PRINT** again. Or use **Save as PDF** and print the file from Adobe. |
 | **NOT SAVED!** in red | Do not close the app. Call for help. |
 | The computer broke | Install MRT Daily on the new computer, then Settings → **Restore from a backup…** and choose the file on the pen drive. |

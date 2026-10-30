@@ -283,13 +283,13 @@
   };
 
   let toastTimer = null;
-  App.toast = function (text, error) {
+  App.toast = function (text, error, ms) {
     const t = document.getElementById('toast');
     t.textContent = text;
     t.classList.toggle('error', !!error);
     t.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+    toastTimer = setTimeout(() => { t.hidden = true; }, ms || 2600);
   };
 
   /* ---------- pages ---------- */

@@ -46,10 +46,20 @@
   }
 
   document.getElementById('previewBack').addEventListener('click', close);
+  let printing = false;
   document.getElementById('previewPrint').addEventListener('click', async () => {
-    const res = await window.api.print();
-    if (res && res.ok) App.toast(App.t('Sent to printer'));
-    else if (res && res.reason && res.reason !== 'cancelled') App.toast(App.t('Printing failed: {reason}', { reason: res.reason }), true);
+    if (printing) return; // one click is enough; Adobe can take a few seconds to open
+    printing = true;
+    App.toast(App.t('Preparing to print… please wait'), false, 8000);
+    try {
+      const res = await window.api.print();
+      if (res && res.via === 'pdf-print') App.toast(App.t('The Print window opens in Adobe. Choose the printer and press Print.'), false, 8000);
+      else if (res && res.via === 'pdf-open') App.toast(App.t('The report opened as a PDF. Press Ctrl+P there to print.'), false, 8000);
+      else if (res && res.ok) App.toast(App.t('Sent to printer'));
+      else if (res && res.reason && res.reason !== 'cancelled') App.toast(App.t('Printing failed: {reason}', { reason: res.reason }), true);
+    } finally {
+      printing = false;
+    }
   });
   document.getElementById('previewPdf').addEventListener('click', async () => {
     const res = await window.api.savePdf(currentDoc.filename + '.pdf');

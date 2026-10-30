@@ -170,6 +170,11 @@ the BAL carry-overs, SUBMARINE's BAL 70 / SHOP 69, and the stock total of 1990. 
 Each sheet is one A4 portrait page. The battery and strap sheets use the `compact` class so that
 about 55 rows fit on one page. If the lists grow a lot, check the page count in Print Preview → Save as PDF.
 
+**PRINT on Windows** does not use `webContents.print` (it crashed on the shop's Windows 7 PC). It writes the PDF to
+`%TEMP%\mrt-daily-print\` and runs PowerShell `Start-Process <pdf> -Verb Print`, which opens the PDF program's
+(Adobe's) Print window; if that fails the PDF is opened with `shell.openPath`. Files older than a day are deleted.
+`MRT_PRINT_VIA_PDF=1` forces this route on other systems for testing.
+
 ## Building the Windows installer
 
 ```bash

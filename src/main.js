@@ -3,6 +3,7 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { execFile } = require('child_process');
 
 const DATA_DIR = app.getPath('userData');
 const DATA_FILE = path.join(DATA_DIR, 'mrt-data.json');
@@ -122,9 +123,54 @@ ipcMain.on('data:save', (e, text) => {
   }
 });
 
-ipcMain.handle('print', () => new Promise((resolve) => {
-  win.webContents.print({ silent: false, printBackground: true }, (ok, reason) => resolve({ ok, reason }));
-}));
+// Printing straight from the app crashed on the shop's Windows 7 PC, while
+// printing the PDF from Adobe works. So on Windows, PRINT makes the PDF and asks
+// the PDF program (Adobe) to print it: Windows' "Print" action opens Adobe's
+// Print window. If that is not possible, the PDF is opened so it can be printed
+// from there with Ctrl+P. MRT_PRINT_VIA_PDF=1 forces this route for testing.
+const PRINT_DIR = path.join(app.getPath('temp'), 'mrt-daily-print');
+
+function cleanPrintFolder() {
+  try {
+    const dayAgo = Date.now() - 24 * 3600 * 1000;
+    for (const f of fs.readdirSync(PRINT_DIR)) {
+      const file = path.join(PRINT_DIR, f);
+      if (fs.statSync(file).mtimeMs < dayAgo) fs.unlinkSync(file);
+    }
+  } catch (e) {
+    // nothing to clean
+  }
+}
+
+async function printViaPdf() {
+  fs.mkdirSync(PRINT_DIR, { recursive: true });
+  cleanPrintFolder();
+  const file = path.join(PRINT_DIR, `MRT-print-${Date.now()}.pdf`);
+  const pdf = await win.webContents.printToPDF({ printBackground: true, preferCSSPageSize: true });
+  fs.writeFileSync(file, pdf);
+  const printed = await new Promise((resolve) => {
+    if (process.platform !== 'win32') return resolve(false);
+    const cmd = `Start-Process -FilePath '${file.replace(/'/g, "''")}' -Verb Print`;
+    execFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', cmd],
+      { windowsHide: true, timeout: 30000 }, (err) => resolve(!err));
+  });
+  if (printed) return { ok: true, via: 'pdf-print', file };
+  const err = await shell.openPath(file);
+  return err ? { ok: false, reason: err, file } : { ok: true, via: 'pdf-open', file };
+}
+
+ipcMain.handle('print', async () => {
+  if (process.platform === 'win32' || process.env.MRT_PRINT_VIA_PDF === '1') {
+    try {
+      return await printViaPdf();
+    } catch (err) {
+      return { ok: false, reason: String(err) };
+    }
+  }
+  return new Promise((resolve) => {
+    win.webContents.print({ silent: false, printBackground: true }, (ok, reason) => resolve({ ok, reason }));
+  });
+});
 
 ipcMain.handle('pdf', async (e, suggestedName) => {
   const res = await dialog.showSaveDialog(win, {
