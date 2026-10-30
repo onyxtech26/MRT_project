@@ -78,7 +78,7 @@
       }
       const field = (key, cls) => {
         const input = App.numInput(it[key], (v) => {
-          it[key] = v; App.markCarried(input, it, key); App.changed(); page.update();
+          C.setMove(it, key, v); App.markCarried(input, it, key); App.changed(); page.update();
         }, { col: key });
         App.markCarried(input, it, key);
         return h('td', { class: 'cell-in ' + (cls || '') }, input);

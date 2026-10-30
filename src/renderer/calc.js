@@ -59,6 +59,17 @@
   function moveChange(row) {
     return newMove(row, 'tfIn') - newMove(row, 'tfOut') - newMove(row, 'shopee') + newMove(row, 'inn') - awayChange(row);
   }
+  // Use this when the staff types a number. Clearing or lowering a kept (grey)
+  // TF IN / TF OUT / SHOPEE / IN means HQ has updated that part: it is forgotten
+  // at once, so SHOP does not change and the next number keyed in counts as new.
+  function setMove(row, key, v) {
+    row[key] = v;
+    if (!MOVES.includes(key) || !row.carried || !has(row.carried[key])) return;
+    if (n(v) >= n(row.carried[key])) return;
+    if (n(v) > 0) row.carried[key] = n(v);
+    else delete row.carried[key];
+    if (!Object.keys(row.carried).length) delete row.carried;
+  }
   function isCarried(row, key) {
     return MOVES.includes(key) && !!row.carried && has(row[key]) && n(row[key]) > 0 && n(row[key]) <= n(row.carried[key]);
   }
@@ -237,5 +248,5 @@
     return data;
   }
 
-  return { n, has, r2, isCarried, migrate, itemShowsShop, groupShowsShop, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
+  return { n, has, r2, setMove, isCarried, migrate, itemShowsShop, groupShowsShop, itemRow, groupTotals, watchRow, stockTotals, rollStockForward, dayCash, ledger };
 });

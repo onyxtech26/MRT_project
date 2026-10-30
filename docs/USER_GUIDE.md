@@ -106,6 +106,7 @@ Start New Day does **not** clear TF IN, TF OUT and IN. They stay on the sheet, l
 - On the day you type it, the number changes **SHOP**.
 - On the next days the number is shown in **grey**. Grey means it is already counted, so SHOP does not change again.
 - When HQ has updated: type the HQ number in **TOTAL**, then **clear** the grey number. SHOP stays the same.
+- After clearing, a new transfer can be keyed in straight away (even the same day): typing **1** takes 1 off SHOP.
 - If more go out on another day, type the new total in the same box (for example 1 → 3). Only the 2 new ones change SHOP.
 
 **The rule the app uses:**

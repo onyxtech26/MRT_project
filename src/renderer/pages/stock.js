@@ -161,7 +161,7 @@
     }
 
     const field = (key, cls) => {
-      const input = App.numInput(w[key], (v) => { w[key] = v; App.markCarried(input, w, key); changed(); }, { col: key });
+      const input = App.numInput(w[key], (v) => { C.setMove(w, key, v); App.markCarried(input, w, key); changed(); }, { col: key });
       App.markCarried(input, w, key);
       return h('td', { class: 'cell-in ' + (cls || '') }, input);
     };

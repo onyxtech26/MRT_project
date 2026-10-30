@@ -213,3 +213,39 @@ test('battery / strap SHOP shows only with a TF IN, TF OUT or IN', () => {
   assert.strictEqual(Calc.groupShowsShop({ items: [{ total: 1 }, { total: 2, tfIn: 1 }] }), true);
   assert.strictEqual(Calc.groupShowsShop({ items: [{ total: 1 }, { total: 2, out: 1 }] }), false);
 });
+
+test('after clearing a grey TF OUT, a new 1 on the same day deducts at once', () => {
+  let s = { watches: [{ code: 'X', total: 111, shop: 111, tfOut: 1 }], battery: [], strap: [] };
+  s = Calc.rollStockForward(s, '2026-10-30');
+  const w = s.watches[0];
+  const shop = () => Calc.watchRow(s, w).shop;
+  assert.strictEqual(shop(), 110);       // old 1 waiting for HQ (grey)
+  Calc.setMove(w, 'tfOut', null);        // HQ confirms: clear it
+  w.total = 110;
+  assert.deepStrictEqual([Calc.watchRow(s, w).bal, shop()], [110, 110]); // clearing changes nothing
+  Calc.setMove(w, 'tfOut', 1);           // a new transfer the same day
+  assert.strictEqual(shop(), 109);
+  Calc.setMove(w, 'tfOut', 2);
+  assert.strictEqual(shop(), 108);
+  // lowering a grey 2 to 1 (HQ updated one of them) changes nothing, then 2 again is a new one
+  let t = { watches: [{ code: 'Y', total: 10, shop: 10, tfOut: 2 }], battery: [], strap: [] };
+  t = Calc.rollStockForward(t, '2026-10-30');
+  const y = t.watches[0];
+  assert.strictEqual(Calc.watchRow(t, y).shop, 8);
+  Calc.setMove(y, 'tfOut', 1);
+  assert.strictEqual(Calc.watchRow(t, y).shop, 8);
+  Calc.setMove(y, 'tfOut', 2);
+  assert.strictEqual(Calc.watchRow(t, y).shop, 7);
+});
+
+test('battery IN works the same way', () => {
+  let s = { watches: [], strap: [], battery: [{ code: 'S-BAT', items: [{ total: 100, inn: 20 }] }] };
+  s = Calc.rollStockForward(s, '2026-10-30');
+  const it = s.battery[0].items[0];
+  assert.strictEqual(Calc.itemRow(it).shop, 120);
+  it.total = 120;
+  Calc.setMove(it, 'inn', null);          // HQ updated
+  assert.strictEqual(Calc.itemRow(it).shop, 120);
+  Calc.setMove(it, 'inn', 5);             // new stock the same day
+  assert.strictEqual(Calc.itemRow(it).shop, 125);
+});

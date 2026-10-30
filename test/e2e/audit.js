@@ -73,6 +73,14 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     await put(p, 'CASIO', 'shopee', 4);       eq(await res(p, 'CASIO'), ['253', '249']);
     await put(p, 'R&E', 'inn', 5);            eq(await res(p, 'R&E'), ['26', '31']);
   });
+  await check('SUBMARINE: clear the old grey TF OUT, then a new 1 the same day deducts', async () => {
+    eq(await res(p, 'SUBMARINE'), ['67', '67']);
+    await put(p, 'SUBMARINE', 'tfOut', '');
+    eq(await res(p, 'SUBMARINE'), ['67', '67'], 'clearing');
+    await put(p, 'SUBMARINE', 'total', 66);
+    await put(p, 'SUBMARINE', 'tfOut', 1);
+    eq(await res(p, 'SUBMARINE'), ['66', '66'], 'new 1');
+  });
   await check('bad input turns red and is ignored', async () => {
     await put(p, 'CHRONOTECH', 'sOut', 'abc');
     assert.ok((await row(p, 'CHRONOTECH').locator('input[data-col="sOut"]').getAttribute('class')).includes('bad'));
