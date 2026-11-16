@@ -81,6 +81,8 @@ Yesterday's report is kept, so you can print it again later (see section 9).
 3. Type the **number of watches sold** (the quantity, not the price).
 4. Press **Enter** to go down to the next brand.
 
+**The row you are typing in turns blue** (with a thick blue bar on the left), so you can see which brand it is.
+
 **Moving between boxes:** use the arrow keys **↑ ↓ ← →** (or **Enter** to go down). Inside a number, ← and → first move
 the cursor; at the edge of the number they jump to the next box. This works on every table.
 

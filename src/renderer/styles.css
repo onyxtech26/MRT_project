@@ -120,6 +120,11 @@ table.grid { border-collapse: collapse; width: 100%; }
 .grid td.entry { background: var(--entry); }
 .grid td.cell-in { padding: 0; }
 .grid tr:hover td { filter: brightness(0.97); }
+/* the row being typed in: whole row light blue, a thick bar at the start and a bold name,
+   so it is easy to see which brand / item / day the box belongs to */
+.grid tbody tr:focus-within td { background-color: #c4d9ff !important; }
+.grid tbody tr:focus-within td:first-child { box-shadow: inset 6px 0 0 var(--focus); }
+.grid tbody tr:focus-within td.name, .grid tbody tr:focus-within td.code { color: #0b2a6b; font-weight: 800; }
 .grid tr.total td { background: #dde3f3; font-weight: 700; font-size: 1.1rem; border-top: 3px solid var(--navy); }
 .grid tr.subtotal td { background: #eef1f7; font-weight: 700; }
 .grid tr.group td { background: #d6dbf0; font-weight: 700; color: var(--navy); font-size: 1.1rem; }
