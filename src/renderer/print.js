@@ -159,30 +159,33 @@
     });
   };
 
-  /* ---------- BANK IN slip ---------- */
+  /* ---------- BANK IN slip: HQ's "OUTLET BANK IN TABLE FORMAT" ---------- */
+  // Laid out exactly like HQ's form: OUTLET line, DATE / SALE / CARD / CHEQUE / CASH,
+  // then BALANCE BEFORE, TOTAL, BANK IN, BALANCE FORWARD, and space for the bank slip.
+  // The app does not record cheques, so CHEQUE stays empty.
   // slip = { days: [dates], startBal, total, bankDate, amount, less }
+  const HQ_ROWS = 6; // the form has 6 day rows; more days add more rows
   function bankSheet(slip) {
     const s = App.data.settings;
     const L = C.ledger(App.data.money).lines;
+    const zero = (v) => (v ? m(v) : '~');
     const rows = slip.days.map((d) => {
       const l = L[d];
-      return h('tr', null, td(App.fmtDate(d), 'left'), td(m(l.sale), 'n'), td(m(l.card), 'n'), td(m(l.cash), 'n strong'));
+      return h('tr', null, td(App.fmtDate(d), 'c'), td(m(l.sale), 'n'), td(m(l.card), 'n'), td(''), td(m(l.cash), 'n'));
     });
-    if (!rows.length) rows.push(h('tr', null, h('td', { colspan: 4, class: 'p-muted', text: 'No sales keyed in yet' })));
+    while (rows.length < HQ_ROWS) rows.push(h('tr', null, td(''), td(''), td(''), td(''), td('')));
     const banked = slip.amount !== null && slip.amount !== undefined;
-    return h('div', { class: 'sheet' },
-      sheetHead('BANK IN', `${s.bankName}  ${s.bankAccount}`, [`Printed: ${App.fmtDate(App.todayIso())}`]),
-      h('table', { class: 'p-table bank' },
-        h('thead', null, h('tr', null, th('DATE', 'left'), th('SALE'), th('CARD'), th('CASH'))),
+    const label = (text, value) => h('tr', null, h('td', { colspan: 4, class: 'hq-label', text }), td(value, 'n'));
+    return h('div', { class: 'sheet hq' }, h('div', { class: 'hq-wrap' },
+      h('div', { class: 'hq-outlet' }, h('b', { text: 'OUTLET' }), h('span', { class: 'hq-outlet-line', text: s.outlet })),
+      h('table', { class: 'hq-table' },
+        h('thead', null, h('tr', null, th('DATE'), th('SALE'), th('CARD'), th('CHEQUE'), th('CASH'))),
         h('tbody', null, rows,
-          h('tr', { class: 'p-subtotal' }, h('td', { colspan: 3, class: 'left', text: 'BALANCE (from last bank in)' }),
-            td(slip.startBal ? m(slip.startBal) : '~', 'n')),
-          h('tr', { class: 'p-total' }, h('td', { colspan: 3, class: 'left', text: 'TOTAL CASH' }), td(m(slip.total), 'n')),
-          h('tr', { class: 'p-bank' }, h('td', { colspan: 3, class: 'left' },
-            'BANK IN', h('span', { class: 'p-bankdate', text: banked ? '  on  ' + App.fmtDate(slip.bankDate) : '  on  ____________' })),
-          td(banked ? m(slip.amount) : '', 'n')),
-          h('tr', { class: 'p-subtotal' }, h('td', { colspan: 3, class: 'left', text: 'LESS (goes to next balance)' }),
-            td(banked ? (slip.less ? m(slip.less) : '~') : '', 'n')))));
+          label('BALANCE BEFORE', zero(slip.startBal)),
+          label('TOTAL', m(slip.total)),
+          label('BANK IN', banked ? m(slip.amount) : ''),
+          label('BALANCE FORWARD', banked ? zero(slip.less) : ''))),
+      h('div', { class: 'hq-attach', text: 'Please attach your bank in slip here (compusory)' })));
   }
 
   App.printBankIn = function (slip) {

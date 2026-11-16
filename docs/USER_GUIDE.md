@@ -193,6 +193,12 @@ Press **Print Preview** if you want to print it before going to the bank.
 4. Press **Save Bank In**, then **Yes, save**.
 5. The app asks if you want to print the slip. Press **Yes, print preview**.
 
+### The bank in slip
+
+The slip is printed in **HQ's "Outlet Bank In Table Format"**: OUTLET, then DATE / SALE / CARD / CHEQUE / CASH,
+then BALANCE BEFORE, TOTAL, BANK IN and BALANCE FORWARD, with space at the bottom to attach the bank-in slip.
+CHEQUE is left empty (the app does not record cheques).
+
 ### Old bank in slips
 
 At the bottom of the page, choose a past bank in and press **Print Preview**.

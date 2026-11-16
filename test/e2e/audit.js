@@ -35,6 +35,15 @@ async function launch() {
 }
 
 const tab = (p, name) => p.click(`#tabs button[data-page="${name}"]`);
+// Month Sale opens on the current month; the starting data is October 2026
+async function toOct2026(p) {
+  for (let i = 0; i < 36 && !(await p.textContent('.date-chip')).includes('October 2026'); i++) {
+    const t = await p.textContent('.date-chip');
+    const y = Number(/\d{4}/.exec(t)[0]);
+    const later = y > 2026 || (y === 2026 && !/January|February|March|April|May|June|July|August|September|October/.test(t));
+    await p.click(later ? 'button:has-text("◀")' : 'button:has-text("▶")');
+  }
+}
 const row = (p, name) => p.locator('tr', { has: p.locator('td.name', { hasText: new RegExp('^' + name.replace(/[.()+]/g, '\\$&') + '$') }) });
 const res = async (p, name) => (await row(p, name).locator('td').allInnerTexts()).slice(-2).map((x) => x.trim());
 const eq = (a, b, what) => assert.deepStrictEqual(a, b, (what || '') + ' got ' + JSON.stringify(a) + ' want ' + JSON.stringify(b));
@@ -249,6 +258,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
   /* ---------- month sale ---------- */
   await check('month sale: totals, edit, bank date before amount, clear a day, print', async () => {
     await tab(p, 'month');
+    await toOct2026(p);
     assert.ok((await p.textContent('.date-chip')).includes('October 2026'));
     const r1 = (await p.locator('tbody tr').nth(0).locator('td').allInnerTexts()).map((x) => x.trim());
     assert.strictEqual(r1[5], '1,043');
@@ -279,6 +289,7 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     const box = p.locator('.card', { hasText: 'Opening cash' }).locator('input');
     await box.fill('763'); await p.waitForTimeout(100);
     await tab(p, 'month');
+    await toOct2026(p);
     assert.strictEqual((await p.locator('tbody tr').nth(0).locator('td').allInnerTexts())[5].trim(), '1,053');
     await tab(p, 'settings');
     await p.locator('.card', { hasText: 'Opening cash' }).locator('input').fill('753');

@@ -40,6 +40,23 @@
 .p-notes-title { font-weight: 700; margin-bottom: 1.5mm; text-decoration: underline; }
 .p-muted { color: #666; font-style: italic; text-align: left !important; }
 
+/* bank-in slip in HQ's format: plain black lines and positions measured from the HQ form
+   (A4: table 158 mm wide, 29 mm from the left edge and 44 mm from the top). The page margin
+   is 10 mm, so the offsets below are 10 mm less. */
+.sheet.hq { font-family: Arial, sans-serif; font-size: 11pt; }
+.hq-wrap { margin-left: 19mm; width: 158mm; padding-top: 22mm; }
+.hq-outlet { height: 12mm; font-size: 11pt; }
+.hq-outlet-line { display: inline-block; width: 62mm; margin-left: 20mm; border-bottom: 0.9pt solid #000;
+  text-align: center; font-weight: 700; }
+.hq-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.hq-table th, .hq-table td { border: 0.75pt solid #000; height: 7.6mm; padding: 0 2mm 0.3mm; font-size: 11pt;
+  vertical-align: bottom; }
+.hq-table th { font-weight: 700; text-align: center; background: none; }
+.hq-table td.c { text-align: center; }
+.hq-table td.n { text-align: right; }
+.hq-table td.hq-label { text-align: right; font-weight: 700; padding-right: 0.5mm; }
+.hq-attach { margin: 32mm 0 0 18mm; font-size: 10pt; font-weight: 700; font-style: italic; }
+
 @media print {
   html, body { background: #fff; height: auto; }
   #app, .preview-bar, #modal, #toast { display: none !important; }
