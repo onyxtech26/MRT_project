@@ -7,6 +7,7 @@
   const t = App.t;
   const tx = App.tx;
   let editMode = false;
+  let editSnap = null; // the brand list as it was when "Edit brand list" was pressed
 
   /* ---------- start new day ---------- */
   // The new report date is always the computer's date and it can be done once a
@@ -115,8 +116,15 @@
     main.appendChild(h('div', { class: 'toolbar', style: 'margin-top:0.8rem' },
       editMode ? h('button', { class: 'btn big', onclick: addBrand }, t('+ Add a brand')) : null,
       h('span', { class: 'spacer' }),
-      h('button', { class: 'btn', onclick: () => { editMode = !editMode; App.refresh(); } },
-        editMode ? t('Finish editing brand list') : t('Edit brand list'))));
+      editMode ? h('button', { class: 'btn big danger', onclick: async () => {
+        if (!(await App.discardEdits(editSnap))) return;
+        editMode = false; editSnap = null; App.refresh();
+      } }, t('Discard changes')) : null,
+      h('button', { class: editMode ? 'btn big primary' : 'btn', onclick: () => {
+        editMode = !editMode;
+        editSnap = editMode ? App.startEditSnapshot(['watches']) : null;
+        App.refresh();
+      } }, editMode ? t('Finish editing brand list') : t('Edit brand list'))));
 
     main.appendChild(notesCard(stock));
   }

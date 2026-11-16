@@ -17,6 +17,7 @@
       print() { window.print(); return Promise.resolve({ ok: true }); },
       savePdf() { window.print(); return Promise.resolve({ ok: true }); },
       backupSave() { return Promise.resolve({ ok: false }); },
+      chooseFolder() { return Promise.resolve(null); },
       backupRestore() { return Promise.resolve({ ok: false }); },
       openDataFolder() { return Promise.resolve(); },
     };
@@ -248,6 +249,32 @@
     return h('div', { class: 'help warn' }, App.tx(
       '**This report is for {date}.** If you are starting today\'s work, press the green **Start New Day** button first.',
       { date: App.fmtDateLong(date) }));
+  };
+
+  /* ---------- edit list: Discard changes ---------- */
+  // Pressing "Edit list" keeps a copy of the parts of the stock that the edit can
+  // change; "Discard changes" puts that copy back. keys: e.g. ['watches', 'battery'].
+  App.startEditSnapshot = function (keys) {
+    const stock = App.data.stock;
+    const copy = {};
+    for (const k of keys) copy[k] = JSON.parse(JSON.stringify(stock[k]));
+    return { data: App.data, date: stock.date, copy };
+  };
+  // returns true when the list was put back
+  App.discardEdits = async function (snap) {
+    if (!snap) return false;
+    const ok = await App.confirm(App.t('Discard changes?'),
+      App.t('The list goes back to how it was when you pressed "Edit list". Everything changed since then is undone.'),
+      App.t('Yes, discard changes'), true);
+    if (!ok) return false;
+    if (App.data !== snap.data || App.data.stock.date !== snap.date) {
+      await App.alert(App.t('Cannot discard'), App.t('A new day was started (or a backup restored) while editing, so the old list cannot be put back.'));
+      return true;
+    }
+    for (const k in snap.copy) App.data.stock[k] = snap.copy[k];
+    App.saveNow();
+    App.toast(App.t('Changes discarded'));
+    return true;
   };
 
   /* ---------- dialogs ---------- */

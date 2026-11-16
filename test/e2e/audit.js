@@ -28,8 +28,10 @@ async function launch() {
   await app.evaluate(({ BrowserWindow }) => { const w = BrowserWindow.getAllWindows()[0]; w.unmaximize(); w.setContentSize(1280, 900); });
   // fake the native file dialogs
   await app.evaluate(({ dialog }, dir) => {
-    dialog.showSaveDialog = async (w, o) => ({ canceled: false, filePath: dir + '/' + o.defaultPath.split(/[\/]/).pop() });
-    dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [globalThis.__restoreFile] });
+    globalThis.__saveDialogs = 0;
+    dialog.showSaveDialog = async (w, o) => { globalThis.__saveDialogs++; return { canceled: false, filePath: dir + '/' + o.defaultPath.split('/').pop() }; };
+    dialog.showOpenDialog = async (w, o) => ({ canceled: false,
+      filePaths: [o.properties.includes('openDirectory') ? globalThis.__chooseFolder : globalThis.__restoreFile] });
   }, S);
   return { app, p };
 }
@@ -131,6 +133,19 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     assert.strictEqual(await p.locator('.note-row').count(), n0);
   });
 
+  await check('edit brand list: Discard changes puts a deleted brand back', async () => {
+    await tab(p, 'stock');
+    const n0 = await p.locator('tbody tr').count();
+    await p.click('text=Edit brand list');
+    await p.locator('tbody tr').filter({ has: p.locator('input[data-col="name"]') }).first().locator('button[title="Remove"]').click();
+    await modalYes(p);
+    assert.strictEqual(await p.locator('tbody tr').count(), n0 - 1);
+    await p.click('text=Discard changes'); await modalYes(p);
+    assert.strictEqual(await p.locator('tbody tr').count(), n0);
+    eq(await res(p, 'BATTERY (CLOCK)'), ['33', '']);
+    assert.strictEqual(await p.locator('text=Finish editing brand list').count(), 0); // left edit mode
+  });
+
   /* ---------- battery / strap ---------- */
   await check('battery OUT and IN; linked line on Stock Bal follows', async () => {
     await tab(p, 'battery');
@@ -168,6 +183,16 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     assert.strictEqual(await row(p, 'SR999').count(), 0, 'SR999 removed');
     await tab(p, 'stock');
     assert.strictEqual(await p.locator('tr.linked', { hasText: 'MAXELL BATTERY' }).count(), 0);
+  });
+  await check('battery edit list: Discard puts a removed group (and its Stock Bal line) back', async () => {
+    await tab(p, 'battery');
+    await p.click('text=Edit list (add / remove items)');
+    await p.locator('tr.group', { hasText: 'Group code' }).first().locator('text=Remove group').click(); await modalYes(p);
+    assert.strictEqual(await row(p, 'RE1632').count(), 0);
+    await p.click('text=Discard changes'); await modalYes(p);
+    assert.strictEqual(await row(p, 'RE1632').count(), 1);
+    await tab(p, 'stock');
+    assert.strictEqual(await p.locator('tr.linked', { hasText: 'RENATA BATTERY' }).count(), 1);
   });
   await check('strap OUT works', async () => {
     await tab(p, 'strap');
@@ -305,6 +330,34 @@ const modalNo = async (p) => { await p.locator('#modalButtons button').first().c
     const fs2 = await p.evaluate(() => getComputedStyle(document.documentElement).fontSize);
     assert.notStrictEqual(fs1, fs2);
     await p.click('#textSmaller');
+  });
+  await check('saving folders: PDF and backup save straight into the chosen folder', async () => {
+    const pdfDir = path.join(S, 'pdf-folder'); const bakDir = path.join(S, 'backup-folder');
+    for (const d of [pdfDir, bakDir]) { fs.rmSync(d, { recursive: true, force: true }); fs.mkdirSync(d); }
+    await tab(p, 'settings');
+    await app.evaluate((_, f) => { globalThis.__chooseFolder = f; }, pdfDir);
+    await p.locator('.folder-row').nth(0).locator('button', { hasText: 'Choose folder' }).click(); await p.waitForTimeout(200);
+    await app.evaluate((_, f) => { globalThis.__chooseFolder = f; }, bakDir);
+    await p.locator('.folder-row').nth(1).locator('button', { hasText: 'Choose folder' }).click(); await p.waitForTimeout(200);
+    assert.strictEqual(await p.locator('.folder-path').nth(0).textContent(), pdfDir);
+    const before = await app.evaluate(() => globalThis.__saveDialogs);
+    await tab(p, 'stock'); await p.click('text=Print Preview');
+    await p.click('#previewPdf'); await p.waitForTimeout(800);
+    await p.click('#previewPdf'); await p.waitForTimeout(800); // second one gets " (2)"
+    await p.click('#previewBack');
+    await tab(p, 'settings'); await p.click('text=Save a backup copy…'); await p.waitForTimeout(500);
+    assert.strictEqual(await app.evaluate(() => globalThis.__saveDialogs), before, 'no Save window was shown');
+    eq(fs.readdirSync(pdfDir).length, 2, 'PDFs');
+    assert.ok(fs.readdirSync(pdfDir).some((f) => f.includes('(2)')));
+    eq(fs.readdirSync(bakDir).length, 1, 'backup');
+    // folder gone (pen drive unplugged): the app asks instead and says why
+    fs.rmSync(bakDir, { recursive: true, force: true });
+    await p.click('text=Save a backup copy…'); await p.waitForTimeout(500);
+    assert.strictEqual(await app.evaluate(() => globalThis.__saveDialogs), before + 1);
+    assert.strictEqual(await p.textContent('#modalTitle'), 'Saving folder not found'); await modalYes(p);
+    // back to asking every time
+    for (let i = 0; i < 2; i++) { await p.locator('.folder-row button', { hasText: 'Ask every time' }).first().click(); await p.waitForTimeout(150); }
+    assert.strictEqual(await p.locator('.folder-row button', { hasText: 'Ask every time' }).count(), 0);
   });
   await check('backup save writes a file', async () => {
     await tab(p, 'settings');

@@ -7,6 +7,7 @@
   const t = App.t;
   const tx = App.tx;
   const editing = { battery: false, strap: false };
+  const snaps = { battery: null, strap: null }; // the list as it was when "Edit list" was pressed
 
   function makePage(sheet, title, soldHelp) { // title / soldHelp: functions, so they follow the language
     function render(main) {
@@ -59,8 +60,16 @@
       main.appendChild(h('div', { class: 'toolbar', style: 'margin-top:0.8rem' },
         edit ? h('button', { class: 'btn big', onclick: () => addGroup(sheet) }, t('+ Add a new group')) : null,
         h('span', { class: 'spacer' }),
-        h('button', { class: 'btn', onclick: () => { editing[sheet] = !edit; App.refresh(); } },
-          edit ? t('Finish editing list') : t('Edit list (add / remove items)'))));
+        edit ? h('button', { class: 'btn big danger', onclick: async () => {
+          if (!(await App.discardEdits(snaps[sheet]))) return;
+          editing[sheet] = false; snaps[sheet] = null; App.refresh();
+        } }, t('Discard changes')) : null,
+        h('button', { class: edit ? 'btn big primary' : 'btn', onclick: () => {
+          editing[sheet] = !edit;
+          // adding / removing a group also changes its line on the Stock Bal list
+          snaps[sheet] = editing[sheet] ? App.startEditSnapshot([sheet, 'watches']) : null;
+          App.refresh();
+        } }, edit ? t('Finish editing list') : t('Edit list (add / remove items)'))));
     }
 
     function itemLine(g, it, idx, outs, edit) {

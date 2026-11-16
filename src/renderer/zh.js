@@ -43,7 +43,6 @@ window.I18N.zh = {
   'The Print window opens in Adobe. Choose the printer and press Print.': 'Adobe 的打印窗口会打开。选择打印机后按"打印"。',
   'The report opened as a PDF. Press Ctrl+P there to print.': '报表已用 PDF 打开。在那里按 Ctrl+P 打印。',
   'Printing failed: {reason}': '打印失败：{reason}',
-  'PDF saved': 'PDF 已保存',
   ' (old report)': '（旧报表）',
 
   // start new day
@@ -199,7 +198,6 @@ window.I18N.zh = {
   'The app saves by itself after every change, and keeps a copy of each day automatically. For extra safety, save a backup copy to a pen drive once a week.':
     '每次修改后系统会自动保存，并且每天自动保留一份。为了更安全，请每星期把备份存到手指一次。',
   'Save a backup copy…': '保存备份…',
-  'Backup saved': '备份已保存',
   'Restore from a backup…': '从备份恢复…',
   'Restore from a backup?': '从备份恢复？',
   'Everything in the app will be replaced by the backup file you choose. (The current data is kept in the backups folder first.)':
@@ -210,4 +208,30 @@ window.I18N.zh = {
   'This file cannot be read.': '无法读取这个文件。',
   'This is not an MRT backup file.': '这不是 MRT 的备份文件。',
   'Open data folder': '打开资料文件夹',
+
+  // saving folders
+  'PDF saved: {file}': 'PDF 已保存：{file}',
+  'Backup saved: {file}': '备份已保存：{file}',
+  'Saving folder not found': '找不到保存的文件夹',
+  'The saving folder chosen in Settings was not found (is the pen drive plugged in?), so the app asked where to save.':
+    '找不到在"设置"里选择的保存文件夹（手指插好了吗？），所以系统询问要保存在哪里。',
+  'Saving folders': '保存的文件夹',
+  'Choose a folder once, and the app saves there every time without asking.': '选择一次文件夹，以后每次都直接保存到那里，不用再问。',
+  'Not set: the app asks every time': '未设置：每次都会询问',
+  'Choose folder…': '选择文件夹…',
+  'Ask every time': '每次询问',
+  'Choose the folder for PDFs': '选择保存 PDF 的文件夹',
+  'Backup copies': '备份',
+  'Choose the folder for backup copies': '选择保存备份的文件夹',
+
+  // edit list: discard
+  'Discard changes': '放弃修改',
+  'Discard changes?': '放弃修改？',
+  'The list goes back to how it was when you pressed "Edit list". Everything changed since then is undone.':
+    '列表会回到按"编辑列表"时的样子，之后的所有修改都会取消。',
+  'Yes, discard changes': '是，放弃修改',
+  'Cannot discard': '无法放弃修改',
+  'A new day was started (or a backup restored) while editing, so the old list cannot be put back.':
+    '编辑期间已开始新的一天（或已恢复备份），所以无法恢复原来的列表。',
+  'Changes discarded': '已放弃修改',
 };

@@ -5,8 +5,9 @@ contextBridge.exposeInMainWorld('api', {
   load: () => ipcRenderer.sendSync('data:load'),
   save: (text) => ipcRenderer.sendSync('data:save', text),
   print: () => ipcRenderer.invoke('print'),
-  savePdf: (name) => ipcRenderer.invoke('pdf', name),
-  backupSave: () => ipcRenderer.invoke('backup:save'),
+  savePdf: (name, folder) => ipcRenderer.invoke('pdf', name, folder),
+  backupSave: (folder) => ipcRenderer.invoke('backup:save', folder),
+  chooseFolder: (title) => ipcRenderer.invoke('folder:choose', title),
   backupRestore: () => ipcRenderer.invoke('backup:restore'),
   openDataFolder: () => ipcRenderer.invoke('folder:open'),
 });

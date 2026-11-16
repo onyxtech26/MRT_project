@@ -50,6 +50,8 @@
         textField(t('Opening cash (RM)'), money, 'openingBalance', { number: true,
           hint: t('Cash not yet banked in before the first sale day you keyed in.') }))));
 
+    main.appendChild(foldersCard(s));
+
     main.appendChild(historyCard());
 
     main.appendChild(h('div', { class: 'card' },
@@ -58,8 +60,11 @@
       h('div', { class: 'form-row' },
         h('button', { class: 'btn big primary', onclick: async () => {
           App.saveNow();
-          const r = await window.api.backupSave();
-          if (r && r.ok) App.toast(t('Backup saved'));
+          const r = await window.api.backupSave(App.data.settings.backupFolder || null);
+          if (r && r.ok) {
+            App.toast(t('Backup saved: {file}', { file: r.file }), false, 6000);
+            if (r.folderMissing) App.alert(t('Saving folder not found'), t('The saving folder chosen in Settings was not found (is the pen drive plugged in?), so the app asked where to save.'));
+          }
         } }, t('Save a backup copy…')),
         h('button', { class: 'btn big danger', onclick: async () => {
           const ok = await App.confirm(t('Restore from a backup?'),
@@ -76,6 +81,32 @@
           }
         } }, t('Restore from a backup…')),
         h('button', { class: 'btn big', onclick: () => window.api.openDataFolder() }, t('Open data folder')))));
+  }
+
+  // Default folders: Save as PDF / Save a backup copy save straight there without asking
+  function foldersCard(s) {
+    const row = (label, key, chooseTitle) => {
+      const where = h('div', { class: 'folder-path', text: s[key] || t('Not set: the app asks every time') });
+      return h('div', { class: 'folder-row' },
+        h('div', { class: 'folder-label', text: label }), where,
+        h('button', { class: 'btn big', onclick: async () => {
+          const f = await window.api.chooseFolder(chooseTitle);
+          if (!f) return;
+          s[key] = f;
+          App.saveNow();
+          App.refresh();
+        } }, t('Choose folder…')),
+        s[key] ? h('button', { class: 'btn big', onclick: () => {
+          delete s[key];
+          App.saveNow();
+          App.refresh();
+        } }, t('Ask every time')) : null);
+    };
+    return h('div', { class: 'card' },
+      h('h2', { text: t('Saving folders') }),
+      h('p', { text: t('Choose a folder once, and the app saves there every time without asking.') }),
+      row(t('Save as PDF'), 'pdfFolder', t('Choose the folder for PDFs')),
+      row(t('Backup copies'), 'backupFolder', t('Choose the folder for backup copies')));
   }
 
   function historyCard() {

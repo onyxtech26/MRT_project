@@ -172,28 +172,46 @@ ipcMain.handle('print', async () => {
   });
 });
 
-ipcMain.handle('pdf', async (e, suggestedName) => {
+// Where to save: straight into the default folder chosen in Settings when it
+// is there (a pen drive may be unplugged), otherwise ask with the Save window.
+// A file that already exists is not overwritten: " (2)", " (3)" ... is added.
+function freeName(folder, name) {
+  const ext = path.extname(name);
+  const base = name.slice(0, name.length - ext.length);
+  let file = path.join(folder, name);
+  for (let i = 2; fs.existsSync(file); i++) file = path.join(folder, `${base} (${i})${ext}`);
+  return file;
+}
+async function chooseFile(folder, name, title, filters) {
+  if (folder && fs.existsSync(folder)) return { file: freeName(folder, name), direct: true };
   const res = await dialog.showSaveDialog(win, {
-    title: 'Save as PDF',
-    defaultPath: path.join(app.getPath('desktop'), suggestedName),
-    filters: [{ name: 'PDF', extensions: ['pdf'] }],
+    title, defaultPath: path.join(app.getPath('desktop'), name), filters,
   });
-  if (res.canceled || !res.filePath) return { ok: false };
+  if (res.canceled || !res.filePath) return null;
+  return { file: res.filePath, direct: false, folderMissing: !!folder };
+}
+
+ipcMain.handle('pdf', async (e, suggestedName, folder) => {
+  const where = await chooseFile(folder, suggestedName, 'Save as PDF', [{ name: 'PDF', extensions: ['pdf'] }]);
+  if (!where) return { ok: false };
   const pdf = await win.webContents.printToPDF({ printBackground: true, preferCSSPageSize: true });
-  fs.writeFileSync(res.filePath, pdf);
-  shell.openPath(res.filePath);
-  return { ok: true, file: res.filePath };
+  fs.writeFileSync(where.file, pdf);
+  shell.openPath(where.file);
+  return { ok: true, file: where.file, folderMissing: where.folderMissing };
 });
 
-ipcMain.handle('backup:save', async () => {
-  const res = await dialog.showSaveDialog(win, {
-    title: 'Save a backup copy',
-    defaultPath: path.join(app.getPath('desktop'), `MRT-backup-${today()}.json`),
-    filters: [{ name: 'MRT backup', extensions: ['json'] }],
-  });
-  if (res.canceled || !res.filePath) return { ok: false };
-  fs.copyFileSync(DATA_FILE, res.filePath);
-  return { ok: true, file: res.filePath };
+ipcMain.handle('backup:save', async (e, folder) => {
+  const where = await chooseFile(folder, `MRT-backup-${today()}.json`, 'Save a backup copy',
+    [{ name: 'MRT backup', extensions: ['json'] }]);
+  if (!where) return { ok: false };
+  fs.copyFileSync(DATA_FILE, where.file);
+  return { ok: true, file: where.file, folderMissing: where.folderMissing };
+});
+
+ipcMain.handle('folder:choose', async (e, title) => {
+  const res = await dialog.showOpenDialog(win, { title, properties: ['openDirectory', 'createDirectory'] });
+  if (res.canceled || !res.filePaths.length) return null;
+  return res.filePaths[0];
 });
 
 ipcMain.handle('backup:restore', async () => {

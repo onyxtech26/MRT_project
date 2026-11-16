@@ -254,13 +254,14 @@ Shortcut: **Ctrl + P** on the stock pages opens the print preview.
    - type a new **code** or **name** straight into the box;
    - press **▲ ▼** to move a line up or down (this is also the order on paper);
    - press the red **✕** to remove a brand (the app asks first).
-3. Press **Finish editing brand list**.
+3. Press **Finish editing brand list** to keep the changes, or **Discard changes** to put the list back exactly as it
+   was when you pressed **Edit brand list** (for example after removing a brand by mistake).
 
 ![Edit brand list](images/04-edit-brands.png)
 
 ### Batteries and straps (Battery / Strap tab)
 
-Press **Edit list (add / remove items)**. You can add, rename, move or remove items, and add a whole new group (for example a new battery brand). A new group also appears as one line on the Stock Balance sheet.
+Press **Edit list (add / remove items)**. You can add, rename, move or remove items, and add a whole new group (for example a new battery brand). A new group also appears as one line on the Stock Balance sheet. **Discard changes** puts the list back as it was when you pressed Edit list.
 
 > Removing a brand only affects today and later days. Old reports still show it.
 
@@ -271,6 +272,10 @@ Press **Edit list (add / remove items)**. You can add, rename, move or remove it
 ![Settings](images/09-settings.png)
 
 - **Language**: English or 中文 (简体). The same as the button at the top.
+- **Saving folders**: press **Choose folder…** once for **Save as PDF** and for **Backup copies**. After that the app
+  saves straight into that folder every time, without asking (a second file on the same day gets "(2)" added).
+  If the folder is not there (for example the pen drive is not plugged in), the app asks where to save instead.
+  **Ask every time** goes back to asking.
 - **Shop details**: company, outlet, bank name and account number, as printed on the reports.
 - **Opening cash**: the cash balance before the first day in the book. Set this once only.
 - **Old stock reports**: choose a day and press **Print Preview**.

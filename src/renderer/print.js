@@ -62,8 +62,11 @@
     }
   });
   document.getElementById('previewPdf').addEventListener('click', async () => {
-    const res = await window.api.savePdf(currentDoc.filename + '.pdf');
-    if (res && res.ok) App.toast(App.t('PDF saved'));
+    const res = await window.api.savePdf(currentDoc.filename + '.pdf', App.data.settings.pdfFolder || null);
+    if (res && res.ok) {
+      App.toast(App.t('PDF saved: {file}', { file: res.file }), false, 6000);
+      if (res.folderMissing) App.alert(App.t('Saving folder not found'), App.t('The saving folder chosen in Settings was not found (is the pen drive plugged in?), so the app asked where to save.'));
+    }
   });
   document.addEventListener('keydown', (e) => {
     if (document.getElementById('preview').hidden) return;
